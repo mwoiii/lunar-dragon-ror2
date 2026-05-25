@@ -1,0 +1,140 @@
+ManifestFileVersion: 0
+CRC: 3722963979
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ac59fd5b114d1bc9d53bb18211abe2c7
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6c6336843004e75f906221a63df9be3e
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 54
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 1044368294, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 2014105726, guid: 65057e713e1213e449ae3e2078477755, type: 3}
+- Class: 114
+  Script: {fileID: 1783796254, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1351617430, guid: 65057e713e1213e449ae3e2078477755, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 261c50d8a80898e4ebf2e8e415ea6766, type: 3}
+- Class: 114
+  Script: {fileID: 1395413934, guid: da77c7bbf69f66ab2145560542327715, type: 3}
+- Class: 114
+  Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
+- Class: 114
+  Script: {fileID: -49251586, guid: 65057e713e1213e449ae3e2078477755, type: 3}
+- Class: 114
+  Script: {fileID: -132178706, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -875252823, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 488236779, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1848696948, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1790887305, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 678291247, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -317677761, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -270136354, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1819008361, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -517518216, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1895344032, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 816898038, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 135
+  Script: {instanceID: 0}
+- Class: 136
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 144
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: ChildLocator/NameTransformPair
+- AssemblyName: RoR2
+  ClassName: RoR2.DamageTypeCombo
+- AssemblyName: RoR2
+  ClassName: Wave
+- AssemblyName: Unity.Addressables
+  ClassName: UnityEngine.AddressableAssets.AssetReferenceT`1[UnityEngine.GameObject]
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+- AssemblyName: com.unity.multiplayer-hlapi.Runtime
+  ClassName: UnityEngine.Networking.NetworkHash128
+- AssemblyName: com.unity.multiplayer-hlapi.Runtime
+  ClassName: UnityEngine.Networking.NetworkSceneId
+Assets:
+- Assets/LunarDragon/LunarDragonDisplay.prefab
+- Assets/LunarDragon/Skin2/matOrbLeftMastery.mat
+- Assets/LunarDragon/Skills/SecondaryPlasmaball/HeavyPlasmaballProjectile.prefab
+- Assets/LunarDragon/Skills/SecondaryIceball/HeavyIceballProjectile.prefab
+- Assets/LunarDragon/Skills/SecondaryFireball/FireballEruption.prefab
+- Assets/LunarDragon/Skills/SecondaryIceball/IceballGlacier.prefab
+- Assets/LunarDragon/Skin1/matOrbRight.mat
+- Assets/LunarDragon/Skin2/matCannonMastery.mat
+- Assets/LunarDragon/Skills/PrimaryFireball/FireballProjectile.prefab
+- Assets/LunarDragon/Skills/SecondaryFireball/HeavyFireballProjectile.prefab
+- Assets/LunarDragon/mdlLunarDragon.prefab
+- Assets/LunarDragon/Skin1/matOrbCenter.mat
+- Assets/LunarDragon/Skin2/matOrbRightMastery.mat
+- Assets/LunarDragon/Icons/texMasterySkinIcon.png
+- Assets/LunarDragon/Skin2/matBodyMastery.mat
+- Assets/LunarDragon/Skin1/matOrbLeft.mat
+- Assets/LunarDragon/Icons/texLunarDragonIcon.png
+- Assets/LunarDragon/Skin1/matCannon.mat
+- Assets/LunarDragon/Skin1/matBody.mat
+- Assets/LunarDragon/Skin2/matLimbsMastery.mat
+- Assets/LunarDragon/Skin2/matOrbCenterMastery.mat
+- Assets/LunarDragon/Skills/PrimaryIceball/IceballProjectile.prefab
+- Assets/LunarDragon/Skin1/matLimbs.mat
+- Assets/LunarDragon/Icons/texDefaultSkinIcon.png
+Dependencies: []
