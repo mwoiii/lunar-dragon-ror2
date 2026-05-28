@@ -1,7 +1,7 @@
-﻿using System;
-using EntityStates;
+﻿using EntityStates;
 using EntityStates.Mage;
 using LunarDragonMod.Survivors.LunarDragon;
+using System;
 using UnityEngine;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
@@ -139,7 +139,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
             // baseskillstate for networking
             if (base.inputBank.skill3.justReleased || gearCharge >= CHARGE_THRESHOLDS[^1]) {
-                Log.Info("bro released. goon");
+                Log.Info("released utility");
                 hasFinishedCharging = true;
             }
             HandleRotation();
