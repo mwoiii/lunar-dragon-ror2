@@ -12,7 +12,7 @@ using UnityEngine.AddressableAssets;
 namespace LunarDragonMod.Survivors.LunarDragon {
     public class LunarMonsterSurvivor : SurvivorBase<LunarMonsterSurvivor> {
         //used to load the assetbundle for this character. must be unique
-        public override string assetBundleName => "lunardragonbundle";
+
         public override string bodyName => "LunarDragonBody";
 
         public override string masterName => "LunarDragonMonsterMaster";
@@ -90,18 +90,20 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         public override CharacterModel prefabCharacterModel { get; protected set; }
         public override GameObject displayPrefab { get; protected set; }
 
-        public override void Initialize() {
+        public override void Init() {
             //uncomment if you have multiple characters
             //ConfigEntry<bool> characterEnabled = Config.CharacterEnableConfig("Survivors", "LunarDragon");
 
             //if (!characterEnabled.Value)
             //    return;
 
-            base.Initialize();
+            base.Init();
         }
 
         public override void InitializeCharacter() {
-            //need the character unlockable before you initialize the survivordef
+            LunarDragonAssets.Init();
+            assetBundle = LunarDragonAssets.assetBundle;
+
             LunarDragonUnlockables.Init();
 
             base.InitializeCharacter();
@@ -109,8 +111,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             LunarDragonConfig.Init();
             LunarDragonStates.Init();
             LunarDragonTokens.Init();
-
-            LunarDragonAssets.Init(assetBundle);
             LunarDragonBuffs.Init(assetBundle);
 
             SetDeathBehaviour();

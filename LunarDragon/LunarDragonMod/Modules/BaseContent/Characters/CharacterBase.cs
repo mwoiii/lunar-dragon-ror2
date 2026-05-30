@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace LunarDragonMod.Modules.Characters {
     public abstract class CharacterBase<T> where T : CharacterBase<T>, new() {
-        public abstract string assetBundleName { get; }
 
         public abstract string bodyName { get; }
         public abstract string modelPrefabName { get; }
@@ -23,9 +22,8 @@ namespace LunarDragonMod.Modules.Characters {
         public abstract GameObject characterModelObject { get; protected set; }
         public abstract CharacterModel prefabCharacterModel { get; protected set; }
 
-        public virtual void Initialize() {
+        public virtual void Init() {
             instance = this as T;
-            assetBundle = Asset.LoadAssetBundle(assetBundleName);
 
             InitializeCharacter();
         }

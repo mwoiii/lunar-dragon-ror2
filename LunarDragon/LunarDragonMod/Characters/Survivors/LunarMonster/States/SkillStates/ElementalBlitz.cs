@@ -10,7 +10,6 @@ using UnityEngine.Networking;
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
     public class ElementalBlitz : BaseState, SteppedSkillDef.IStepSetter {
-        // based off seeker
 
         public enum Cannon {
             Left,

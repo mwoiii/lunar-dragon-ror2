@@ -11,7 +11,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             masterySkinUnlockableDef = Modules.Content.CreateAndAddUnlockbleDef(
                 LunarDragonMasteryAchievement.unlockableIdentifier,
                 Modules.Tokens.GetAchievementNameToken(LunarDragonMasteryAchievement.identifier),
-                LunarMonsterSurvivor.instance.assetBundle.LoadAsset<Sprite>("texMasteryAchievement"));
+                LunarDragonAssets.assetBundle.LoadAsset<Sprite>("texMasteryAchievement"));
         }
     }
 }
