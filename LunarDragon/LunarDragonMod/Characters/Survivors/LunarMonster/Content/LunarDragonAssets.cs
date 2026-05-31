@@ -17,6 +17,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject iceballPrefab;
 
+        public static GameObject iceballMuzzlePrefab;
+
         public static GameObject heavyFireballPrefab;
 
         public static GameObject heavyIceballPrefab;
@@ -91,11 +93,57 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             #endregion
 
             fireballPrefab.GetComponent<ProjectileController>().ghostPrefab = dragonFireballGhost;
+            fireballPrefab.GetComponent<ProjectileImpactExplosion>().impactEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LemurianBruiser.OmniExplosionVFXLemurianBruiserFireballImpact_prefab).WaitForCompletion();
             Content.AddProjectilePrefab(fireballPrefab);
         }
 
         private static void CreateIceball() {
             iceballPrefab = assetBundle.LoadAsset<GameObject>("IceballProjectile");
+
+            #region MageLightningBombGhost
+            GameObject dragonIceballGhost = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageIceBombGhost_prefab).WaitForCompletion(), "DragonIceballGhost", false);
+
+            //Object.Destroy(dragonFireballGhost.transform.Find("Sparks, Trail").gameObject);
+
+            //Object.Destroy(dragonFireballGhost.transform.Find("Point light").gameObject);
+
+            GameObject dragonIceballOrbCore = dragonIceballGhost.transform.Find("OrbCore").gameObject;
+            dragonIceballOrbCore.transform.localScale = Vector3.one * 0.5f;
+            dragonIceballGhost.transform.Find("Beams").gameObject.SetActive(true);
+            dragonIceballGhost.transform.Find("Base").gameObject.SetActive(true);
+            //psr = dragonFireballBase.GetComponent<ParticleSystemRenderer>();
+            //Material matBase = new Material(psr.sharedMaterial);
+            //matBase.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampMageFire_png).WaitForCompletion());
+            //matBase.SetFloat("_AlphaBoost", 5.7f);
+            //matBase.renderQueue -= 1;
+            //psr.sharedMaterial = matBase;
+            //dragonFireballBase.transform.localScale = Vector3.one * 3f;
+
+            //GameObject dragonFireballCore = dragonFireballGhost.transform.Find("OrbCore").gameObject;
+            //MeshRenderer meshRenderer = dragonFireballCore.GetComponent<MeshRenderer>();
+            //Material matOrbCore = new Material(Addressables.LoadAssetAsync<Material>(RoR2_DLC2_Child.matChildStarCore_mat).WaitForCompletion());
+            //matOrbCore.SetColor("_TintColor", new Color(1f, 0.74f, 0f));
+            //meshRenderer.sharedMaterial = matOrbCore;
+            //dragonFireballCore.transform.localScale = Vector3.one;
+            #endregion
+
+            #region MageIceExplosion
+            iceballMuzzlePrefab = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageIceExplosion_prefab).WaitForCompletion();
+
+            Object.Destroy(iceballMuzzlePrefab.transform.Find("IceMesh").gameObject);
+
+            Object.Destroy(iceballMuzzlePrefab.transform.Find("RuneRings").gameObject);
+            #endregion
+
+            #region BoostedProjectileExplosionVFX
+            GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_DLC2_Chef.BoostedProjectileExplosionVFX_prefab).WaitForCompletion();
+            foreach (Transform child in impactEffect.transform.Find("Dash, Bright")) {
+                child.localScale = Vector3.one * 0.5f;
+            }
+            #endregion
+
+            iceballPrefab.GetComponent<ProjectileController>().ghostPrefab = dragonIceballGhost;
+            iceballPrefab.GetComponent<ProjectileImpactExplosion>().impactEffect = impactEffect;
             Content.AddProjectilePrefab(fireballPrefab);
         }
 

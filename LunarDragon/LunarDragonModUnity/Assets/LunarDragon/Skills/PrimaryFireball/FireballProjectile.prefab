@@ -2420,7 +2420,7 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
   ghostTransformAnchor: {fileID: 0}
-  startSound: 
+  startSound: Play_lemurianBruiser_m1_shoot
   cannotBeDeleted: 0
   authorityHandlesCollisionEvents: 0
   flightSoundLoop: {fileID: 0}
@@ -2501,7 +2501,7 @@ MonoBehaviour:
   m_Script: {fileID: -317677761, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  falloffModel: 0
+  falloffModel: 1
   blastRadius: 12
   blastDamageCoefficient: 1
   blastProcCoefficient: 1

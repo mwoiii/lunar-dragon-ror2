@@ -5,6 +5,7 @@ using LunarDragonMod.Modules.Characters;
 using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
 using RoR2.Skills;
+using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -127,7 +128,21 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         private void AdditionalBodySetup() {
             AddHitboxes();
             bodyPrefab.AddComponent<LunarDragonController>();
-            SetupAcridAkBank();
+            SetupAkBanks();
+        }
+
+        private void SetupAkBanks() {
+            AkBank[] banksToLoad = {
+                Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Croco.CrocoBody_prefab).WaitForCompletion()?.GetComponent<AkBank>(),
+            };
+            foreach (AkBank bank in banksToLoad) {
+                if (bank != null) {
+                    AkBank akBank = bodyPrefab.AddComponent<AkBank>();
+                    akBank.triggerList = bank.triggerList;
+                    akBank.data.WwiseObjectReference = bank.data.WwiseObjectReference;
+                    akBank.unloadTriggerList = bank.unloadTriggerList;
+                }
+            }
         }
 
         private void SetDeathBehaviour() {
@@ -138,17 +153,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             deathBehavior.deathState = new EntityStates.SerializableEntityStateType(typeof(DeathState));
 
-        }
-
-        private void SetupAcridAkBank() {
-            AkBank acridAkBank = Addressables.LoadAssetAsync<GameObject>(RoR2BepInExPack.GameAssetPathsBetter.RoR2_Base_Croco.CrocoBody_prefab).WaitForCompletion()?.GetComponent<AkBank>();
-            if (acridAkBank != null) {
-                AkBank akBank = bodyPrefab.AddComponent<AkBank>();
-                // same ref is fine ?
-                akBank.triggerList = acridAkBank.triggerList;
-                akBank.data.WwiseObjectReference = acridAkBank.data.WwiseObjectReference;
-                akBank.unloadTriggerList = acridAkBank.unloadTriggerList;
-            }
         }
 
         public void AddHitboxes() {

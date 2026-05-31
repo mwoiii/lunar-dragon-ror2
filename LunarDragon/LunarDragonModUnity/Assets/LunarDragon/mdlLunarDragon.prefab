@@ -1260,6 +1260,16 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -1401551647198199204, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
   m_PrefabInstance: {fileID: 8004760340530917639}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &426111318189115969 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7709959023995747142, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
+  m_PrefabInstance: {fileID: 8004760340530917639}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &891205479621687456 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2069213026954671705, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
+  m_PrefabInstance: {fileID: 8004760340530917639}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &916991628809840922 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7183048000196663325, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
@@ -1340,6 +1350,11 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!4 &943714391495778097 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2157751835358826954, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
+  m_PrefabInstance: {fileID: 8004760340530917639}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &954778367086267476 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -2137359604238156461, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
@@ -2016,11 +2031,6 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
---- !u!4 &3375361528905604896 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4738119355358440999, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
-  m_PrefabInstance: {fileID: 8004760340530917639}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3423544715184858739 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4653415619964213108, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
@@ -2667,11 +2677,11 @@ MonoBehaviour:
   - name: Chest
     transform: {fileID: 5735678852190346486}
   - name: MuzzleLeft
-    transform: {fileID: 7506466368683373071}
+    transform: {fileID: 943714391495778097}
   - name: MuzzleRight
-    transform: {fileID: 3375361528905604896}
+    transform: {fileID: 891205479621687456}
   - name: MuzzleCenter
-    transform: {fileID: 7241697249513420112}
+    transform: {fileID: 426111318189115969}
   - name: BodyHitbox
     transform: {fileID: 428493040682269293}
 --- !u!114 &4724410221056908003
@@ -2711,16 +2721,6 @@ MonoBehaviour:
   - {fileID: 6263319620839131820}
   - {fileID: 7917001178137051978}
   componentsToDisableOnRagdoll: []
---- !u!4 &7241697249513420112 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 822243767511762007, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
-  m_PrefabInstance: {fileID: 8004760340530917639}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &7506466368683373071 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -8702418504261631224, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
-  m_PrefabInstance: {fileID: 8004760340530917639}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7514991774250452843 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8693070785292224916, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}

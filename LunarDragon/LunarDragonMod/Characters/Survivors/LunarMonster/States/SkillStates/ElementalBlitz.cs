@@ -4,7 +4,9 @@ using LunarDragonMod.Survivors.LunarDragon;
 using RoR2;
 using RoR2.Projectile;
 using RoR2.Skills;
+using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
@@ -45,6 +47,13 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         private string animationStateName;
 
+        private GameObject muzzleflashEffectPrefab;
+
+
+        private static GameObject muzzleflashLeft = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Common_VFX.OmniExplosionVFXQuick_prefab).WaitForCompletion();
+
+        private static GameObject muzzleflashRight = LunarDragonAssets.iceballMuzzlePrefab;
+
         public override void OnEnter() {
             base.OnEnter();
 
@@ -57,12 +66,14 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                     muzzleString = "MuzzleLeft";
                     animationStateName = "PrimaryShoot1";
                     projectilePrefab = LunarDragonAssets.fireballPrefab;
+                    muzzleflashEffectPrefab = muzzleflashLeft;
                     PlayCrossfade("Gesture1, Additive", animationStateName, "Blitz.playbackRate", duration, 0.025f);
                     break;
                 case Cannon.Right:
                     muzzleString = "MuzzleRight";
                     animationStateName = "PrimaryShoot2";
                     projectilePrefab = LunarDragonAssets.iceballPrefab;
+                    muzzleflashEffectPrefab = muzzleflashRight;
                     PlayCrossfade("Gesture2, Additive", animationStateName, "Blitz.playbackRate", duration, 0.025f);
                     break;
                 case Cannon.Middle:
@@ -78,16 +89,21 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         }
 
         private void FireBlitzProjectile() {
-            if (!hasFiredBlitz && isAuthority) {
+            if (!hasFiredBlitz) {
+
+                if (muzzleflashEffectPrefab) {
+                    EffectManager.SimpleMuzzleFlash(muzzleflashEffectPrefab, gameObject, muzzleString, false);
+                }
+
+                if (!isAuthority) {
+                    return;
+                }
+
                 Ray ray = GetAimRay();
 
                 if (GetModelChildLocator() is ChildLocator childLocator) {
                     muzzleTransform = childLocator.FindChild(muzzleString);
                 }
-
-                // if ((bool)muzzleflashEffectPrefab) {
-                // EffectManager.SimpleMuzzleFlash(muzzleflashEffectPrefab, base.gameObject, muzzleString, transmit: false);
-                // }
 
                 Vector3 direction = ray.direction;
                 direction = TrajectoryAimAssist.ApplyTrajectoryAimAssist(direction, ray.origin, maxDistance, gameObject, gameObject, 2f);
