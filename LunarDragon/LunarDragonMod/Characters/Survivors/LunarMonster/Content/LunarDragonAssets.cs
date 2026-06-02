@@ -69,7 +69,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             Material matBase = new Material(psr.sharedMaterial);
             matBase.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampMageFire_png).WaitForCompletion());
             matBase.SetFloat("_AlphaBoost", 5.7f);
-            matBase.renderQueue -= 1;
             psr.sharedMaterial = matBase;
             dragonFireballBase.transform.localScale = Vector3.one * 3f;
 
@@ -77,6 +76,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             MeshRenderer meshRenderer = dragonFireballCore.GetComponent<MeshRenderer>();
             Material matOrbCore = new Material(Addressables.LoadAssetAsync<Material>(RoR2_DLC2_Child.matChildStarCore_mat).WaitForCompletion());
             matOrbCore.SetColor("_TintColor", new Color(1f, 0.74f, 0f));
+            matOrbCore.renderQueue += 1;
             meshRenderer.sharedMaterial = matOrbCore;
             dragonFireballCore.transform.localScale = Vector3.one;
             #endregion
@@ -100,46 +100,48 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         private static void CreateIceball() {
             iceballPrefab = assetBundle.LoadAsset<GameObject>("IceballProjectile");
 
-            #region MageLightningBombGhost
+            #region MageIceBombGhost
             GameObject dragonIceballGhost = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageIceBombGhost_prefab).WaitForCompletion(), "DragonIceballGhost", false);
-
-            //Object.Destroy(dragonFireballGhost.transform.Find("Sparks, Trail").gameObject);
-
-            //Object.Destroy(dragonFireballGhost.transform.Find("Point light").gameObject);
 
             GameObject dragonIceballOrbCore = dragonIceballGhost.transform.Find("OrbCore").gameObject;
             dragonIceballOrbCore.transform.localScale = Vector3.one * 0.5f;
             dragonIceballGhost.transform.Find("Beams").gameObject.SetActive(true);
             dragonIceballGhost.transform.Find("Base").gameObject.SetActive(true);
-            //psr = dragonFireballBase.GetComponent<ParticleSystemRenderer>();
-            //Material matBase = new Material(psr.sharedMaterial);
-            //matBase.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampMageFire_png).WaitForCompletion());
-            //matBase.SetFloat("_AlphaBoost", 5.7f);
-            //matBase.renderQueue -= 1;
-            //psr.sharedMaterial = matBase;
-            //dragonFireballBase.transform.localScale = Vector3.one * 3f;
-
-            //GameObject dragonFireballCore = dragonFireballGhost.transform.Find("OrbCore").gameObject;
-            //MeshRenderer meshRenderer = dragonFireballCore.GetComponent<MeshRenderer>();
-            //Material matOrbCore = new Material(Addressables.LoadAssetAsync<Material>(RoR2_DLC2_Child.matChildStarCore_mat).WaitForCompletion());
-            //matOrbCore.SetColor("_TintColor", new Color(1f, 0.74f, 0f));
-            //meshRenderer.sharedMaterial = matOrbCore;
-            //dragonFireballCore.transform.localScale = Vector3.one;
             #endregion
 
             #region MageIceExplosion
-            iceballMuzzlePrefab = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageIceExplosion_prefab).WaitForCompletion();
+            iceballMuzzlePrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageIceExplosion_prefab).WaitForCompletion(), "IceCannonMuzzleVFX", false);
 
             Object.Destroy(iceballMuzzlePrefab.transform.Find("IceMesh").gameObject);
 
             Object.Destroy(iceballMuzzlePrefab.transform.Find("RuneRings").gameObject);
+
+            Content.CreateAndAddEffectDef(iceballMuzzlePrefab);
             #endregion
 
             #region BoostedProjectileExplosionVFX
-            GameObject impactEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_DLC2_Chef.BoostedProjectileExplosionVFX_prefab).WaitForCompletion();
+            GameObject impactEffect = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_DLC2_Chef.BoostedProjectileExplosionVFX_prefab).WaitForCompletion(), "IceBallExplosionVFX", false);
+            impactEffect.GetComponent<EffectComponent>().soundName = "Play_mage_shift_wall_explode";
             foreach (Transform child in impactEffect.transform.Find("Dash, Bright")) {
+                ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
+                ParticleSystem.MainModule main = particleSystem.main;
                 child.localScale = Vector3.one * 0.5f;
+                if (child.name == "Ring") {
+                    main.startSizeX = new ParticleSystem.MinMaxCurve(6f);
+                    main.startSizeY = new ParticleSystem.MinMaxCurve(6f);
+                    main.startSizeZ = new ParticleSystem.MinMaxCurve(3f);
+                    child.GetComponent<ParticleSystemRenderer>().alignment = ParticleSystemRenderSpace.World;
+                    continue;
+                }
+                main.startSizeMultiplier = 0.5f;
             }
+
+            ShakeEmitter shakeEmitter = impactEffect.GetComponent<ShakeEmitter>();
+            shakeEmitter.wave.amplitude = 0.2f;
+            shakeEmitter.wave.frequency = 12f;
+            shakeEmitter.duration = 0.15f;
+            shakeEmitter.radius = 120f;
+            Content.CreateAndAddEffectDef(impactEffect);
             #endregion
 
             iceballPrefab.GetComponent<ProjectileController>().ghostPrefab = dragonIceballGhost;

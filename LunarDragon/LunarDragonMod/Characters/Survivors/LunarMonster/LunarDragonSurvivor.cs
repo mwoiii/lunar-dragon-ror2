@@ -134,6 +134,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         private void SetupAkBanks() {
             AkBank[] banksToLoad = {
                 Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Croco.CrocoBody_prefab).WaitForCompletion()?.GetComponent<AkBank>(),
+                Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageBody_prefab).WaitForCompletion()?.GetComponent<AkBank>(),
             };
             foreach (AkBank bank in banksToLoad) {
                 if (bank != null) {

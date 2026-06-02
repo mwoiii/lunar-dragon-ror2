@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3252931873
+CRC: 998957715
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d6d4d199eec677f918ac5a0894da14ee
+    Hash: aa2ea7cc98aa17ab7852b303adaf1f8e
   TypeTreeHash:
     serializedVersion: 2
     Hash: 6c6336843004e75f906221a63df9be3e
@@ -96,7 +96,7 @@ ClassTypes:
 - Class: 213
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers:
-- AssemblyName: Assembly-CSharp
+- AssemblyName: RoR2
   ClassName: ChildLocator/NameTransformPair
 - AssemblyName: RoR2
   ClassName: RoR2.DamageTypeCombo
