@@ -1,4 +1,5 @@
-﻿using LunarDragonMod.Modules;
+﻿using LunarDragonMod.Characters.Survivors.LunarMonster.Components;
+using LunarDragonMod.Modules;
 using LunarDragonMod.Modules.DamageTypes;
 using R2API;
 using RoR2;
@@ -24,6 +25,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         public static GameObject heavyIceballPrefab;
 
         public static GameObject heavyPlasmaballPrefab;
+
+        public static GameObject laserTracerPrefab;
+
+        public static GameObject laserMuzzlePrefab;
 
         internal static void LoadAssetBundle(string bundleName) {
 
@@ -51,6 +56,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             CreateHeavyFireball();
             CreateHeavyIceball();
             CreateHeavyPlasmaball();
+            CreateLaser();
         }
 
         private static void CreateFireball() {
@@ -165,8 +171,82 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             Content.AddProjectilePrefab(fireballPrefab);
         }
 
-        public static void AssignDamageTypes() {
-            heavyPlasmaballPrefab.GetComponent<ProjectileDamage>().damageType.AddModdedDamageType(Stun3s.damageType);
+        private static void CreateLaser() {
+            #region TracerToolbotRebar
+            laserTracerPrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Toolbot.TracerToolbotRebar_prefab).WaitForCompletion(), "DragonLaserTracer", false);
+
+            Object.Destroy(laserTracerPrefab.transform.Find("StickEffect").gameObject);
+            Object.Destroy(laserTracerPrefab.GetComponent<LineRenderer>());
+            Object.Destroy(laserTracerPrefab.GetComponent<BeamPointsFromTransforms>());
+
+            Transform beamObject = laserTracerPrefab.transform.Find("BeamObject");
+            beamObject.localScale = new Vector3(12f, 12f, 1f);
+            laserTracerPrefab.AddComponent<VFXAttributes>();
+
+            Content.CreateAndAddEffectDef(laserTracerPrefab);
+            #endregion
+
+            #region LaserMajorConstruct
+            GameObject laserBeam = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(RoR2_DLC1_MajorAndMinorConstruct.LaserMajorConstruct_prefab).WaitForCompletion());
+
+            Transform lineBeam = laserBeam.transform.Find("LaserStart");
+            lineBeam.gameObject.name = "LineBeam";
+            lineBeam.SetParent(laserTracerPrefab.transform, false);
+            lineBeam.localPosition = Vector3.zero;
+            AnimateShaderAlpha laserAlpha = lineBeam.GetComponent<AnimateShaderAlpha>();
+            laserAlpha.timeMax = 0.5f;
+            laserAlpha.alphaCurve = new AnimationCurve(
+                new Keyframe(0f, 1f),
+                new Keyframe(0.5f, 0f)
+            );
+            laserAlpha.continueExistingAfterTimeMaxIsReached = true;
+            Object.Destroy(lineBeam.GetComponent<LineBetweenTransforms>());
+            ScaleLineToTracer scaleLineToTracer = lineBeam.gameObject.AddComponent<ScaleLineToTracer>();
+            scaleLineToTracer.lineRenderer = lineBeam.GetComponent<LineRenderer>();
+            scaleLineToTracer.targetTracer = laserTracerPrefab.GetComponent<Tracer>();
+            foreach (Transform child in lineBeam.transform) {
+                Object.Destroy(child.gameObject);
+            }
+
+            Transform laserEnd = laserBeam.transform.Find("LaserEnd");
+            laserEnd.SetParent(laserTracerPrefab.transform, false);
+            laserEnd.localPosition = Vector3.zero;
+            Object.Destroy(laserEnd.transform.Find("PP").gameObject);
+            Object.Destroy(laserEnd.transform.Find("AreaIndicator").gameObject);
+            foreach (Transform child in laserEnd.transform) {
+                if (child.gameObject.name == "Point light") {
+                    Object.Destroy(child.GetComponent<FlickerLight>());
+                    child.GetComponent<Light>().intensity *= 2f;
+                    child.GetComponent<Light>().range *= 2f;
+                    LightIntensityCurve lightCurve = child.gameObject.AddComponent<LightIntensityCurve>();
+                    lightCurve.timeMax = 0.6f;
+                    lightCurve.curve = new AnimationCurve(
+                        new Keyframe(0f, 1f, 0f, -5f),
+                        new Keyframe(0.5f, 0f, 0f, 0f)
+                    );
+                    continue;
+                }
+                ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
+                if (!particleSystem) {
+                    continue;
+                }
+                ParticleSystem.MainModule main = particleSystem.main;
+                main.duration = 0.25f;
+                main.loop = false;
+            }
+
+            Object.Destroy(laserBeam);
+            #endregion
+
+            #region HuntressFireArrowRain
+            laserMuzzlePrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Huntress.HuntressFireArrowRain_prefab).WaitForCompletion(), "DragonLaserMuzzleVFX", false);
+
+            Content.CreateAndAddEffectDef(laserMuzzlePrefab);
+            #endregion
         }
+
+        //public static void AssignDamageTypes() {
+        //    heavyPlasmaballPrefab.GetComponent<ProjectileDamage>().damageType.AddModdedDamageType(Stun3s.damageType);
+        //}
     }
 }

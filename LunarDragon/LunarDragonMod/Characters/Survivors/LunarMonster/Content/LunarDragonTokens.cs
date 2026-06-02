@@ -23,7 +23,14 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             Language.Add(prefix + "NAME", "Lunar Dragon");
             Language.Add(prefix + "DESCRIPTION", desc);
             Language.Add(prefix + "SUBTITLE", "Forsaken Apostate");
-            Language.Add(prefix + "LORE", "<style=cMono>\\\\\\MISSING LOG DATA\\\\\\</style>");
+            Language.Add(prefix + "LORE",
+                "Indeed, brother. With more materials, we can compose fitter guardians. Allow me to demonstrate a more sophisticated design." + Environment.NewLine + Environment.NewLine +
+                "Stone, silver, fire. This is the basis of any sentinel." + Environment.NewLine + Environment.NewLine +
+                "With a delicate hand, we can introduce more elements. Ice and charge offer versatility." + Environment.NewLine + Environment.NewLine +
+                "Triple cannons, doubling as thrusters. Speed is war." + Environment.NewLine + Environment.NewLine +
+                "High firepower requires high maneuverability. Recall what I said about quadrupeds." + Environment.NewLine + Environment.NewLine +
+                "Observe the ratios. Despite the further complexity, they remain recognisable. Now it is your turn, dear brother. I trust you understand how to complete this design."
+                );
             Language.Add(prefix + "OUTRO_FLAVOR", outro);
             Language.Add(prefix + "OUTRO_FAILURE", outroFailure);
 

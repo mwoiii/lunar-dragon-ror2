@@ -133,7 +133,7 @@ namespace LunarDragonMod.Modules.Characters {
         public Vector3 modelBasePosition = new Vector3(0f, -0.92f, 0f);
 
         /// <summary> basically the "height" of your camera </summary>
-        public Vector3 cameraPivotPosition = new Vector3(0f, 2.6f, 0f);
+        public Vector3 cameraPivotPosition = new Vector3(0f, 3.9f, 0f);
 
         /// <summary> how far relative to the pivot is your camera's center </summary>
         public float cameraParamsVerticalOffset = 1.5f;

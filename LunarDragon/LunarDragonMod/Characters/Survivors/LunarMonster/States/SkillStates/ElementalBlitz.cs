@@ -54,6 +54,8 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         private static GameObject muzzleflashRight = LunarDragonAssets.iceballMuzzlePrefab;
 
+        private static GameObject muzzleFlashCenter = LunarDragonAssets.laserMuzzlePrefab;
+
         public override void OnEnter() {
             base.OnEnter();
 
@@ -79,6 +81,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 case Cannon.Middle:
                     muzzleString = "MuzzleCenter";
                     animationStateName = "PrimaryShoot3";
+                    muzzleflashEffectPrefab = muzzleFlashCenter;
                     PlayCrossfade("FullBody, Additive", animationStateName, "Blitz.playbackRate", duration, 0.025f);
                     break;
             }
@@ -101,21 +104,10 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
                 Ray ray = GetAimRay();
 
-                if (GetModelChildLocator() is ChildLocator childLocator) {
-                    muzzleTransform = childLocator.FindChild(muzzleString);
-                }
-
                 Vector3 direction = ray.direction;
-                direction = TrajectoryAimAssist.ApplyTrajectoryAimAssist(direction, ray.origin, maxDistance, gameObject, gameObject, 2f);
+                direction = TrajectoryAimAssist.ApplyTrajectoryAimAssist(direction, ray.origin, maxDistance, gameObject, gameObject, 1f);
 
-                RaycastHit[] hits = Physics.RaycastAll(ray.origin, direction, 999f, LayerIndex.CommonMasks.bullet);
-                for (int i = 0; i < hits.Length; i++) {
-                    HurtBox hurtBox = hits[i].collider.AsValidOrNull()?.GetComponent<HurtBox>();
-                    if (hurtBox && hurtBox.teamIndex != teamComponent.teamIndex) {
-                        direction = hurtBox.transform.position - muzzleTransform.position;
-                        break;
-                    }
-                }
+                GetMuzzleDirectionFromAimRay(ray, ref direction);
 
                 FireProjectileInfo fireProjectileInfo = new FireProjectileInfo {
                     projectilePrefab = projectilePrefab,
@@ -137,19 +129,29 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         private void FireBlitzFinisher() {
             if (!hasFiredBlitz && isAuthority) {
+
+                if (muzzleflashEffectPrefab) {
+                    EffectManager.SimpleMuzzleFlash(muzzleflashEffectPrefab, gameObject, muzzleString, false);
+                }
+
                 Ray ray = GetAimRay();
+
+                Vector3 direction = ray.direction;
+
+                GetMuzzleDirectionFromAimRay(ray, ref direction);
+
                 BulletAttack bullet = new BulletAttack {
                     owner = characterBody.gameObject,
                     weapon = characterBody.gameObject,
-                    origin = ray.origin + Vector3.up * 2f,
-                    aimVector = ray.direction,
+                    origin = ray.origin + Vector3.forward * 1f,
+                    aimVector = direction,
                     minSpread = 0f,
                     maxSpread = 0f,
                     bulletCount = 1U,
                     procCoefficient = 1f,
                     damage = characterBody.damage * LunarDragonStaticValues.primaryFinisherDamageCoefficient,
                     force = 250f,
-                    radius = 7f,
+                    radius = 4f,
                     falloffModel = BulletAttack.FalloffModel.None,
                     muzzleName = muzzleString,
                     isCrit = RollCrit(),
@@ -162,14 +164,26 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                         damageTypeExtended = DamageTypeExtended.Generic,
                         damageSource = DamageSource.Primary,
                     },
-                    // tracerEffectPrefab = tracerEffectPrefab,
-                    // hitEffectPrefab = hitEffectPrefab,
+                    tracerEffectPrefab = LunarDragonAssets.laserTracerPrefab
+                    //hitEffectPrefab = hitEffectPrefab,
                 };
                 bullet.Fire();
                 ApplyAirborneKnockback(ray.direction, 1500f);
                 AddRecoil(-0.1f * recoilAmplitude, 0.1f * recoilAmplitude, -1f * recoilAmplitude, 1f * recoilAmplitude);
             }
         }
+
+        private void GetMuzzleDirectionFromAimRay(Ray aimRay, ref Vector3 direction) {
+            RaycastHit[] hits = Physics.RaycastAll(aimRay.origin, direction, 9999f, LayerIndex.CommonMasks.bullet);
+            for (int i = 0; i < hits.Length; i++) {
+                HurtBox hurtBox = hits[i].collider.AsValidOrNull()?.GetComponent<HurtBox>();
+                if (hurtBox && hurtBox.teamIndex != teamComponent.teamIndex) {
+                    direction = hurtBox.transform.position - muzzleTransform.position;
+                    break;
+                }
+            }
+        }
+
         protected virtual bool OnBulletImpact(BulletAttack bulletAttack, ref BulletAttack.BulletHit hitInfo) {
             return BulletAttack.defaultHitCallback(bulletAttack, ref hitInfo);
         }
