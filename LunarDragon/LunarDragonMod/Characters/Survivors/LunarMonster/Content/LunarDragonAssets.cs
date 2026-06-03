@@ -30,6 +30,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject laserMuzzlePrefab;
 
+        public static GameObject laserHitEffectPrefab;
+
         internal static void LoadAssetBundle(string bundleName) {
 
             try {
@@ -118,6 +120,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             #region MageIceExplosion
             iceballMuzzlePrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageIceExplosion_prefab).WaitForCompletion(), "IceCannonMuzzleVFX", false);
 
+            iceballMuzzlePrefab.GetComponent<EffectComponent>().parentToReferencedTransform = false;
+
             Object.Destroy(iceballMuzzlePrefab.transform.Find("IceMesh").gameObject);
 
             Object.Destroy(iceballMuzzlePrefab.transform.Find("RuneRings").gameObject);
@@ -181,7 +185,21 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Transform beamObject = laserTracerPrefab.transform.Find("BeamObject");
             beamObject.localScale = new Vector3(12f, 12f, 1f);
-            laserTracerPrefab.AddComponent<VFXAttributes>();
+            laserTracerPrefab.AddComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Always;
+            ParticleSystemRenderer particleSystemRenderer = beamObject.GetComponent<ParticleSystemRenderer>();
+            Material matBeamObject = new Material(particleSystemRenderer.sharedMaterials[1]);
+            matBeamObject.SetColor("_TintColor", new Color(1f, 1f, 1f));
+            matBeamObject.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_DLC1_Common_ColorRamps.texRampMinorConstructProjectile_png).WaitForCompletion());
+            Material[] mats = particleSystemRenderer.sharedMaterials;
+            mats[1] = matBeamObject;
+            particleSystemRenderer.sharedMaterials = mats;
+            AnimateShaderAlpha beamAlpha = beamObject.gameObject.AddComponent<AnimateShaderAlpha>();
+            beamAlpha.timeMax = 1f;
+            beamAlpha.continueExistingAfterTimeMaxIsReached = true;
+            beamAlpha.alphaCurve = new AnimationCurve(
+                new Keyframe(0f, 1f, 0f, -5f),
+                new Keyframe(1f, 0f, 0f, 0f)
+            );
 
             Content.CreateAndAddEffectDef(laserTracerPrefab);
             #endregion
@@ -197,16 +215,23 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             laserAlpha.timeMax = 0.5f;
             laserAlpha.alphaCurve = new AnimationCurve(
                 new Keyframe(0f, 1f),
-                new Keyframe(0.5f, 0f)
+                new Keyframe(1f, 0f)
             );
             laserAlpha.continueExistingAfterTimeMaxIsReached = true;
             Object.Destroy(lineBeam.GetComponent<LineBetweenTransforms>());
             ScaleLineToTracer scaleLineToTracer = lineBeam.gameObject.AddComponent<ScaleLineToTracer>();
+            LineRenderer lineRenderer = lineBeam.GetComponent<LineRenderer>();
             scaleLineToTracer.lineRenderer = lineBeam.GetComponent<LineRenderer>();
             scaleLineToTracer.targetTracer = laserTracerPrefab.GetComponent<Tracer>();
             foreach (Transform child in lineBeam.transform) {
                 Object.Destroy(child.gameObject);
             }
+            Material matLineBeam = new Material(lineRenderer.sharedMaterials[1]);
+            matLineBeam.SetColor("_TintColor", new Color(1f, 0.99f, 0.64f));
+            matLineBeam.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_DLC1_Common_ColorRamps.texRampMinorConstructProjectile_png).WaitForCompletion());
+            mats = lineRenderer.sharedMaterials;
+            mats[1] = matLineBeam;
+            lineRenderer.sharedMaterials = mats;
 
             Transform laserEnd = laserBeam.transform.Find("LaserEnd");
             laserEnd.SetParent(laserTracerPrefab.transform, false);
@@ -234,6 +259,11 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 main.duration = 0.25f;
                 main.loop = false;
             }
+            ShakeEmitter shakeEmitter = laserEnd.GetComponent<ShakeEmitter>();
+            shakeEmitter.wave.amplitude = 0.2f;
+            shakeEmitter.wave.frequency = 20f;
+            shakeEmitter.duration = 0.15f;
+            shakeEmitter.radius = 120f;
 
             Object.Destroy(laserBeam);
             #endregion
@@ -241,7 +271,58 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             #region HuntressFireArrowRain
             laserMuzzlePrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Huntress.HuntressFireArrowRain_prefab).WaitForCompletion(), "DragonLaserMuzzleVFX", false);
 
+            laserMuzzlePrefab.GetComponent<VFXAttributes>().vfxPriority = VFXAttributes.VFXPriority.Medium;
+
+            foreach (Transform child in laserMuzzlePrefab.transform) {
+                child.localScale = Vector3.one * 2f;
+            }
+
+            ParticleSystemRenderer flashRenderer = laserMuzzlePrefab.transform.Find("Flash, White (1)").GetComponent<ParticleSystemRenderer>();
+            Material matFlash = new Material(flashRenderer.sharedMaterial);
+            matFlash.SetColor("_TintColor", new Color(1f, 0.70f, 0.08f));
+            flashRenderer.sharedMaterial = matFlash;
+
+            ParticleSystemRenderer beamsRenderer = laserMuzzlePrefab.transform.Find("Beams").GetComponent<ParticleSystemRenderer>();
+            Material matBeams = new Material(beamsRenderer.sharedMaterial);
+            matBeams.SetColor("_TintColor", new Color(1f, 0.70f, 0.08f));
+            beamsRenderer.sharedMaterial = matBeams;
+
+            Transform dash = laserMuzzlePrefab.transform.Find("Dash");
+            dash.localEulerAngles = new Vector3(270f, 0f, 0f);
+            dash.localScale *= 1.5f;
+            ParticleSystemRenderer dashRenderer = dash.GetComponent<ParticleSystemRenderer>();
+            Material matDash = new Material(dashRenderer.sharedMaterial);
+            matDash.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_DLC1_Common_ColorRamps.texRampMinorConstructProjectile_png).WaitForCompletion());
+            dashRenderer.sharedMaterial = matDash;
+
+            ParticleSystemRenderer ringsRenderer = laserMuzzlePrefab.transform.Find("DashRings").GetComponent<ParticleSystemRenderer>();
+            Material matRings = new Material(ringsRenderer.sharedMaterial);
+            matRings.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_DLC1_Common_ColorRamps.texRampMinorConstructProjectile_png).WaitForCompletion());
+            ringsRenderer.sharedMaterial = matRings;
+
+            ParticleSystemRenderer shockwaveRenderer = laserMuzzlePrefab.transform.Find("Shockwave").GetComponent<ParticleSystemRenderer>();
+            Material matShockwave = new Material(shockwaveRenderer.sharedMaterial);
+            matShockwave.SetTexture("_MainTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_ArtifactCompounds.texArtifactCompoundCircleMask_png).WaitForCompletion());
+            matShockwave.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_DLC1_Common_ColorRamps.texRampMinorConstructProjectile_png).WaitForCompletion());
+            shockwaveRenderer.sharedMaterial = matShockwave;
+            shockwaveRenderer.alignment = ParticleSystemRenderSpace.View;
+
+            laserMuzzlePrefab.transform.Find("Point light").GetComponent<Light>().color = new Color(1f, 0.70f, 0.08f);
+
             Content.CreateAndAddEffectDef(laserMuzzlePrefab);
+            #endregion
+
+            #region OmniImpactVFXLightning
+            laserHitEffectPrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Common_VFX.OmniImpactVFXLightning_prefab).WaitForCompletion(), "DragonLaserHitVFX", false);
+
+            foreach (Transform child in laserHitEffectPrefab.transform) {
+                ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
+                ParticleSystem.MainModule main = particleSystem.main;
+                main.startColor = new ParticleSystem.MinMaxGradient(new Color(1f, 0.78f, 0.4f), new Color(1f, 0.47f, 0f));
+                child.transform.localScale = Vector3.one * 3f;
+            }
+
+            Content.CreateAndAddEffectDef(laserHitEffectPrefab);
             #endregion
         }
 

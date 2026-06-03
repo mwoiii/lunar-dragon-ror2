@@ -5,6 +5,7 @@ using RoR2;
 using RoR2.Projectile;
 using RoR2.Skills;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -49,6 +50,10 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         private GameObject muzzleflashEffectPrefab;
 
+        private static Wave shakeWave = new Wave() {
+            amplitude = 0.2f,
+            frequency = 14f
+        };
 
         private static GameObject muzzleflashLeft = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Common_VFX.OmniExplosionVFXQuick_prefab).WaitForCompletion();
 
@@ -128,10 +133,18 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         }
 
         private void FireBlitzFinisher() {
-            if (!hasFiredBlitz && isAuthority) {
+            if (!hasFiredBlitz) {
 
                 if (muzzleflashEffectPrefab) {
                     EffectManager.SimpleMuzzleFlash(muzzleflashEffectPrefab, gameObject, muzzleString, false);
+                }
+
+                ShakeEmitter.CreateSimpleShakeEmitter(transform.position, shakeWave, 0.15f, 120f, true);
+
+                characterBody?.StartCoroutine(PlayLaserSFX());
+
+                if (!isAuthority) {
+                    return;
                 }
 
                 Ray ray = GetAimRay();
@@ -143,7 +156,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 BulletAttack bullet = new BulletAttack {
                     owner = characterBody.gameObject,
                     weapon = characterBody.gameObject,
-                    origin = ray.origin + Vector3.forward * 1f,
+                    origin = muzzleTransform.position,
                     aimVector = direction,
                     minSpread = 0f,
                     maxSpread = 0f,
@@ -151,7 +164,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                     procCoefficient = 1f,
                     damage = characterBody.damage * LunarDragonStaticValues.primaryFinisherDamageCoefficient,
                     force = 250f,
-                    radius = 4f,
+                    radius = 5f,
                     falloffModel = BulletAttack.FalloffModel.None,
                     muzzleName = muzzleString,
                     isCrit = RollCrit(),
@@ -164,12 +177,26 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                         damageTypeExtended = DamageTypeExtended.Generic,
                         damageSource = DamageSource.Primary,
                     },
-                    tracerEffectPrefab = LunarDragonAssets.laserTracerPrefab
-                    //hitEffectPrefab = hitEffectPrefab,
+                    tracerEffectPrefab = LunarDragonAssets.laserTracerPrefab,
+                    hitEffectPrefab = LunarDragonAssets.laserHitEffectPrefab,
                 };
                 bullet.Fire();
                 ApplyAirborneKnockback(ray.direction, 1500f);
                 AddRecoil(-0.1f * recoilAmplitude, 0.1f * recoilAmplitude, -1f * recoilAmplitude, 1f * recoilAmplitude);
+            }
+        }
+
+        private IEnumerator PlayLaserSFX() {
+            if (gameObject) {
+                Util.PlaySound("Play_falseson_skill4_laser_start", gameObject);
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            if (gameObject) {
+                Util.PlaySound("Stop_falseson_skill4_laser_loop", gameObject);
+                Util.PlaySound("Stop_falseson_skill4_laser_charge_loop", gameObject);
+                Util.PlaySound("Play_falseson_skill4_laser_end", gameObject);
             }
         }
 
