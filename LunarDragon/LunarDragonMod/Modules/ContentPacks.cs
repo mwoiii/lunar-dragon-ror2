@@ -6,8 +6,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace LunarDragonMod.Modules {
-    internal class ContentPacks : IContentPackProvider
-    {
+    internal class ContentPacks : IContentPackProvider {
         internal ContentPack contentPack = new ContentPack();
         public string identifier => LunarDragonPlugin.MODUID;
 
@@ -27,18 +26,15 @@ namespace LunarDragonMod.Modules {
 
         public static List<NetworkSoundEventDef> networkSoundEventDefs = new List<NetworkSoundEventDef>();
 
-        public void Initialize()
-        {
+        public void Initialize() {
             ContentManager.collectContentPackProviders += ContentManager_collectContentPackProviders;
         }
 
-        private void ContentManager_collectContentPackProviders(ContentManager.AddContentPackProviderDelegate addContentPackProvider)
-        {
+        private void ContentManager_collectContentPackProviders(ContentManager.AddContentPackProviderDelegate addContentPackProvider) {
             addContentPackProvider(this);
         }
 
-        public System.Collections.IEnumerator LoadStaticContentAsync(LoadStaticContentAsyncArgs args)
-        {
+        public System.Collections.IEnumerator LoadStaticContentAsync(LoadStaticContentAsyncArgs args) {
             this.contentPack.identifier = this.identifier;
 
             contentPack.bodyPrefabs.Add(bodyPrefabs.ToArray());
@@ -61,15 +57,13 @@ namespace LunarDragonMod.Modules {
             yield break;
         }
 
-        public System.Collections.IEnumerator GenerateContentPackAsync(GetContentPackAsyncArgs args)
-        {
+        public System.Collections.IEnumerator GenerateContentPackAsync(GetContentPackAsyncArgs args) {
             ContentPack.Copy(this.contentPack, args.output);
             args.ReportProgress(1f);
             yield break;
         }
 
-        public System.Collections.IEnumerator FinalizeAsync(FinalizeAsyncArgs args)
-        {
+        public System.Collections.IEnumerator FinalizeAsync(FinalizeAsyncArgs args) {
             args.ReportProgress(1f);
             yield break;
         }

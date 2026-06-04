@@ -19,6 +19,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         public override string masterName => "LunarDragonMonsterMaster";
 
         public override string modelPrefabName => "mdlLunarDragon";
+
         public override string displayPrefabName => "LunarDragonDisplay";
 
         public const string LUNAR_DRAGON_PREFIX = LunarDragonPlugin.DEVELOPER_PREFIX + "_LunarDragon_";

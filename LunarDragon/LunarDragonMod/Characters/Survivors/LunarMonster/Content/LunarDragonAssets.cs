@@ -98,6 +98,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             lemFireball.transform.Find("Point light").GetComponent<Light>().range = 8f;
             lemFireball.transform.localPosition = Vector3.zero;
+
+            dragonFireballGhost.AddComponent<EffectComponent>();
+
+            Content.CreateAndAddEffectDef(dragonFireballGhost);
             #endregion
 
             fireballPrefab.GetComponent<ProjectileController>().ghostPrefab = dragonFireballGhost;
@@ -156,23 +160,23 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             iceballPrefab.GetComponent<ProjectileController>().ghostPrefab = dragonIceballGhost;
             iceballPrefab.GetComponent<ProjectileImpactExplosion>().impactEffect = impactEffect;
-            Content.AddProjectilePrefab(fireballPrefab);
+            Content.AddProjectilePrefab(iceballPrefab);
         }
 
         private static void CreateHeavyFireball() {
             heavyFireballPrefab = assetBundle.LoadAsset<GameObject>("HeavyFireballProjectile");
-            Content.AddProjectilePrefab(fireballPrefab);
+            Content.AddProjectilePrefab(heavyFireballPrefab);
         }
 
         private static void CreateHeavyIceball() {
             heavyIceballPrefab = assetBundle.LoadAsset<GameObject>("HeavyIceballProjectile");
-            Content.AddProjectilePrefab(fireballPrefab);
+            Content.AddProjectilePrefab(heavyIceballPrefab);
         }
 
         private static void CreateHeavyPlasmaball() {
             heavyPlasmaballPrefab = assetBundle.LoadAsset<GameObject>("HeavyPlasmaballProjectile");
             heavyPlasmaballPrefab.GetComponent<ProjectileDamage>().damageType.AddModdedDamageType(Stun3s.damageType);
-            Content.AddProjectilePrefab(fireballPrefab);
+            Content.AddProjectilePrefab(heavyPlasmaballPrefab);
         }
 
         private static void CreateLaser() {
