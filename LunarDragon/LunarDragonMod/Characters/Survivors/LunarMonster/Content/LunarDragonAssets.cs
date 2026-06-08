@@ -22,6 +22,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject heavyFireballPrefab;
 
+        public static GameObject heavyFireballMuzzlePrefab;
+
         public static GameObject heavyIceballPrefab;
 
         public static GameObject heavyPlasmaballPrefab;
@@ -54,15 +56,16 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             LunarDragonPlugin.instance.StartCoroutine(ShaderSwapper.ShaderSwapper.UpgradeStubbedShadersAsync(assetBundle));
 
             CreateFireball();
+            CreateHeavyFireball(); // depends on above to be made first
+
             CreateIceball();
-            CreateHeavyFireball();
             CreateHeavyIceball();
+
             CreateHeavyPlasmaball();
             CreateLaser();
         }
 
         private static void CreateFireball() {
-            ParticleSystemRenderer psr;
             fireballPrefab = assetBundle.LoadAsset<GameObject>("FireballProjectile");
 
             #region MageLightningBombGhost
@@ -73,7 +76,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             Object.Destroy(dragonFireballGhost.transform.Find("Point light").gameObject);
 
             GameObject dragonFireballBase = dragonFireballGhost.transform.Find("Base").gameObject;
-            psr = dragonFireballBase.GetComponent<ParticleSystemRenderer>();
+            ParticleSystemRenderer psr = dragonFireballBase.GetComponent<ParticleSystemRenderer>();
             Material matBase = new Material(psr.sharedMaterial);
             matBase.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampMageFire_png).WaitForCompletion());
             matBase.SetFloat("_AlphaBoost", 5.7f);
@@ -99,9 +102,9 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             lemFireball.transform.Find("Point light").GetComponent<Light>().range = 8f;
             lemFireball.transform.localPosition = Vector3.zero;
 
-            dragonFireballGhost.AddComponent<EffectComponent>();
+            //dragonFireballGhost.AddComponent<EffectComponent>();
 
-            Content.CreateAndAddEffectDef(dragonFireballGhost);
+            //Content.CreateAndAddEffectDef(dragonFireballGhost);
             #endregion
 
             fireballPrefab.GetComponent<ProjectileController>().ghostPrefab = dragonFireballGhost;
@@ -165,6 +168,61 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         private static void CreateHeavyFireball() {
             heavyFireballPrefab = assetBundle.LoadAsset<GameObject>("HeavyFireballProjectile");
+
+            #region DragonFireballGhost
+            GameObject heavyFireballGhost = PrefabAPI.InstantiateClone(fireballPrefab.GetComponent<ProjectileController>().ghostPrefab, "DragonFireballHeavyGhost", false);
+
+            heavyFireballGhost.transform.localScale = Vector3.one * 1.5f;
+            MeshRenderer meshRenderer = heavyFireballGhost.transform.Find("OrbCore").GetComponent<MeshRenderer>();
+            Material matOrbCore = new Material(meshRenderer.sharedMaterial);
+            matOrbCore.SetColor("_TintColor", new Color(0f, 0.9f, 1f));
+            matOrbCore.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_DLC3_SolusAmalgamator.texRampSolusBlueFlame_png).WaitForCompletion());
+            matOrbCore.SetFloat("_AlphaBoost", 6f);
+            meshRenderer.sharedMaterial = matOrbCore;
+
+            ParticleSystemRenderer psr = heavyFireballGhost.transform.Find("Base").GetComponent<ParticleSystemRenderer>();
+            Material matBase = new Material(psr.sharedMaterial);
+            matBase.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_DLC2_Items_SpeedBoostPickup.texElusiveAntlersRamp_png).WaitForCompletion());
+            matBase.SetFloat("_AlphaBoost", 7f);
+            psr.sharedMaterial = matBase;
+
+            heavyFireballGhost.transform.Find("FireballGhost(Clone)/Point light").GetComponent<Light>().color = new Color(0f, 0.8f, 1f);
+            Transform flames = heavyFireballGhost.transform.Find("FireballGhost(Clone)/Flames");
+            flames.localScale = Vector3.one * 1.5f;
+            ParticleSystem.ColorOverLifetimeModule colorOverLifetime = flames.GetComponent<ParticleSystem>().colorOverLifetime;
+            Gradient gradient = colorOverLifetime.color.gradient;
+            GradientColorKey[] colorKeys = gradient.colorKeys;
+            colorKeys[0] = new GradientColorKey(new Color(0.02f, 0.7f, 1f), colorKeys[0].time);
+            colorKeys[1] = new GradientColorKey(new Color(0.02f, 0.23f, 0.91f), colorKeys[1].time);
+            gradient.colorKeys = colorKeys;
+            colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
+
+            GameObject chefFireball = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(RoR2_DLC2_Chef.BoostedSearFireballGhost_prefab).WaitForCompletion());
+            chefFireball.transform.Find("Particles/FireOutter").SetParent(heavyFireballGhost.transform, false);
+            Object.Destroy(chefFireball);
+
+            heavyFireballPrefab.GetComponent<ProjectileController>().ghostPrefab = heavyFireballGhost;
+            #endregion
+
+            #region ChefSecondaryFlameBoostedVFXShort
+            heavyFireballMuzzlePrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Common_VFX.OmniExplosionVFXQuick_prefab).WaitForCompletion(), "FireballHeavyMuzzleVFX", false);
+            heavyFireballMuzzlePrefab.transform.localScale = Vector3.one * 1.5f;
+
+            psr = heavyFireballMuzzlePrefab.transform.Find("ScaledHitsparks 1").GetComponent<ParticleSystemRenderer>();
+            Material matScaledHitsparks = new Material(psr.sharedMaterial);
+            matScaledHitsparks.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_DLC2_Items_SpeedBoostPickup.texSpeedBoostPickupThornRamp_png).WaitForCompletion());
+            psr.sharedMaterial = matScaledHitsparks;
+
+            psr = heavyFireballMuzzlePrefab.transform.Find("Unscaled Flames").GetComponent<ParticleSystemRenderer>();
+            Material matUnscaledFlames = new Material(psr.sharedMaterial);
+            matUnscaledFlames.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_DLC2_Items_SpeedBoostPickup.texSpeedBoostPickupThornRamp_png).WaitForCompletion());
+            psr.sharedMaterial = matUnscaledFlames;
+
+            heavyFireballMuzzlePrefab.transform.Find("Point Light").GetComponent<Light>().color = new Color(0f, 0.8f, 1f);
+
+            Content.CreateAndAddEffectDef(heavyFireballMuzzlePrefab);
+            #endregion
+
             Content.AddProjectilePrefab(heavyFireballPrefab);
         }
 

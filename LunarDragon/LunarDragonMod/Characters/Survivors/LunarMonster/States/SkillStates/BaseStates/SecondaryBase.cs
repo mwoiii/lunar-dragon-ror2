@@ -22,6 +22,8 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
 
         protected virtual string muzzleString => "MuzzleLeft";
 
+        protected virtual GameObject muzzleflashEffectPrefab => null;
+
         protected virtual string animationLayerName => "Gesture1, Additive";
 
         protected virtual string animationStateName => "PrimaryShoot1";
@@ -76,9 +78,9 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
                     muzzleTransform = childLocator.FindChild(muzzleString);
                 }
 
-                // if ((bool)muzzleflashEffectPrefab) {
-                // EffectManager.SimpleMuzzleFlash(muzzleflashEffectPrefab, base.gameObject, muzzleString, transmit: false);
-                // }
+                if (muzzleflashEffectPrefab) {
+                    EffectManager.SimpleMuzzleFlash(muzzleflashEffectPrefab, gameObject, muzzleString, transmit: false);
+                }
 
                 // if aiming at something up close, adjust direction so projectile will still hit despite muzzle distance
                 Vector3 direction = ray.direction;

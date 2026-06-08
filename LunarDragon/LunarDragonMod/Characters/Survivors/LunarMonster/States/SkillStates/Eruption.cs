@@ -16,6 +16,8 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         // protected override float attackSoundPitch => 1f;
 
+        protected override GameObject muzzleflashEffectPrefab => LunarDragonAssets.heavyFireballMuzzlePrefab;
+
         protected override string muzzleString => "MuzzleLeft";
 
         protected override string animationLayerName => "Gesture1, Additive";
