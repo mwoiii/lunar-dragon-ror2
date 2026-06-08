@@ -275,7 +275,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(Eruption)),
                 activationStateMachineName = "Weapon",
-                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
 
                 baseRechargeInterval = 8f,
                 baseMaxStock = 1,
@@ -333,7 +333,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(Glaciate)),
                 activationStateMachineName = "Weapon",
-                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
+                interruptPriority = EntityStates.InterruptPriority.Skill,
 
                 baseRechargeInterval = 8f,
                 baseMaxStock = 1,

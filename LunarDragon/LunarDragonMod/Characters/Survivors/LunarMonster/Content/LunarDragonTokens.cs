@@ -46,12 +46,12 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             #region Primary
             Language.Add(prefix + "PRIMARY_ELEMENTAL_BLITZ_NAME", "Elemental Blitz");
             Language.Add(prefix + "PRIMARY_ELEMENTAL_BLITZ_DESCRIPTION", $"Fire heavy elemental blasts for <style=cIsDamage>{100f * LunarDragonStaticValues.primaryDamageCoefficient}% damage</style> each. " +
-                $"Every 3rd attack fires a piercing bolt for <style=cIsDamage>{100f * LunarDragonStaticValues.primaryFinisherDamageCoefficient}% damage</style>.");
+                $"Every third attack fires a piercing bolt for <style=cIsDamage>{100f * LunarDragonStaticValues.primaryFinisherDamageCoefficient}% damage</style>.");
             #endregion
 
             #region Secondary
-            Language.Add(prefix + "SECONDARY_ERUPTION_NAME", "Eruption");
-            Language.Add(prefix + "SECONDARY_ERUPTION_DESCRIPTION", $"Launch a huge fireball for <style=cIsDamage>{100f * LunarDragonStaticValues.secondaryFireBlastDamageCoefficient}% damage</style>, " +
+            Language.Add(prefix + "SECONDARY_ERUPTION_NAME", "Lunar Eruption");
+            Language.Add(prefix + "SECONDARY_ERUPTION_DESCRIPTION", $"Launch a huge lunar fireball for <style=cIsDamage>{100f * LunarDragonStaticValues.secondaryFireBlastDamageCoefficient}% damage</style>, " +
                 $"causing an eruption of blazing rings if detonated on the ground.");
 
             Language.Add(prefix + "SECONDARY_SURGE_NAME", "Surge");

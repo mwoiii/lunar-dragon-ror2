@@ -10,13 +10,15 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         private const float raycastDistance = 12f;
 
-        private const float timeBetweenRings = 0.6f;
+        private const float timeBetweenRings = 0.8f;
 
-        private const float ring1Radius = 5f;
+        private const float ring1Radius = 7f;
 
-        private const float ring2Radius = 10f;
+        private const float ring2Radius = 14f;
 
-        private const float ring3Radius = 15f;
+        private const float ring3Radius = 21f;
+
+        private const float boxesToRadiusRatio = 1f;
 
 
         private ProjectileController projectileController;
@@ -59,11 +61,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
             } else if (!firedRing3 && stopwatch > timeBetweenRings * 3f) {
                 FireRing(ring3Radius);
                 firedRing3 = true;
+            } else if (firedRing3) {
+                Destroy(gameObject);
             }
         }
 
         private void FireRing(float radius) {
-            int boxes = (int)(1.9f * radius);
+            int boxes = (int)(boxesToRadiusRatio * radius);
             for (int i = 0; i < boxes; i++) {
                 float angle = 2f * Mathf.PI * i / boxes;
                 Vector3 raycastPos = transform.position + new Vector3(radius * Mathf.Sin(angle), 0f, radius * Mathf.Cos(angle));
@@ -80,13 +84,25 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
                         procChainMask = default(ProcChainMask),
                         bonusForce = (direction + Vector3.up) * 700f,
                         procCoefficient = 0.85f,
-                        radius = 4.8f,
+                        radius = 4f,
                         teamIndex = teamFilter.teamIndex,
                         damageType = DamageType.IgniteOnHit
                     };
                     blastAttack.Fire();
+
+                    EffectManager.SpawnEffect(LunarDragonAssets.heavyFireballPlumePrefab, new EffectData {
+                        origin = hitInfo.point,
+                        rotation = Quaternion.identity,
+                        scale = 1f
+                    }, transmit: true);
                 }
             }
+
+            EffectManager.SpawnEffect(LunarDragonAssets.plumeShakeSFX, new EffectData {
+                origin = transform.position,
+                rotation = Quaternion.identity,
+                scale = 1f
+            }, transmit: true);
         }
     }
 }

@@ -4,7 +4,7 @@
 
         public const float primaryFinisherDamageCoefficient = 7f;
 
-        public const float secondaryFireBlastDamageCoefficient = 6f;
+        public const float secondaryFireBlastDamageCoefficient = 8f;
 
         public const float secondaryIceBlastDamageCoefficient = 6f;
 

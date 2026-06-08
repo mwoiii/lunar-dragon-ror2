@@ -91,7 +91,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
                 if (isAuthority) {
                     FireProjectileInfo fireProjectileInfo = default;
                     fireProjectileInfo.projectilePrefab = projectilePrefab;
-                    fireProjectileInfo.position = muzzleTransform.position;
+                    fireProjectileInfo.position = muzzleTransform.position + Vector3.up * 1.5f;
                     fireProjectileInfo.rotation = Util.QuaternionSafeLookRotation(direction);
                     fireProjectileInfo.owner = gameObject;
                     fireProjectileInfo.damage = damageStat * damageCoefficient;

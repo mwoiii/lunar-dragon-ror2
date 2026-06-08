@@ -5,6 +5,7 @@ using RoR2;
 using RoR2.Projectile;
 using RoR2.Skills;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -19,6 +20,8 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             Right,
             Middle
         }
+
+        private static Vector3 projectileOriginOffset = Vector3.up * 1.5f;
 
         public GameObject projectilePrefab;
 
@@ -112,11 +115,13 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 Vector3 direction = ray.direction;
                 direction = TrajectoryAimAssist.ApplyTrajectoryAimAssist(direction, ray.origin, maxDistance, gameObject, gameObject, 1f);
 
-                GetMuzzleDirectionFromAimRay(ray, ref direction);
+                if (direction == ray.direction) {
+                    GetMuzzleDirectionFromAimRay(ray, ref direction);
+                }
 
                 FireProjectileInfo fireProjectileInfo = new FireProjectileInfo {
                     projectilePrefab = projectilePrefab,
-                    position = muzzleTransform.position,
+                    position = muzzleTransform.position + projectileOriginOffset,
                     rotation = Util.QuaternionSafeLookRotation(direction),
                     owner = gameObject,
                     damage = damageStat * LunarDragonStaticValues.primaryDamageCoefficient,
@@ -156,7 +161,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 BulletAttack bullet = new BulletAttack {
                     owner = characterBody.gameObject,
                     weapon = characterBody.gameObject,
-                    origin = muzzleTransform.position,
+                    origin = muzzleTransform.position + projectileOriginOffset,
                     aimVector = direction,
                     minSpread = 0f,
                     maxSpread = 0f,
@@ -202,10 +207,11 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         private void GetMuzzleDirectionFromAimRay(Ray aimRay, ref Vector3 direction) {
             RaycastHit[] hits = Physics.RaycastAll(aimRay.origin, direction, 9999f, LayerIndex.CommonMasks.bullet);
+            Array.Sort(hits, (hitA, hitB) => hitA.distance.CompareTo(hitB.distance));
             for (int i = 0; i < hits.Length; i++) {
                 HurtBox hurtBox = hits[i].collider.AsValidOrNull()?.GetComponent<HurtBox>();
-                if (hurtBox && hurtBox.teamIndex != teamComponent.teamIndex) {
-                    direction = hurtBox.transform.position - muzzleTransform.position;
+                if (hurtBox == null || (hurtBox && hurtBox.teamIndex != teamComponent.teamIndex)) {
+                    direction = hits[i].point - (muzzleTransform.position + projectileOriginOffset);
                     break;
                 }
             }

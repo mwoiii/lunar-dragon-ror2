@@ -2420,7 +2420,7 @@ MonoBehaviour:
     m_SubObjectName: 
     m_SubObjectType: 
   ghostTransformAnchor: {fileID: 0}
-  startSound: 
+  startSound: Play_lemurianBruiser_m1_shoot
   cannotBeDeleted: 0
   authorityHandlesCollisionEvents: 0
   flightSoundLoop: {fileID: 0}
