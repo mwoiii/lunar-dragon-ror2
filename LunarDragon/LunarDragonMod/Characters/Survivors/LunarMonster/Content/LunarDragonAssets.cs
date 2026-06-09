@@ -359,13 +359,38 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 lightCurve.GetComponent<Light>().color = new Color(0.14f, 0.4f, 1f);
 
                 foreach (Transform child in heavyFireballPlumePrefab.transform.Find("ParticleLoop")) {
-                    ParticleSystem ps = child.GetComponent<ParticleSystem>();
-                    if (ps) {
-                        main = ps.main;
+                    ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
+                    if (particleSystem) {
+                        main = particleSystem.main;
                         main.duration = 0.25f;
                         main.loop = false;
                     }
                 }
+                #endregion
+
+                #region LunarWispTrackingBombExplosion
+                GameObject lunarExplosion = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarWisp.LunarWispTrackingBombExplosion_prefab).WaitForCompletion());
+                Transform lunarExplosionBurst = lunarExplosion.transform.Find("InitialBurst");
+                lunarExplosionBurst.SetParent(heavyFireballPlumePrefab.transform, false);
+                Object.Destroy(lunarExplosion);
+
+                Object.Destroy(lunarExplosionBurst.Find("Point light").gameObject);
+
+                Object.Destroy(lunarExplosionBurst.Find("Ring_Ps").gameObject);
+
+                Object.Destroy(lunarExplosionBurst.Find("Sparks_Ps").gameObject);
+
+                Transform flames = lunarExplosionBurst.Find("Flames_Ps");
+                ParticleSystem ps = flames.GetComponent<ParticleSystem>();
+                ParticleSystem.ShapeModule shape = ps.shape;
+                shape.radius = 10f;
+                main = ps.main;
+                main.startDelay = 0f;
+                main.startSize3D = true;
+                main.startSizeX = new ParticleSystem.MinMaxCurve(5f, 10f);
+                main.startSizeY = new ParticleSystem.MinMaxCurve(10f, 15f);
+                main.startSizeZ = new ParticleSystem.MinMaxCurve(5f, 10f);
+                main.startRotation = 0f;
                 #endregion
             });
 

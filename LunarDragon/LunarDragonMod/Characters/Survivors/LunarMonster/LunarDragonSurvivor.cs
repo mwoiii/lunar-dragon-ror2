@@ -277,7 +277,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 activationStateMachineName = "Weapon",
                 interruptPriority = EntityStates.InterruptPriority.Skill,
 
-                baseRechargeInterval = 8f,
+                baseRechargeInterval = 12f,
                 baseMaxStock = 1,
 
                 rechargeStock = 1,
