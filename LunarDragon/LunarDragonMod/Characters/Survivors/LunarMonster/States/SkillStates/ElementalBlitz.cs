@@ -94,7 +94,8 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                     break;
             }
 
-            if (GetModelChildLocator() is ChildLocator childLocator) {
+            ChildLocator childLocator = GetModelChildLocator();
+            if (childLocator) {
                 muzzleTransform = childLocator.FindChild(muzzleString);
             }
         }

@@ -1,12 +1,11 @@
 ﻿using EntityStates;
-using EntityStates.Mage;
 using LunarDragonMod.Survivors.LunarDragon;
 using System;
 using UnityEngine;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
-    public class BurstThrustersCharge : MageCharacterMain {
+    public class BurstThrustersCharge : LunarDragonMain {
         // based off chef code
 
         public float baseChargeDuration = 2f;

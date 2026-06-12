@@ -1,14 +1,13 @@
-﻿using System;
-using EntityStates;
-using EntityStates.Mage;
+﻿using EntityStates;
 using LunarDragonMod.Survivors.LunarDragon;
 using RoR2;
+using System;
 using UnityEngine;
 using UnityEngine.Networking;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
-    public class BurstThrustersDash : MageCharacterMain {
+    public class BurstThrustersDash : LunarDragonMain {
         // based off chef code
 
         public float duration;
@@ -198,7 +197,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         private void ThrustersDashFixedUpdate() {
 
             if (characterMotor.velocity.y < 0f && !characterMotor.isGrounded) {
-                jetpackStateMachine.SetNextState(new JetpackOn());
+                jetpackStateMachine.SetNextState(new JetsOn());
             } else {
                 jetpackStateMachine.SetNextState(new Idle());
             }

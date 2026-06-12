@@ -22,7 +22,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         protected override string animationLayerName => "Gesture1, Additive";
 
-        protected override string animationStateName => "PrimaryShoot1";
+        protected override string animationStateName => "SecondaryShoot1";
 
         // protected override float recoilAmplitude => 0f;
 

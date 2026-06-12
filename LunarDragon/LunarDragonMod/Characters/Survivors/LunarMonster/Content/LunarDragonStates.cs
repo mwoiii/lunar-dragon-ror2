@@ -23,7 +23,13 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Modules.Content.AddEntityState(typeof(DeathState));
 
-            Modules.Content.AddEntityState(typeof(MainState));
+            Modules.Content.AddEntityState(typeof(FloorNormalizedMain));
+
+            Modules.Content.AddEntityState(typeof(LunarDragonMain));
+
+            Modules.Content.AddEntityState(typeof(JetsOn));
+
+            Modules.Content.AddEntityState(typeof(JetsOff));
 
             Modules.Content.AddEntityState(typeof(SpawnState));
         }

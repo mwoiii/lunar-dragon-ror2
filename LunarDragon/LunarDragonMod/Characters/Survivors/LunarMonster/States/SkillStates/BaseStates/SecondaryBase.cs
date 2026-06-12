@@ -56,7 +56,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
             characterBody.SetAimTimer(2f);
 
             animator = GetModelAnimator();
-            if ((bool)animator) {
+            if (animator) {
                 childLocator = animator.GetComponent<ChildLocator>();
             }
 

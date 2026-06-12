@@ -169,7 +169,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             Prefabs.ClearEntityStateMachines(bodyPrefab);
 
             //the main "Body" state machine has some special properties
-            Prefabs.AddMainEntityStateMachine(bodyPrefab, "Body", typeof(MainState), typeof(SpawnState));
+            Prefabs.AddMainEntityStateMachine(bodyPrefab, "Body", typeof(FloorNormalizedMain), typeof(SpawnState));
             //if you set up a custom main characterstate, set it up here
             //don't forget to register custom entitystates in your LunarDragonStates.cs
 

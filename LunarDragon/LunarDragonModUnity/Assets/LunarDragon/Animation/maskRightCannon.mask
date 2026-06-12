@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!319 &31900000
+AvatarMask:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: maskRightCannon
+  m_Mask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+  m_Elements:
+  - m_Path: 
+    m_Weight: 1
+  - m_Path: LunarDragonArmature
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/ShoulderB.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/ShoulderB.L/UpperLegB.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/ShoulderB.L/UpperLegB.L/LowerLegB.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/ShoulderB.L/UpperLegB.L/LowerLegB.L/LowerLegB.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/ShoulderB.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/ShoulderB.R/UpperLegB.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/ShoulderB.R/UpperLegB.R/LowerLegB.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/ShoulderB.R/UpperLegB.R/LowerLegB.R/LowerLegB.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/CannonCenter
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/CannonCenter/CannonCenter_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/Neck
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/Neck/Head
+    m_Weight: 1
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/Neck/Head/JawLower
+    m_Weight: 1
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/Neck/Head/JawLower/JawLower_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/Neck/Head/JawUpper
+    m_Weight: 1
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/Neck/Head/JawUpper/JawUpper_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/ShoulderF.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/ShoulderF.L/UpperLegF.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/ShoulderF.L/UpperLegF.L/LowerLegF.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/ShoulderF.L/UpperLegF.L/LowerLegF.L/LowerLegF.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/ShoulderF.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/ShoulderF.R/UpperLegF.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/ShoulderF.R/UpperLegF.R/LowerLegF.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Spine1/Spine2/ShoulderF.R/UpperLegF.R/LowerLegF.R/LowerLegF.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Tail1
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Tail1/Tail2
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Tail1/Tail2/Tail3
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Tail1/Tail2/Tail3/Tail4
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Tail1/Tail2/Tail3/Tail4/Tail5
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Base/Tail1/Tail2/Tail3/Tail4/Tail5/Tail5_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Cannon1.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Cannon1.L/Cannon2.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Cannon1.L/Cannon2.L/Cannon2.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Cannon1.R
+    m_Weight: 1
+  - m_Path: LunarDragonArmature/Cannon1.R/Cannon2.R
+    m_Weight: 1
+  - m_Path: LunarDragonArmature/Cannon1.R/Cannon2.R/Cannon2.R_end
+    m_Weight: 1
+  - m_Path: LunarDragonArmature/ElbowIKB.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/ElbowIKB.L/ElbowIKB.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/ElbowIKB.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/ElbowIKB.R/ElbowIKB.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/ElbowIKF.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/ElbowIKF.L/ElbowIKF.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/ElbowIKF.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/ElbowIKF.R/ElbowIKF.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L/Middle1B.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L/Middle1B.L/Middle2B.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L/Middle1B.L/Middle2B.L/Middle2B.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L/Pinky1B.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L/Pinky1B.L/Pinky2B.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L/Pinky1B.L/Pinky2B.L/Pinky2B.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L/Toe1B.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L/Toe1B.L/Toe2B.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.L/FootB.L/Toe1B.L/Toe2B.L/Toe2B.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R/Middle1B.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R/Middle1B.R/Middle2B.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R/Middle1B.R/Middle2B.R/Middle2B.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R/Pinky1B.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R/Pinky1B.R/Pinky2B.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R/Pinky1B.R/Pinky2B.R/Pinky2B.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R/Toe1B.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R/Toe1B.R/Toe2B.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegBIK.R/FootB.R/Toe1B.R/Toe2B.R/Toe2B.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L/Middle1F.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L/Middle1F.L/Middle2F.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L/Middle1F.L/Middle2F.L/Middle2F.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L/Pinky1F.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L/Pinky1F.L/Pinky2F.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L/Pinky1F.L/Pinky2F.L/Pinky2F.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L/Toe1F.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L/Toe1F.L/Toe2F.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.L/FootF.L/Toe1F.L/Toe2F.L/Toe2F.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R/Middle1F.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R/Middle1F.R/Middle2F.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R/Middle1F.R/Middle2F.R/Middle2F.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R/Pinky1F.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R/Pinky1F.R/Pinky2F.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R/Pinky1F.R/Pinky2F.R/Pinky2F.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R/Toe1F.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R/Toe1F.R/Toe2F.R
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/LegFIK.R/FootF.R/Toe1F.R/Toe2F.R/Toe2F.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Rocks1.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Rocks1.L/Rocks1.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Rocks1.R
+    m_Weight: 1
+  - m_Path: LunarDragonArmature/Rocks1.R/Rocks1.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Rocks2.L
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Rocks2.L/Rocks2.L_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/Rocks2.R
+    m_Weight: 1
+  - m_Path: LunarDragonArmature/Rocks2.R/Rocks2.R_end
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/ROOT
+    m_Weight: 0
+  - m_Path: LunarDragonArmature/ROOT/ROOT_end
+    m_Weight: 0
+  - m_Path: LunarDragonBody
+    m_Weight: 0
+  - m_Path: LunarDragonLimbs
+    m_Weight: 0
+  - m_Path: LunarDragonOrbCEN
+    m_Weight: 0
+  - m_Path: LunarDragonOrbRHT
+    m_Weight: 0
+  - m_Path: LunarDragonOrbsLFT
+    m_Weight: 0
+  - m_Path: LunarDragonRocks
+    m_Weight: 0
