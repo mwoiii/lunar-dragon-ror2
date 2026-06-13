@@ -128,8 +128,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         private void AdditionalBodySetup() {
             AddHitboxes();
-            bodyPrefab.AddComponent<LunarDragonController>();
             SetupAkBanks();
+            bodyPrefab.AddComponent<LunarDragonController>();
         }
 
         private void SetupAkBanks() {
@@ -159,7 +159,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         }
 
         public void AddHitboxes() {
-            //example of how to create a HitBoxGroup. see summary for more details
             Prefabs.SetupHitBoxGroup(characterModelObject, "Charge", "BodyHitbox");
         }
 

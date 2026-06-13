@@ -1,8 +1,10 @@
-﻿using EntityStates.Mage;
+﻿using EntityStates;
 using UnityEngine;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
-    public class JetsOn : JetpackOn {
+
+    // Code copied from JetpackOn, modified for custom jets
+    public class JetsOn : BaseState {
 
         private Animator animator;
 
@@ -12,8 +14,33 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
         private int hoverLayerIndex;
 
+        private const float hoverVelocity = -1f;
+
+        private const float hoverAcceleration = 60f;
+
+        private Transform jetLeftEffect;
+
+        private Transform jetRightEffect;
+
+        public override void Reset() {
+            base.Reset();
+            jetLeftEffect = null;
+            jetRightEffect = null;
+        }
+
         public override void OnEnter() {
             base.OnEnter();
+
+            jetLeftEffect = FindModelChild("JetLeft");
+            if (jetLeftEffect) {
+                jetLeftEffect.gameObject.SetActive(true);
+            }
+
+            jetRightEffect = FindModelChild("JetRight");
+            if (jetRightEffect) {
+                jetRightEffect.gameObject.SetActive(true);
+            }
+
             animator = GetModelAnimator();
             if (animator) {
                 animator.SetBool("isHovering", true);
@@ -29,9 +56,25 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
                 animator.SetLayerWeight(hoverLayerIndex, hoveringDegree);
             }
         }
+        public override void FixedUpdate() {
+            base.FixedUpdate();
+            if (isAuthority) {
+                float y = characterMotor.velocity.y;
+                y = Mathf.MoveTowards(y, hoverVelocity, hoverAcceleration * GetDeltaTime());
+                characterMotor.velocity = new Vector3(characterMotor.velocity.x, y, characterMotor.velocity.z);
+            }
+        }
 
         public override void OnExit() {
             base.OnEnter();
+
+            if (jetLeftEffect) {
+                jetLeftEffect.gameObject.SetActive(false);
+            }
+
+            if (jetRightEffect) {
+                jetRightEffect.gameObject.SetActive(false);
+            }
         }
     }
 }

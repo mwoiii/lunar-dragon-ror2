@@ -14,6 +14,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static AssetBundle assetBundle;
 
+        public static GameObject jetEffectPrefab;
+
         public static GameObject fireballPrefab;
 
         public static GameObject iceballPrefab;
@@ -61,6 +63,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             LunarDragonPlugin.instance.StartCoroutine(ShaderSwapper.ShaderSwapper.UpgradeStubbedShadersAsync(assetBundle));
 
+            TryBuildAsset("Jet Effect", CreateJetEffect);
+
             TryBuildAsset("Primary Fireball", CreateFireball);
             TryBuildAsset("Secondary Fireball", CreateHeavyFireball); // depends on above to be made first
 
@@ -77,6 +81,32 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             } catch (System.Exception e) {
                 Log.Warning($"Failed to complete building asset {assetName}!\n\n{e}");
             }
+        }
+
+        private static void CreateJetEffect() {
+            jetEffectPrefab = PrefabAPI.CreateEmptyPrefab("JetEffect", false);
+            jetEffectPrefab.transform.position = new Vector3(0.001f, 0f, 0f);
+            jetEffectPrefab.transform.localScale = new Vector3(0.0007f, 0.0007f, 0.006f);
+            jetEffectPrefab.transform.eulerAngles = new Vector3(0f, 90f, 0f);
+
+            TryBuildAsset("Jet Effect Components", () => {
+                #region MageBody
+                GameObject jetEffect = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageBody_prefab).WaitForCompletion()
+                .GetComponent<ModelLocator>().modelChildLocator.FindChild("JetOn").gameObject, jetEffectPrefab.transform, false);
+                jetEffect.transform.localPosition = Vector3.zero;
+                jetEffect.gameObject.name = "JetSFX";
+                jetEffect.SetActive(true);
+
+                Object.Destroy(jetEffect.transform.Find("JetsL").gameObject);
+                jetEffect.transform.Find("JetsR").gameObject.name = "MainJet";
+
+                for (int i = jetEffect.transform.childCount - 1; i >= 0; i--) {
+                    Transform child = jetEffect.transform.GetChild(i);
+                    child.localPosition = Vector3.zero;
+                    child.SetParent(jetEffectPrefab.transform, false);
+                }
+                #endregion
+            });
         }
 
         private static void CreateFireball() {

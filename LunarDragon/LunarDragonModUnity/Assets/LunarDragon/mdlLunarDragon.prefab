@@ -46,6 +46,37 @@ CapsuleCollider:
   m_Height: 3.82
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &2332429342362625630
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6698690532097819782}
+  m_Layer: 0
+  m_Name: JetOnRight
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &6698690532097819782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2332429342362625630}
+  m_LocalRotation: {x: -0.000000006082701, y: -0.00000028752348, z: -0.049092136, w: 0.99879426}
+  m_LocalPosition: {x: 0.001327, y: 0.002568, z: -0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3375361528905604896}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -5.628}
 --- !u!1 &5685492639951228772
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,6 +206,37 @@ Transform:
   m_Father: {fileID: 3523180268659169335}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8750034407826976275
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3664702656495816546}
+  m_Layer: 0
+  m_Name: JetOnLeft
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &3664702656495816546
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8750034407826976275}
+  m_LocalRotation: {x: -0.000000006082701, y: -0.00000028752348, z: -0.049092136, w: 0.99879426}
+  m_LocalPosition: {x: 0.001327, y: 0.002568, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7506466368683373071}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -5.628}
 --- !u!1001 &8004760340530917639
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2031,6 +2093,11 @@ CharacterJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!4 &3375361528905604896 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4738119355358440999, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
+  m_PrefabInstance: {fileID: 8004760340530917639}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3423544715184858739 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4653415619964213108, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
@@ -2684,6 +2751,10 @@ MonoBehaviour:
     transform: {fileID: 426111318189115969}
   - name: BodyHitbox
     transform: {fileID: 428493040682269293}
+  - name: JetLeft
+    transform: {fileID: 3664702656495816546}
+  - name: JetRight
+    transform: {fileID: 6698690532097819782}
 --- !u!114 &4724410221056908003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2721,6 +2792,11 @@ MonoBehaviour:
   - {fileID: 6263319620839131820}
   - {fileID: 7917001178137051978}
   componentsToDisableOnRagdoll: []
+--- !u!4 &7506466368683373071 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8702418504261631224, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
+  m_PrefabInstance: {fileID: 8004760340530917639}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7514991774250452843 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8693070785292224916, guid: 701f3761aae8a2b42aa28b1b29349957, type: 3}
