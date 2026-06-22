@@ -35,7 +35,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             bodyColor = Color.white,
             sortPosition = 100,
 
-            crosshair = Asset.LoadCrosshair("Standard"),
+            crosshair = assetBundle.LoadAsset<GameObject>("LunarDragonCrosshair"), // Asset.LoadCrosshair("Standard"),
             podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
 
             maxHealth = 180f,

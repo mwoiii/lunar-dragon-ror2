@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2858777705
+CRC: 2207812683
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: dc99a43f09dacd4ba8622a2fa5d3e24d
+    Hash: 2ac13097fc6409c2159123965fe9ff89
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 6c6336843004e75f906221a63df9be3e
+    Hash: 8adcb207549d0870bd72fac2418c34ed
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -48,7 +48,11 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1351617430, guid: 65057e713e1213e449ae3e2078477755, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 261c50d8a80898e4ebf2e8e415ea6766, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
 - Class: 114
   Script: {fileID: 1395413934, guid: da77c7bbf69f66ab2145560542327715, type: 3}
 - Class: 114
@@ -58,7 +62,11 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -132178706, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 802132372, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -875252823, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -146705984, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 488236779, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -95,11 +103,17 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
+- Class: 222
+  Script: {instanceID: 0}
+- Class: 224
+  Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers:
 - AssemblyName: RoR2
   ClassName: ChildLocator/NameTransformPair
 - AssemblyName: RoR2
   ClassName: RoR2.DamageTypeCombo
+- AssemblyName: RoR2
+  ClassName: RoR2.UI.CrosshairController/SpritePosition
 - AssemblyName: RoR2
   ClassName: Wave
 - AssemblyName: Unity.Addressables
@@ -108,6 +122,8 @@ SerializeReferenceClassIdentifiers:
   ClassName: UnityEngine.Events.PersistentCallGroup
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.Events.UnityEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
   ClassName: UnityEngine.Networking.NetworkHash128
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
@@ -118,6 +134,7 @@ Assets:
 - Assets/LunarDragon/Skills/SecondaryPlasmaball/HeavyPlasmaballProjectile.prefab
 - Assets/LunarDragon/Skills/SecondaryIceball/HeavyIceballProjectile.prefab
 - Assets/LunarDragon/Skills/SecondaryFireball/FireballEruption.prefab
+- Assets/LunarDragon/Crosshair/LunarDragonCrosshair.prefab
 - Assets/LunarDragon/Skills/SecondaryIceball/IceballGlacier.prefab
 - Assets/LunarDragon/Skin1/matOrbRight.mat
 - Assets/LunarDragon/Skin2/matCannonMastery.mat

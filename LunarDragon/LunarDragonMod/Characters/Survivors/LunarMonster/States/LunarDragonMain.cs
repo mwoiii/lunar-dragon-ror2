@@ -18,15 +18,30 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
         private float jumpButtonHeldTime;
 
+        private bool canHover;
+
         public override void OnEnter() {
             base.OnEnter();
             jetpackStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Jet");
         }
 
+        public override void FixedUpdate() {
+            base.FixedUpdate();
+            if (!canHover) {
+                canHover = characterMotor.velocity.y < 3f && !characterMotor.isGrounded;
+            } else {
+                canHover = !characterMotor.isGrounded;
+            }
+        }
+
         public override void ProcessJump() {
             if (hasCharacterMotor && hasInputBank && isAuthority) {
-                if (NetworkUser.readOnlyLocalPlayersList[0]?.localUser?.userProfile.toggleArtificerHover ?? true) {
 
+                if (jumpInputReceived && characterMotor.jumpCount < characterBody.maxJumpCount) {
+                    canHover = false;
+                }
+
+                if (NetworkUser.readOnlyLocalPlayersList[0]?.localUser?.userProfile.toggleArtificerHover ?? true) {
                     if (inputBank.jump.down) {
                         oldJumpHeldTime = jumpButtonHeldTime;
                         jumpButtonHeldTime += Time.deltaTime;
@@ -53,7 +68,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
                     jumpButtonState = inputBank.jump.down;
                 }
 
-                bool requestActivateJetpack = jumpButtonState && characterMotor.velocity.y < 3f && !characterMotor.isGrounded;
+                bool requestActivateJetpack = jumpButtonState && canHover;
                 bool jetpackIsActive = jetpackStateMachine.state.GetType() == typeof(JetsOn);
 
                 if (requestActivateJetpack && !jetpackIsActive) {

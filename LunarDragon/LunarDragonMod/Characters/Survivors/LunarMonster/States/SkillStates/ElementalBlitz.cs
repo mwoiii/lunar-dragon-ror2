@@ -39,6 +39,14 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         private float maxDistance = 9999f;
 
+        private float projectileBloom = 0.65f;
+
+        private Vector2 projectileRecoilAmp = new Vector2(0.2f, 0.6f);
+
+        private float finisherBloom = 0.8f;
+
+        private Vector2 finisherRecoilAmp = new Vector2(0.5f, 2f);
+
         private bool hasFiredBlitz;
 
         private string muzzleString;
@@ -46,8 +54,6 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         private Transform muzzleTransform;
 
         private Cannon cannon;
-
-        public static float recoilAmplitude;
 
         private string animationStateName;
 
@@ -127,14 +133,15 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                     owner = gameObject,
                     damage = damageStat * LunarDragonStaticValues.primaryDamageCoefficient,
                     force = 150f,
-                    crit = Util.CheckRoll(critStat, base.characterBody.master),
+                    crit = Util.CheckRoll(critStat, characterBody.master),
                     damageColorIndex = DamageColorIndex.Default,
                     damageTypeOverride = DamageTypeCombo.GenericPrimary
                 };
                 ProjectileManager.instance.FireProjectile(fireProjectileInfo);
 
                 ApplyAirborneKnockback(ray.direction, 900f);
-                AddRecoil(-0.1f * recoilAmplitude, 0.1f * recoilAmplitude, -1f * recoilAmplitude, 1f * recoilAmplitude);
+                AddRecoil(-1f * projectileRecoilAmp.y, -1.5f * projectileRecoilAmp.y, -1f * projectileRecoilAmp.x, 1f * projectileRecoilAmp.x);
+                characterBody.AddSpreadBloom(projectileBloom);
             }
         }
 
@@ -188,7 +195,8 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 };
                 bullet.Fire();
                 ApplyAirborneKnockback(ray.direction, 1500f);
-                AddRecoil(-0.1f * recoilAmplitude, 0.1f * recoilAmplitude, -1f * recoilAmplitude, 1f * recoilAmplitude);
+                AddRecoil(-1f * finisherRecoilAmp.y, -1.5f * finisherRecoilAmp.y, -1f * finisherRecoilAmp.x, 1f * finisherRecoilAmp.x);
+                characterBody.AddSpreadBloom(finisherBloom);
             }
         }
 

@@ -60,8 +60,10 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
             base.FixedUpdate();
             if (isAuthority) {
                 float y = characterMotor.velocity.y;
-                y = Mathf.MoveTowards(y, hoverVelocity, hoverAcceleration * GetDeltaTime());
-                characterMotor.velocity = new Vector3(characterMotor.velocity.x, y, characterMotor.velocity.z);
+                if (y < hoverVelocity) {
+                    y = Mathf.MoveTowards(y, hoverVelocity, hoverAcceleration * GetDeltaTime());
+                    characterMotor.velocity = new Vector3(characterMotor.velocity.x, y, characterMotor.velocity.z);
+                }
             }
         }
 

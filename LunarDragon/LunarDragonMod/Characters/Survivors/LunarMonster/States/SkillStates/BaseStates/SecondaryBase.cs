@@ -28,9 +28,12 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
 
         protected virtual string animationStateName => "PrimaryShoot1";
 
-        protected virtual float recoilAmplitude => 0f;
+
+        protected Vector2 recoilAmplitude => new Vector2(0.5f, 2f);
 
         protected virtual float fireDelay => 0.1f;
+
+        protected virtual float bloom => 0.8f;
 
         protected virtual bool canLeaveStateAfterFire => true;
 
@@ -101,7 +104,8 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
                     ProjectileManager.instance.FireProjectile(fireProjectileInfo);
                 }
                 ApplyAirborneKnockback(ray.direction, 1800f);
-                AddRecoil(-0.1f * recoilAmplitude, 0.1f * recoilAmplitude, -1f * recoilAmplitude, 1f * recoilAmplitude);
+                AddRecoil(-1f * recoilAmplitude.y, -1.5f * recoilAmplitude.y, -1f * recoilAmplitude.x, 1f * recoilAmplitude.x);
+                characterBody.AddSpreadBloom(bloom);
             }
         }
 
