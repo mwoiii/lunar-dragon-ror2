@@ -2,9 +2,11 @@
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.Components {
-    internal class LunarDragonController : MonoBehaviour {
+    public class LunarDragonController : MonoBehaviour {
 
         public ElecSecondaryController elecSecondaryController;
+
+        public bool canJump = true;
 
         private void Awake() {
             AddJets();

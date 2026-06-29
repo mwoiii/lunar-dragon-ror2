@@ -1,4 +1,5 @@
 ﻿using EntityStates;
+using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
 using UnityEngine;
 
@@ -8,7 +9,11 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
         // Code copied from MageCharacterMain, modified for custom jetpack state
 
+        public LunarDragonController controller;
+
         protected EntityStateMachine jetpackStateMachine;
+
+        protected bool forceJetpack;
 
         public bool jumpButtonState;
 
@@ -22,6 +27,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
         public override void OnEnter() {
             base.OnEnter();
+            controller = GetComponent<LunarDragonController>();
             jetpackStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Jet");
         }
 
@@ -68,7 +74,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
                     jumpButtonState = inputBank.jump.down;
                 }
 
-                bool requestActivateJetpack = jumpButtonState && canHover;
+                bool requestActivateJetpack = (jumpButtonState && canHover) || forceJetpack;
                 bool jetpackIsActive = jetpackStateMachine.state.GetType() == typeof(JetsOn);
 
                 if (requestActivateJetpack && !jetpackIsActive) {
@@ -80,7 +86,9 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
                 }
             }
 
-            base.ProcessJump();
+            if (controller && controller.canJump) {
+                base.ProcessJump();
+            }
         }
 
         public override void OnExit() {

@@ -179,6 +179,7 @@ namespace LunarDragonMod.Modules {
             bodyComponent.sprintingSpeedMultiplier = 1.45f;
 
             bodyComponent.bodyFlags = CharacterBody.BodyFlags.ImmuneToExecutes;
+
             bodyComponent.rootMotionInMainState = false;
 
             bodyComponent.hullClassification = HullClassification.Human;

@@ -7,8 +7,9 @@ using UnityEngine.Networking;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
+    // Based off chef code
+
     public class BurstThrustersDash : LunarDragonMain {
-        // based off chef code
 
         public float duration;
 
@@ -48,8 +49,6 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         private int originalLayer;
 
-        private Transform modelTransform;
-
         public override void OnEnter() {
             base.OnEnter();
             StartThrustersDash();
@@ -65,36 +64,37 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             base.OnExit();
         }
 
-        public override void ProcessJump() {
-        }
         public override bool CanExecuteSkill(GenericSkill skillSlot) {
             return canExecuteSkills;
         }
 
         private void StartThrustersDash() {
+            forceJetpack = true;
+
             ownsFireTrail = HasBuff(RoR2Content.Buffs.AffixRed);
             if (NetworkServer.active && shouldFireTrail && !ownsFireTrail) {
-                base.characterBody.AddBuff(RoR2Content.Buffs.AffixRed);
+                characterBody.AddBuff(RoR2Content.Buffs.AffixRed);
             }
 
-            originalLayer = base.gameObject.layer;
+            originalLayer = gameObject.layer;
 
             // idk what this is
-            base.gameObject.layer = LayerIndex.GetAppropriateFakeLayerForTeam(base.teamComponent.teamIndex).intVal;
-            base.characterMotor?.Motor.RebuildCollidableLayers();
+            gameObject.layer = LayerIndex.GetAppropriateFakeLayerForTeam(base.teamComponent.teamIndex).intVal;
+            characterMotor?.Motor.RebuildCollidableLayers();
 
             // Util.PlaySound("Play_chef_skill3_start", base.gameObject);
-            // GetModelAnimator().SetBool("isInRolyPoly", value: true);
-            // PlayAnimation("Body", "FireRolyPoly", "FireRolyPoly.playbackRate", 1f);
 
-            if (base.isAuthority) {
-                Vector2 vector = Util.Vector3XZToVector2XY(base.inputBank.aimDirection);
-                base.characterDirection.moveVector = new Vector3(vector.x, 0f, vector.y).normalized;
+
+            if (isAuthority) {
+                Vector2 vector = Util.Vector3XZToVector2XY(inputBank.aimDirection);
+                characterDirection.moveVector = new Vector3(vector.x, 0f, vector.y).normalized;
             }
-            if ((bool)base.modelLocator) {
-                base.modelLocator.normalizeToFloor = true;
+
+            if (modelLocator) {
+                modelLocator.normalizeToFloor = true;
             }
-            if ((bool)base.characterBody) {
+
+            if (characterBody) {
                 // if ((bool)startEffectPrefab && base.isAuthority) {
                 //     EffectManager.SpawnEffect(startEffectPrefab, new EffectData {
                 //         origin = base.characterBody.corePosition
@@ -113,48 +113,52 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         }
 
         private void PerformAttack() {
-            if (!base.isAuthority) {
+            if (!isAuthority) {
                 return;
             }
             HitBoxGroup hitBoxGroup = null;
             Transform transform = GetModelTransform();
-            if ((bool)transform) {
+            if (transform) {
                 hitBoxGroup = Array.Find(transform.GetComponents<HitBoxGroup>(), (HitBoxGroup element) => element.groupName == "Charge");
             }
-            attack = new OverlapAttack();
-            attack.attacker = base.gameObject;
-            attack.inflictor = base.gameObject;
-            attack.teamIndex = GetTeam();
-            attack.damage = damageCoefficient * damageStat;
-            // attack.hitEffectPrefab = impactEffectPrefab;
-            attack.forceVector = Vector3.up * upwardForceMagnitude;
-            attack.pushAwayForce = knockbackForce;
-            attack.hitBoxGroup = hitBoxGroup;
-            attack.isCrit = RollCrit();
-            attack.damageType = new DamageTypeCombo(DamageType.Stun1s, DamageTypeExtended.Generic, DamageSource.Utility);
-            attack.retriggerTimeout = 0.5f;
+            attack = new OverlapAttack {
+                attacker = gameObject,
+                inflictor = gameObject,
+                teamIndex = GetTeam(),
+                damage = damageCoefficient * damageStat,
+                // attack.hitEffectPrefab = impactEffectPrefab;
+                forceVector = Vector3.up * upwardForceMagnitude,
+                pushAwayForce = knockbackForce,
+                hitBoxGroup = hitBoxGroup,
+                isCrit = RollCrit(),
+                damageType = new DamageTypeCombo(DamageType.Stun1s, DamageTypeExtended.Generic, DamageSource.Utility),
+                retriggerTimeout = 0.5f
+            };
         }
 
         private void ExitThrustersDash() {
             if (NetworkServer.active && shouldFireTrail && !ownsFireTrail) {
                 // won't detect getting fire elite mid-skill, if it matters
-                base.characterBody.RemoveBuff(RoR2Content.Buffs.AffixRed);
+                // it probably matters just do it differently roo
+                characterBody.RemoveBuff(RoR2Content.Buffs.AffixRed);
             }
+
+            GetModelAnimator().SetBool("inUtilityLoop", false);
 
             // lunarDragonController.rolyPolyStarted = false;
             // lunarDragonController.rolyPolyGearCharge = 0;
             // lunarDragonController.rolyPolyActive = false;
             // lunarDragonController.blockOtherSkills = false;
 
-            base.gameObject.layer = originalLayer;
-            base.characterMotor?.Motor.RebuildCollidableLayers();
-            if (!outer.destroying && (bool)base.characterBody) {
+            gameObject.layer = originalLayer;
+            characterMotor?.Motor.RebuildCollidableLayers();
+            if (!outer.destroying && characterBody) {
                 // if ((bool)endEffectPrefab && base.isAuthority) {
                 //     EffectManager.SpawnEffect(endEffectPrefab, new EffectData {
                 //         origin = base.characterBody.corePosition
                 //     }, transmit: true);
                 // }
-                base.characterBody.isSprinting = false;
+                characterBody.isSprinting = false;
             }
 
             /*
@@ -177,65 +181,61 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         }
 
         private void UpdateDirection() {
-            if ((bool)base.inputBank) {
-                Vector3 moveVector3 = base.inputBank.moveVector;
+            if (inputBank) {
+                Vector3 moveVector3 = inputBank.moveVector;
 
-                Vector2 moveVector2 = (!(moveVector == Vector3.zero)) ? Util.Vector3XZToVector2XY(moveVector) : Util.Vector3XZToVector2XY(base.inputBank.aimDirection);
+                Vector2 moveVector2 = (!(moveVector == Vector3.zero)) ? Util.Vector3XZToVector2XY(moveVector) : Util.Vector3XZToVector2XY(inputBank.aimDirection);
                 if (moveVector2 != Vector2.zero) {
                     moveVector2.Normalize();
                     idealDirection = new Vector3(moveVector2.x, 0f, moveVector2.y).normalized;
                 } else {
                 }
-                base.characterDirection.moveVector = Vector3.Lerp(base.characterDirection.moveVector, idealDirection, Time.deltaTime * turnSpeed);
+                characterDirection.moveVector = Vector3.Lerp(characterDirection.moveVector, idealDirection, Time.deltaTime * turnSpeed);
             }
         }
 
         private Vector3 GetIdealVelocity() {
-            return base.characterDirection.forward * base.characterBody.moveSpeed * base.characterBody.sprintingSpeedMultiplier * speedMultiplier;
+            return characterDirection.forward * characterBody.moveSpeed * characterBody.sprintingSpeedMultiplier * speedMultiplier;
         }
 
         private void ThrustersDashFixedUpdate() {
-
-            if (characterMotor.velocity.y < 0f && !characterMotor.isGrounded) {
-                jetpackStateMachine.SetNextState(new JetsOn());
-            } else {
-                jetpackStateMachine.SetNextState(new Idle());
+            if (!isAuthority) {
+                return;
             }
 
-            dashStopWatch += GetDeltaTime();
+            dashStopWatch += Time.deltaTime;
             if (dashStopWatch >= duration) {
                 outer.SetNextStateToMain();
             } else {
-                if (!base.isAuthority) {
-                    return;
+
+                if (characterBody) {
+                    characterBody.isSprinting = true;
                 }
-                if ((bool)base.characterBody) {
-                    base.characterBody.isSprinting = true;
+
+                if (skillLocator.special && inputBank.skill4.down) {
+                    skillLocator.special.ExecuteIfReady();
                 }
-                if ((bool)base.skillLocator.special && base.inputBank.skill4.down) {
-                    base.skillLocator.special.ExecuteIfReady();
-                }
+
                 UpdateDirection();
+
                 if (!inHitPause) {
-                    if ((bool)base.characterDirection && (bool)base.characterMotor && !base.characterMotor.disableAirControlUntilCollision) {
-                        Vector3 velocity = base.characterBody.characterMotor.velocity;
+                    if (characterDirection && characterMotor && !characterMotor.disableAirControlUntilCollision) {
+                        Vector3 velocity = characterBody.characterMotor.velocity;
                         Vector3 idealVelocity = GetIdealVelocity();
-                        base.characterMotor.velocity = new Vector3(idealVelocity.x, velocity.y, idealVelocity.z);
+                        characterMotor.velocity = new Vector3(idealVelocity.x, velocity.y, idealVelocity.z);
                     }
                     if (shouldActivateHitbox && attack.Fire()) {
-                        if (base.characterMotor.isGrounded) {
+                        if (characterMotor.isGrounded) {
                             inHitPause = true;
                             hitPauseTimer = hitPauseDuration;
                             AddRecoil(-0.25f * recoilAmplitude, -0.25f * recoilAmplitude, -0.25f * recoilAmplitude, 0.25f * recoilAmplitude);
                         } else {
-                            base.characterMotor.velocity.y = Mathf.Max(base.characterMotor.velocity.y, smallHopVelocity);
-                            // lunarDragonController.enemiesInAirHit++;
-                            // Debug.Log(lunarDragonController.enemiesInAirHit);
+                            characterMotor.velocity.y = Mathf.Max(characterMotor.velocity.y, smallHopVelocity);
                         }
                     }
                 } else {
-                    base.characterMotor.velocity = Vector3.zero;
-                    hitPauseTimer -= GetDeltaTime();
+                    characterMotor.velocity = Vector3.zero;
+                    hitPauseTimer -= Time.deltaTime;
                     if (hitPauseTimer < 0f) {
                         inHitPause = false;
                     }

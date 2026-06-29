@@ -12,8 +12,6 @@ using UnityEngine.AddressableAssets;
 
 namespace LunarDragonMod.Survivors.LunarDragon {
     public class LunarMonsterSurvivor : SurvivorBase<LunarMonsterSurvivor> {
-        //used to load the assetbundle for this character. must be unique
-
         public override string bodyName => "LunarDragonBody";
 
         public override string masterName => "LunarDragonMonsterMaster";
@@ -366,8 +364,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
 
                 activationState = new EntityStates.SerializableEntityStateType(typeof(BurstThrustersCharge)),
-                activationStateMachineName = "Body",
-                interruptPriority = EntityStates.InterruptPriority.Skill,
+                activationStateMachineName = "Weapon",
+                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
 
                 baseRechargeInterval = 2f,
                 baseMaxStock = 1,
@@ -385,7 +383,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 isCombatSkill = false,
                 canceledFromSprinting = false,
                 cancelSprintingOnActivation = false,
-                forceSprintDuringState = true,
+                forceSprintDuringState = false,
             });
 
             SkillDef utilitySkillDef2 = Skills.CreateSkillDef(new SkillDefInfo {
