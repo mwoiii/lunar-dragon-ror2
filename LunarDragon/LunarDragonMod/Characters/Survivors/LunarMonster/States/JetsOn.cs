@@ -1,10 +1,13 @@
 ﻿using EntityStates;
 using UnityEngine;
+using static LunarDragonMod.Characters.Survivors.LunarMonster.States.LunarDragonMain;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
     // Code copied from JetpackOn, modified for custom jets
     public class JetsOn : BaseState {
+
+        public JetDirection jetDirection;
 
         private Animator animator;
 
@@ -22,6 +25,10 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
         private Transform jetRightEffect;
 
+        public JetsOn(JetDirection jetDirection) {
+            this.jetDirection = jetDirection;
+        }
+
         public override void Reset() {
             base.Reset();
             jetLeftEffect = null;
@@ -31,12 +38,20 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
         public override void OnEnter() {
             base.OnEnter();
 
-            jetLeftEffect = FindModelChild("JetLeft");
+            switch (jetDirection) {
+                case JetDirection.Front:
+                    jetLeftEffect = FindModelChild("JetLeftFront");
+                    jetRightEffect = FindModelChild("JetRightFront");
+                    break;
+                default:
+                    jetLeftEffect = FindModelChild("JetLeftBottom");
+                    jetRightEffect = FindModelChild("JetRightBottom");
+                    break;
+            }
+
             if (jetLeftEffect) {
                 jetLeftEffect.gameObject.SetActive(true);
             }
-
-            jetRightEffect = FindModelChild("JetRight");
             if (jetRightEffect) {
                 jetRightEffect.gameObject.SetActive(true);
             }

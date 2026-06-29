@@ -19,6 +19,8 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         public float damageCoefficient = LunarDragonStaticValues.utilityBurstThrustersLowerDamageCoefficient;
 
+        public GameObject startEffect;
+
         public static float upwardForceMagnitude = 2400f;
 
         public static float hitPauseDuration = 0.04f;
@@ -69,7 +71,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         }
 
         private void StartThrustersDash() {
-            forceJetpack = true;
+            controller.bodyState.ForceJetsOn(JetDirection.Front);
 
             ownsFireTrail = HasBuff(RoR2Content.Buffs.AffixRed);
             if (NetworkServer.active && shouldFireTrail && !ownsFireTrail) {
@@ -79,7 +81,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             originalLayer = gameObject.layer;
 
             // idk what this is
-            gameObject.layer = LayerIndex.GetAppropriateFakeLayerForTeam(base.teamComponent.teamIndex).intVal;
+            gameObject.layer = LayerIndex.GetAppropriateFakeLayerForTeam(teamComponent.teamIndex).intVal;
             characterMotor?.Motor.RebuildCollidableLayers();
 
             // Util.PlaySound("Play_chef_skill3_start", base.gameObject);
@@ -94,16 +96,10 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 modelLocator.normalizeToFloor = true;
             }
 
-            if (characterBody) {
-                // if ((bool)startEffectPrefab && base.isAuthority) {
-                //     EffectManager.SpawnEffect(startEffectPrefab, new EffectData {
-                //         origin = base.characterBody.corePosition
-                //     }, transmit: true);
-                // }
-                // if ((bool)midEffectPrefab) {
-                //     midEffectInstance = UnityEngine.Object.Instantiate(midEffectPrefab, GetModelTransform());
-                //     midEffectInstance.GetComponent<DestroyOnTimer>().duration = duration;
-                // }
+            if (characterBody && isAuthority && startEffect) {
+                EffectManager.SpawnEffect(startEffect, new EffectData {
+                    origin = characterBody.corePosition
+                }, true);
             }
             // Util.PlaySound("Stop_chef_skill3_charge_loop", base.gameObject);
 

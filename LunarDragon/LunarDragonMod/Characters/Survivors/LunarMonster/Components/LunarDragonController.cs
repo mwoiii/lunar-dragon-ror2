@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using LunarDragonMod.Characters.Survivors.LunarMonster.States;
+using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.Components {
@@ -7,6 +8,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
         public ElecSecondaryController elecSecondaryController;
 
         public bool canJump = true;
+
+        public LunarDragonMain bodyState;
 
         private void Awake() {
             AddJets();
@@ -20,8 +23,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
             }
 
             if (modelLocator.modelChildLocator) {
-                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetLeft"), false);
-                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetRight"), false);
+                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetLeftBottom"), false);
+                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetLeftFront"), false);
+                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetRightBottom"), false);
+                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetRightFront"), false);
             } else {
                 Log.Error("Couldn't find ChildLocator! Jet effects not added.");
             }

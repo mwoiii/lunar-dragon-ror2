@@ -42,6 +42,12 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject laserHitEffectPrefab;
 
+        public static GameObject utilityDashLightEffect;
+
+        public static GameObject utilityDashMediumEffect;
+
+        public static GameObject utilityDashHeavyEffect;
+
         internal static void LoadAssetBundle(string bundleName) {
 
             try {
@@ -73,6 +79,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             TryBuildAsset("Primary Laser", CreateLaser);
             TryBuildAsset("Secondary Plasmaball", CreateHeavyPlasmaball);
+
+            TryBuildAsset("Utility Dash Explosions", CreateDashExplosions);
         }
 
         private static void TryBuildAsset(string assetName, System.Action buildAction) {
@@ -619,6 +627,37 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             });
 
             Content.CreateAndAddEffectDef(laserHitEffectPrefab);
+        }
+
+        private static void CreateDashExplosions() {
+            utilityDashLightEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarGolem.LunarGolemDeath_prefab).WaitForCompletion().InstantiateClone("DragonUtilityExplosionLight", false);
+            utilityDashMediumEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarGolem.LunarGolemDeath_prefab).WaitForCompletion().InstantiateClone("DragonUtilityExplosionMedium", false);
+            utilityDashHeavyEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarGolem.LunarGolemDeath_prefab).WaitForCompletion().InstantiateClone("DragonUtilityExplosionHeavy", false);
+
+            TryBuildAsset("Utility Light Explosion Effect", () => {
+                Transform particles = utilityDashLightEffect.transform.Find("Particles");
+                particles.transform.localScale = Vector3.one * 1.2f;
+                Object.Destroy(particles.Find("RockBurst_Ps").gameObject);
+                Object.Destroy(particles.Find("Sparks_Ps").gameObject);
+                Object.Destroy(particles.Find("Fire, Linger").gameObject);
+            });
+
+            TryBuildAsset("Utility Medium Explosion Effect", () => {
+                Transform particles = utilityDashMediumEffect.transform.Find("Particles");
+                particles.transform.localScale = Vector3.one * 1.4f;
+                Object.Destroy(particles.Find("RockBurst_Ps").gameObject);
+                Object.Destroy(particles.Find("Fire, Linger").gameObject);
+            });
+
+            TryBuildAsset("Utility Heavy Explosion Effect", () => {
+                Transform particles = utilityDashHeavyEffect.transform.Find("Particles");
+                particles.transform.localScale = Vector3.one * 1.7f;
+                Object.Destroy(particles.Find("Fire, Linger").gameObject);
+            });
+
+            Content.CreateAndAddEffectDef(utilityDashLightEffect);
+            Content.CreateAndAddEffectDef(utilityDashMediumEffect);
+            Content.CreateAndAddEffectDef(utilityDashHeavyEffect);
         }
     }
 }

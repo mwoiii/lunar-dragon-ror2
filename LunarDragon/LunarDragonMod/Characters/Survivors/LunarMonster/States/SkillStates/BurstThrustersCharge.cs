@@ -7,15 +7,13 @@ using UnityEngine;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
-    // based off chef code
-
     public class BurstThrustersCharge : BaseState {
 
         public float baseChargeDuration = 1.5f;
 
         public float minChargeForChargedAttack = 0.1f;
 
-        public float penaltyCoefficient = 0.1f;
+        public float penaltyCoefficient = 0.01f;
 
         private LunarDragonController controller;
 
@@ -23,8 +21,9 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         public float gearCharge;
 
         // proportion thresholds for the charge
+        // for misc purposes (vfx/damage)
         private static readonly float[] chargeThresholds = new float[] {
-            0.3f, 0.6f, 0.9f
+            0.3f, 0.6f, 0.7f, 0.9f
         };
 
         // index pointing to current threshold that needs reaching
@@ -110,9 +109,23 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 shouldFireTrail = currentCharge > 1,
                 canExecuteSkills = currentCharge == 0
             };
+
             if (currentCharge == 0) {
                 nextState.speedMultiplier = 1.8f;
             }
+
+            switch (currentCharge) {
+                case 0:
+                    nextState.startEffect = LunarDragonAssets.utilityDashLightEffect;
+                    break;
+                case 1:
+                    nextState.startEffect = LunarDragonAssets.utilityDashMediumEffect;
+                    break;
+                default:
+                    nextState.startEffect = LunarDragonAssets.utilityDashHeavyEffect;
+                    break;
+            }
+
             skillLocator.utility.temporaryCooldownPenalty = currentCharge * 5; // 2, 7, 10
             EntityStateMachine bodyStateMachine = FindSiblingStateMachine("Body");
             if (bodyStateMachine) {
@@ -133,8 +146,15 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             // triggers each time a threshold is reached
             if (gearCharge >= minChargeForChargedAttack && gearCharge != 1f && gearCharge >= chargeThresholds[currentCharge]) {
                 currentCharge = Math.Min(currentCharge + 1, chargeThresholds.Length - 1);
-                if (currentCharge == 1) {
-                    PlayCrossfade("FullBody, Override", "UtilityCharge", "Charge.playbackRate", chargeDuration * 0.5f, chargeDuration * 0.2f);
+                switch (currentCharge) {
+                    case 1:
+                        PlayCrossfade("FullBody, Override", "UtilityCharge", "Charge.playbackRate", chargeDuration * 0.5f, chargeDuration * 0.2f);
+                        break;
+                    case 2:
+                        if (controller && controller.bodyState != null) {
+                            controller.bodyState.ForceJetsOn(LunarDragonMain.JetDirection.Front);
+                        }
+                        break;
                 }
             }
 

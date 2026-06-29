@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &170355763044027649
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3688673987474084202}
+  m_Layer: 0
+  m_Name: JetOnRightFront
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &3688673987474084202
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170355763044027649}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.002568, z: 0}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3375361528905604896}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &1953650026231500583
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +87,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6698690532097819782}
   m_Layer: 0
-  m_Name: JetOnRight
+  m_Name: JetOnRightBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,6 +108,37 @@ Transform:
   m_Father: {fileID: 3375361528905604896}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -5.628}
+--- !u!1 &4246204273050728897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8560783236623251934}
+  m_Layer: 0
+  m_Name: JetOnLeftFront
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &8560783236623251934
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4246204273050728897}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0.002568, z: 0}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 0.9}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7506466368683373071}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!1 &5685492639951228772
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +278,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3664702656495816546}
   m_Layer: 0
-  m_Name: JetOnLeft
+  m_Name: JetOnLeftBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2751,10 +2813,14 @@ MonoBehaviour:
     transform: {fileID: 426111318189115969}
   - name: BodyHitbox
     transform: {fileID: 428493040682269293}
-  - name: JetLeft
+  - name: JetLeftBottom
     transform: {fileID: 3664702656495816546}
-  - name: JetRight
+  - name: JetRightBottom
     transform: {fileID: 6698690532097819782}
+  - name: JetLeftFront
+    transform: {fileID: 8560783236623251934}
+  - name: JetRightFront
+    transform: {fileID: 3688673987474084202}
 --- !u!114 &4724410221056908003
 MonoBehaviour:
   m_ObjectHideFlags: 0

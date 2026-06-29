@@ -5,15 +5,22 @@ using UnityEngine;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
-    public class LunarDragonMain : GenericCharacterMain {
+    // Code copied from MageCharacterMain, modified for custom jetpack state
+    // Should only ever be one in existence, on Body state machine
 
-        // Code copied from MageCharacterMain, modified for custom jetpack state
+    public class LunarDragonMain : GenericCharacterMain {
+        public enum JetDirection {
+            Bottom,
+            Front
+        }
 
         public LunarDragonController controller;
 
-        protected EntityStateMachine jetpackStateMachine;
-
         protected bool forceJetpack;
+
+        protected JetDirection jetDirection;
+
+        protected EntityStateMachine jetpackStateMachine;
 
         public bool jumpButtonState;
 
@@ -28,6 +35,9 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
         public override void OnEnter() {
             base.OnEnter();
             controller = GetComponent<LunarDragonController>();
+            if (controller) {
+                controller.bodyState = this;
+            }
             jetpackStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Jet");
         }
 
@@ -78,7 +88,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
                 bool jetpackIsActive = jetpackStateMachine.state.GetType() == typeof(JetsOn);
 
                 if (requestActivateJetpack && !jetpackIsActive) {
-                    jetpackStateMachine.SetNextState(new JetsOn());
+                    jetpackStateMachine.SetNextState(new JetsOn(jetDirection));
                 }
 
                 if (!requestActivateJetpack && jetpackIsActive) {
@@ -96,6 +106,11 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
                 jetpackStateMachine.SetNextState(new Idle());
             }
             base.OnExit();
+        }
+
+        public void ForceJetsOn(JetDirection direction) {
+            forceJetpack = true;
+            jetDirection = direction;
         }
     }
 }
