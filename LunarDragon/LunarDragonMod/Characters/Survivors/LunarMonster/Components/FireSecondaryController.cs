@@ -46,6 +46,12 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
             Ray ray = new Ray(transform.position + Vector3.up * raycastOffset, Vector3.down);
             if (!Physics.Raycast(ray, out RaycastHit hitInfo, raycastDistance, LayerIndex.world.mask)) {
                 Destroy(gameObject);
+            } else {
+                EffectManager.SpawnEffect(LunarDragonAssets.heavyFireballPlumeLargePrefab, new EffectData {
+                    origin = hitInfo.point,
+                    rotation = Quaternion.identity,
+                    scale = 1f
+                }, transmit: true);
             }
         }
 

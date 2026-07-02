@@ -9,33 +9,37 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
     public class BurstThrustersCharge : BaseState {
 
-        public float baseChargeDuration = 1.5f;
+        public float baseChargeDuration = 2f;
 
         public float minChargeForChargedAttack = 0.1f;
 
         public float penaltyCoefficient = 0.01f;
 
+        private const float turnSpeedCharge = 80f;
+
+        private const float turnSpeedDash = 220f;
+
         private LunarDragonController controller;
-
-        // a value 0-1 of how far through the charging process
-        public float gearCharge;
-
-        // proportion thresholds for the charge
-        // for misc purposes (vfx/damage)
-        private static readonly float[] chargeThresholds = new float[] {
-            0.3f, 0.6f, 0.7f, 0.9f
-        };
-
-        // index pointing to current threshold that needs reaching
-        // doubles as the current charge level
-        private int currentCharge;
 
         private bool hasFinishedCharging;
 
-        protected float chargeDuration { get; private set; }
+        private float previousTurnSpeed;
+
+        public float gearCharge; // a value 0-1 of how far through the charging process
+
+        private int currentCharge; // index pointing to current threshold that needs reaching. doubles as the current charge level
+
+        private float chargeDuration;
+
+        private static readonly float[] chargeThresholds = new float[] { // proportion thresholds for the charge. for misc purposes (vfx/damage)
+            0.3f, 0.6f, 0.7f, 0.9f
+        };
 
         public override void OnEnter() {
             base.OnEnter();
+            if (characterDirection) {
+                previousTurnSpeed = characterDirection.turnSpeed;
+            }
             controller = GetComponent<LunarDragonController>();
             StartChargeThrusters();
         }
@@ -107,7 +111,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 damageCoefficient = currentCharge > 1 ? LunarDragonStaticValues.utilityBurstThrustersUpperDamageCoefficient : LunarDragonStaticValues.utilityBurstThrustersLowerDamageCoefficient,
                 shouldActivateHitbox = currentCharge > 0,
                 shouldFireTrail = currentCharge > 1,
-                canExecuteSkills = currentCharge == 0
+                turnSpeed = currentCharge >= 1 ? turnSpeedDash : previousTurnSpeed
             };
 
             if (currentCharge == 0) {
@@ -126,10 +130,13 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                     break;
             }
 
-            skillLocator.utility.temporaryCooldownPenalty = currentCharge * 5; // 2, 7, 10
+            skillLocator.utility.temporaryCooldownPenalty = currentCharge * 5 * skillLocator.utilityBonusStockSkill.cooldownScale; // 2, 7, 10
             EntityStateMachine bodyStateMachine = FindSiblingStateMachine("Body");
             if (bodyStateMachine) {
                 bodyStateMachine.SetNextState(nextState);
+            }
+            if (characterDirection) {
+                characterDirection.turnSpeed = previousTurnSpeed;
             }
             outer.SetNextStateToMain();
         }
@@ -149,6 +156,9 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 switch (currentCharge) {
                     case 1:
                         PlayCrossfade("FullBody, Override", "UtilityCharge", "Charge.playbackRate", chargeDuration * 0.5f, chargeDuration * 0.2f);
+                        if (characterDirection) {
+                            characterDirection.turnSpeed = turnSpeedCharge;
+                        }
                         break;
                     case 2:
                         if (controller && controller.bodyState != null) {
@@ -170,8 +180,6 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             if (inputBank.skill3.justReleased || gearCharge >= chargeThresholds[^1]) {
                 hasFinishedCharging = true;
             }
-
-            //HandleRotation();
         }
 
         private void ExitChargeThrusters() {
@@ -180,6 +188,25 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             } else if (gearCharge < chargeThresholds[^1]) {
                 PlayCrossfade("FullBody, Override", "UtilityFire", 0.005f);
             }
+
+            if (characterBody && characterBody.teamComponent) {
+                BlastAttack blastAttack = new BlastAttack {
+                    attacker = characterBody.gameObject,
+                    baseDamage = characterBody.damage * (2f + 6f * gearCharge),
+                    crit = characterBody.RollCrit(),
+                    falloffModel = BlastAttack.FalloffModel.None,
+                    inflictor = characterBody.gameObject,
+                    position = characterBody.transform.position,
+                    procChainMask = default(ProcChainMask),
+                    baseForce = 200f + 1200f * gearCharge,
+                    procCoefficient = 1f,
+                    radius = 4f + 10f * gearCharge,
+                    teamIndex = characterBody.teamComponent.teamIndex,
+                    damageType = DamageType.IgniteOnHit
+                };
+                blastAttack.Fire();
+            }
+
             GetModelAnimator().SetBool("inUtilityLoop", true);
             characterMotor.walkSpeedPenaltyCoefficient = 1f;
             if (controller) {
@@ -191,5 +218,4 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             return InterruptPriority.Frozen;
         }
     }
-
 }

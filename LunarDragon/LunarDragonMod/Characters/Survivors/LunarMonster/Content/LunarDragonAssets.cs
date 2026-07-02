@@ -1,6 +1,7 @@
 ﻿using LunarDragonMod.Characters.Survivors.LunarMonster.Components;
 using LunarDragonMod.Modules;
 using LunarDragonMod.Modules.DamageTypes;
+using LunarDragonMod.Survivors.LunarDragon.Components;
 using R2API;
 using RoR2;
 using RoR2.Projectile;
@@ -30,6 +31,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject heavyFireballPlumePrefab;
 
+        public static GameObject heavyFireballPlumeLargePrefab;
+
         public static GameObject plumeShakeSFX;
 
         public static GameObject heavyIceballPrefab;
@@ -47,6 +50,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         public static GameObject utilityDashMediumEffect;
 
         public static GameObject utilityDashHeavyEffect;
+
+        public static GameObject fireTrailPrefab;
 
         internal static void LoadAssetBundle(string bundleName) {
 
@@ -81,6 +86,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Secondary Plasmaball", CreateHeavyPlasmaball);
 
             TryBuildAsset("Utility Dash Explosions", CreateDashExplosions);
+            TryBuildAsset("Utility Fire Trail", CreateFireTrail);
         }
 
         private static void TryBuildAsset(string assetName, System.Action buildAction) {
@@ -231,6 +237,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             GameObject heavyFireballGhost = PrefabAPI.InstantiateClone(fireballPrefab.GetComponent<ProjectileController>().ghostPrefab, "DragonFireballHeavyGhost", false);
             TryBuildAsset("Secondary Fireball Ghost", () => {
                 #region DragonFireballGhost
+
                 heavyFireballGhost.transform.localScale = Vector3.one * 1.5f;
                 MeshRenderer meshRenderer = heavyFireballGhost.transform.Find("OrbCore").GetComponent<MeshRenderer>();
                 Material matOrbCore = new Material(meshRenderer.sharedMaterial);
@@ -255,6 +262,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 colorKeys[1] = new GradientColorKey(new Color(0.02f, 0.23f, 0.91f), colorKeys[1].time);
                 gradient.colorKeys = colorKeys;
                 colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
+
+                Object.Destroy(heavyFireballGhost.transform.Find("Sparks, Trail").gameObject);
 
                 GameObject chefFireball = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(RoR2_DLC2_Chef.BoostedSearFireballGhost_prefab).WaitForCompletion());
                 chefFireball.transform.Find("Particles/FireOutter").SetParent(heavyFireballGhost.transform, false);
@@ -461,8 +470,26 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Content.CreateAndAddEffectDef(plumeShakeSFX);
 
+            heavyFireballPlumeLargePrefab = heavyFireballPlumePrefab.InstantiateClone("FireballHeavyPlumeLargeVFX", false);
+            TryBuildAsset("Secondary Fireball Plume Large VFX", () => {
+
+                heavyFireballPlumeLargePrefab.transform.Find("ParticleLoop/Debris, 3D").localScale = Vector3.one * 2f;
+
+                heavyFireballPlumeLargePrefab.transform.Find("ParticleLoop/DirtMounts").localScale *= 2f;
+
+                Transform flames = heavyFireballPlumeLargePrefab.transform.Find("InitialBurst/Flames_Ps");
+                ParticleSystem ps = flames.GetComponent<ParticleSystem>();
+                ParticleSystem.MainModule main = ps.main;
+                main.startSizeX = new ParticleSystem.MinMaxCurve(8f, 12f);
+                main.startSizeY = new ParticleSystem.MinMaxCurve(16f, 24f);
+                main.startSizeZ = new ParticleSystem.MinMaxCurve(8f, 12f);
+            });
+
+            Content.CreateAndAddEffectDef(heavyFireballPlumeLargePrefab);
+
             Content.AddProjectilePrefab(heavyFireballPrefab);
         }
+
 
         private static void CreateHeavyIceball() {
             heavyIceballPrefab = assetBundle.LoadAsset<GameObject>("HeavyIceballProjectile");
@@ -630,34 +657,105 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         }
 
         private static void CreateDashExplosions() {
-            utilityDashLightEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarGolem.LunarGolemDeath_prefab).WaitForCompletion().InstantiateClone("DragonUtilityExplosionLight", false);
-            utilityDashMediumEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarGolem.LunarGolemDeath_prefab).WaitForCompletion().InstantiateClone("DragonUtilityExplosionMedium", false);
-            utilityDashHeavyEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarGolem.LunarGolemDeath_prefab).WaitForCompletion().InstantiateClone("DragonUtilityExplosionHeavy", false);
 
+            utilityDashHeavyEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarGolem.LunarGolemDeath_prefab).WaitForCompletion().InstantiateClone("DragonUtilityExplosionHeavy", false);
+            TryBuildAsset("Utility Heavy Explosion Effect", () => {
+                Transform particles = utilityDashHeavyEffect.transform.Find("Particles");
+                particles.transform.localScale = Vector3.one * 2f;
+                particles.Find("Point light").GetComponent<Light>().color = new Color(1f, 0.72f, 0f);
+                ParticleSystemRenderer psr = particles.Find("Fire").GetComponent<ParticleSystemRenderer>();
+                Material matFire = new Material(psr.sharedMaterial);
+                matFire.shader = Addressables.LoadAssetAsync<Shader>(RoR2_Base_Shaders.HGOpaqueCloudRemap_shader).WaitForCompletion();
+                matFire.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampMageFire_png).WaitForCompletion());
+                psr.sharedMaterial = matFire;
+                ParticleSystem ps = particles.Find("Sparks_Ps").GetComponent<ParticleSystem>();
+                ParticleSystem.MainModule main = ps.main;
+                main.startColor = new ParticleSystem.MinMaxGradient(new Color(1f, 0.55f, 0.22f), new Color(0.74f, 0.16f, 0f));
+                Object.Destroy(particles.Find("Fire, Linger").gameObject);
+            });
+
+            utilityDashMediumEffect = utilityDashHeavyEffect.InstantiateClone("DragonUtilityExplosionMedium", false);
+            TryBuildAsset("Utility Medium Explosion Effect", () => {
+                Transform particles = utilityDashMediumEffect.transform.Find("Particles");
+                particles.transform.localScale = Vector3.one * 1.5f;
+                Object.Destroy(particles.Find("Fire, Linger").gameObject);
+                Object.Destroy(particles.Find("RockBurst_Ps").gameObject);
+            });
+
+            utilityDashLightEffect = utilityDashMediumEffect.InstantiateClone("DragonUtilityExplosionLight", false);
             TryBuildAsset("Utility Light Explosion Effect", () => {
                 Transform particles = utilityDashLightEffect.transform.Find("Particles");
                 particles.transform.localScale = Vector3.one * 1.2f;
+                Object.Destroy(particles.Find("Fire, Linger").gameObject);
                 Object.Destroy(particles.Find("RockBurst_Ps").gameObject);
                 Object.Destroy(particles.Find("Sparks_Ps").gameObject);
-                Object.Destroy(particles.Find("Fire, Linger").gameObject);
-            });
-
-            TryBuildAsset("Utility Medium Explosion Effect", () => {
-                Transform particles = utilityDashMediumEffect.transform.Find("Particles");
-                particles.transform.localScale = Vector3.one * 1.4f;
-                Object.Destroy(particles.Find("RockBurst_Ps").gameObject);
-                Object.Destroy(particles.Find("Fire, Linger").gameObject);
-            });
-
-            TryBuildAsset("Utility Heavy Explosion Effect", () => {
-                Transform particles = utilityDashHeavyEffect.transform.Find("Particles");
-                particles.transform.localScale = Vector3.one * 1.7f;
-                Object.Destroy(particles.Find("Fire, Linger").gameObject);
+                Object.Destroy(particles.Find("PP").gameObject);
             });
 
             Content.CreateAndAddEffectDef(utilityDashLightEffect);
             Content.CreateAndAddEffectDef(utilityDashMediumEffect);
             Content.CreateAndAddEffectDef(utilityDashHeavyEffect);
+        }
+
+        private static void CreateFireTrail() {
+            GameObject dragonFireSegment = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Common.FireTrailSegment_prefab).WaitForCompletion().InstantiateClone("DragonFireTrailSegment", false);
+            TryBuildAsset("Utility Fire Trail Segment Effect", () => {
+                dragonFireSegment.transform.localScale = new Vector3(1f, 10f, 10f);
+                ParticleSystem ps = dragonFireSegment.GetComponent<ParticleSystem>();
+                ParticleSystem.MainModule main = ps.main;
+                main.duration = 0.7f;
+                main.startLifetime = new ParticleSystem.MinMaxCurve(1.5f, 2.5f);
+                main.startSizeX = new ParticleSystem.MinMaxCurve(5f, 7.5f);
+                main.startSizeY = new ParticleSystem.MinMaxCurve(1.25f, 2.5f);
+                ParticleSystem.ShapeModule shape = ps.shape;
+                shape.scale = Vector3.one;
+                ParticleSystem.ColorOverLifetimeModule colorOverLifetime = ps.colorOverLifetime;
+                ParticleSystem.MinMaxGradient color = colorOverLifetime.color;
+                color.gradient.alphaKeys = new GradientAlphaKey[] {
+                    new GradientAlphaKey(1f, 0f),
+                    new GradientAlphaKey(0f, 1f),
+                };
+
+                GameObject segmentSmoke = Object.Instantiate(dragonFireSegment, dragonFireSegment.transform, false);
+                Object.Destroy(segmentSmoke.GetComponent<DestroyOnTimer>());
+                segmentSmoke.transform.localScale = Vector3.one;
+                segmentSmoke.transform.localPosition = Vector3.zero;
+                ps = segmentSmoke.GetComponent<ParticleSystem>();
+                main = ps.main;
+                main.startColor = new ParticleSystem.MinMaxGradient(new Color(0.98f, 0.05f, 0f), Color.black);
+                colorOverLifetime = ps.colorOverLifetime;
+                color = colorOverLifetime.color;
+                color.gradient.colorKeys = new GradientColorKey[] {
+                    new GradientColorKey(Color.white, 0f),
+                    new GradientColorKey(Color.black, 0.6f),
+                };
+                colorOverLifetime.color = color;
+                ParticleSystemRenderer psr = segmentSmoke.GetComponent<ParticleSystemRenderer>();
+                Material matSmoke = new Material(psr.sharedMaterial);
+                matSmoke.shader = Addressables.LoadAssetAsync<Shader>(RoR2_Base_Shaders.HGOpaqueCloudRemap_shader).WaitForCompletion();
+                matSmoke.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampTritone3_png).WaitForCompletion());
+                matSmoke.SetFloat("_Cutoff", 0.65f);
+                matSmoke.SetInt("_RampInfo", 5);
+                psr.sharedMaterial = matSmoke;
+            });
+
+            fireTrailPrefab = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Common.FireTrail_prefab).WaitForCompletion().InstantiateClone("DragonFireTrail", false);
+            TryBuildAsset("Utility Fire Trail Prefab", () => {
+                Object.Destroy(fireTrailPrefab.GetComponent<DamageTrail>());
+                DamageTrailDynamic damageTrail = fireTrailPrefab.AddComponent<DamageTrailDynamic>();
+                damageTrail.pointUpdateInterval = 0.25f;
+                damageTrail.damageUpdateInterval = 0.2f;
+                damageTrail.radius = 3f;
+                damageTrail.height = 0.5f;
+                damageTrail.pointLifetime = 1.5f;
+                damageTrail.damageType = DamageType.Generic;
+                damageTrail.segmentPrefab = dragonFireSegment;
+            });
+
+            //fireTrailPrefab.AddComponent<NetworkIdentity>();
+            //fireTrailPrefab.RegisterNetworkPrefab();
+            //dragonFireSegment.AddComponent<EffectComponent>();
+            //Content.CreateAndAddEffectDef(dragonFireSegment);
         }
     }
 }
