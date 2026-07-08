@@ -423,14 +423,14 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             //a basic skill. some fields are omitted and will just have default values
             SkillDef specialSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo {
-                skillName = "LunarDragonBomb",
-                skillNameToken = LUNAR_DRAGON_PREFIX + "SPECIAL_BOMB_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SPECIAL_BOMB_DESCRIPTION",
+                skillName = "LunarDragonAmbush",
+                skillNameToken = LUNAR_DRAGON_PREFIX + "SPECIAL_AMBUSH_NAME",
+                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SPECIAL_AMBUSH_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texSpecialIcon"),
 
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.ThrowBomb)),
+                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.DracoAmbushAscent)),
                 //setting this to the "weapon2" EntityStateMachine allows us to cast this skill at the same time primary, which is set to the "weapon" EntityStateMachine
-                activationStateMachineName = "Weapon2",
+                activationStateMachineName = "Body",
                 interruptPriority = EntityStates.InterruptPriority.Skill,
 
                 baseMaxStock = 1,

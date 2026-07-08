@@ -20,7 +20,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         protected override string muzzleString => "MuzzleLeft";
 
-        protected override string animationLayerName => "Gesture1, Additive";
+        protected override string animationLayerName => "LeftCannon, Additive";
 
         protected override string animationStateName => "SecondaryShoot1";
 

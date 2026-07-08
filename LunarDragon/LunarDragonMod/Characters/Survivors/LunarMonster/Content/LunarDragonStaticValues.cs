@@ -16,6 +16,6 @@
 
         public const float utilityBurstThrustersUpperDamageCoefficient = 7f;
 
-        public const float bombDamageCoefficient = 16f;
+        public const float specialAscentDamageCoefficient = 40f;
     }
 }

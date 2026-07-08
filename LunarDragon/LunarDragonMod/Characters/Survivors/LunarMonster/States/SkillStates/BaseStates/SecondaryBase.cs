@@ -24,7 +24,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
 
         protected virtual GameObject muzzleflashEffectPrefab => null;
 
-        protected virtual string animationLayerName => "Gesture1, Additive";
+        protected virtual string animationLayerName => "LeftCannon, Additive";
 
         protected virtual string animationStateName => "PrimaryShoot1";
 

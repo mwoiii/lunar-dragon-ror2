@@ -162,7 +162,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             if (modelAnimator) {
                 modelAnimator.SetBool("inUtilityLoop", false);
                 if (isGrounded) {
-                    PlayAnimation("Cannons, Override", "FlipCannons");
+                    PlayAnimation("OuterCannons, Override", "FlipCannons");
                 }
             }
 

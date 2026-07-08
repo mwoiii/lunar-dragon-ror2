@@ -69,13 +69,13 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 $"and <style=cIsDamage>stunning</style> at maximum charge");
 
             Language.Add(prefix + "UTILITY_FLOW_THRUSTERS_NAME", "Flow Thrusters");
-            Language.Add(prefix + "UTILITY_FLOW_THRUSTERS_DESCRIPTION", $"Steadily discharge the cannons to <style=cIsUtility>take flight<style=cIsDamage>. You can continue to attack for the duration.");//, dealing up to <style=cIsDamage>{100f * LunarDragonStaticValues.utilityBurstThrustersUpperDamageCoefficient}% damage</style>, " +
-                                                                                                                                                                                                           //$"and <style=cIsDamage>stunning</style> at maximum charge");
+            Language.Add(prefix + "UTILITY_FLOW_THRUSTERS_DESCRIPTION", $"Steadily discharge the cannons to <style=cIsUtility>take flight</style>. You can continue to attack for the duration.");//, dealing up to <style=cIsDamage>{100f * LunarDragonStaticValues.utilityBurstThrustersUpperDamageCoefficient}% damage</style>, " +
+                                                                                                                                                                                                  //$"and <style=cIsDamage>stunning</style> at maximum charge");
             #endregion
 
             #region Special
-            Language.Add(prefix + "SPECIAL_BOMB_NAME", "Draco Ascent");
-            Language.Add(prefix + "SPECIAL_BOMB_DESCRIPTION", $"Throw a bomb for <style=cIsDamage>{100f * LunarDragonStaticValues.bombDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "SPECIAL_AMBUSH_NAME", "Draco Ambush");
+            Language.Add(prefix + "SPECIAL_AMBUSH_DESCRIPTION", $"Soar into the skies to <style=cIsUtility>take aim</style>. Crash-land on the target position, dealing damage <style=cIsDamage>{100f * LunarDragonStaticValues.specialAscentDamageCoefficient}% damage in a large area.</style>.");
             #endregion
 
             #region Achievements

@@ -83,14 +83,14 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                     animationStateName = "PrimaryShoot1";
                     projectilePrefab = LunarDragonAssets.fireballPrefab;
                     muzzleflashEffectPrefab = muzzleflashLeft;
-                    PlayCrossfade("Gesture1, Additive", animationStateName, "Blitz.playbackRate", duration, 0.025f);
+                    PlayCrossfade("LeftCannon, Additive", animationStateName, "Blitz.playbackRate", duration, 0.025f);
                     break;
                 case Cannon.Right:
                     muzzleString = "MuzzleRight";
                     animationStateName = "PrimaryShoot2";
                     projectilePrefab = LunarDragonAssets.iceballPrefab;
                     muzzleflashEffectPrefab = muzzleflashRight;
-                    PlayCrossfade("Gesture2, Additive", animationStateName, "Blitz.playbackRate", duration, 0.025f);
+                    PlayCrossfade("RightCannon, Additive", animationStateName, "Blitz.playbackRate", duration, 0.025f);
                     break;
                 case Cannon.Middle:
                     muzzleString = "MuzzleCenter";
