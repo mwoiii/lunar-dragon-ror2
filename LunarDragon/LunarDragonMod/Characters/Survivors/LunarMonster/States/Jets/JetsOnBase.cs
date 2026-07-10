@@ -5,7 +5,7 @@ using static LunarDragonMod.Characters.Survivors.LunarMonster.States.LunarDragon
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
     // Code copied from JetpackOn, modified for custom jets
-    public class JetsOn : BaseState {
+    public class JetsOnBase : BaseState {
 
         public JetDirection jetDirection;
 
@@ -21,13 +21,9 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
         private const float hoverAcceleration = 60f;
 
-        private Transform jetLeftEffect;
+        protected Transform jetLeftEffect;
 
-        private Transform jetRightEffect;
-
-        public JetsOn(JetDirection jetDirection) {
-            this.jetDirection = jetDirection;
-        }
+        protected Transform jetRightEffect;
 
         public override void Reset() {
             base.Reset();
@@ -35,19 +31,15 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
             jetRightEffect = null;
         }
 
+        protected virtual void GetJetEffects() {
+            jetLeftEffect = FindModelChild("JetLeftBottom");
+            jetRightEffect = FindModelChild("JetRightBottom");
+        }
+
         public override void OnEnter() {
             base.OnEnter();
 
-            switch (jetDirection) {
-                case JetDirection.Front:
-                    jetLeftEffect = FindModelChild("JetLeftFront");
-                    jetRightEffect = FindModelChild("JetRightFront");
-                    break;
-                default:
-                    jetLeftEffect = FindModelChild("JetLeftBottom");
-                    jetRightEffect = FindModelChild("JetRightBottom");
-                    break;
-            }
+            GetJetEffects();
 
             if (jetLeftEffect) {
                 jetLeftEffect.gameObject.SetActive(true);

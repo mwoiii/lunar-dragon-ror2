@@ -1,6 +1,5 @@
 ﻿using EntityStates;
 using LunarDragonMod.Survivors.LunarDragon;
-using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System;
@@ -20,8 +19,6 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         public float damageCoefficient = LunarDragonStaticValues.utilityBurstThrustersLowerDamageCoefficient;
 
         public GameObject startEffect;
-
-        public bool shouldFireTrail;
 
         public float turnSpeed;
 
@@ -45,11 +42,9 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         private float dashStopWatch;
 
-        private int originalLayer;
-
-        private DamageTrailDynamic damageTrail;
-
         private float previousTurnSpeed;
+
+        private int originalLayer;
 
         private static GameObject hitEffectPrefab = Addressables.LoadAssetAsync<GameObject>(RoR2_DLC2_Chef.ChefUtilityImpactVFX_prefab).WaitForCompletion();
 
@@ -72,53 +67,35 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             return false;
         }
 
-        private void CreateDamageTrail() {
-            if (!damageTrail && characterBody) {
-                damageTrail = UnityEngine.Object.Instantiate(LunarDragonAssets.fireTrailPrefab, characterBody.transform).GetComponent<DamageTrailDynamic>();
-                damageTrail.transform.position = characterBody.corePosition;
-                damageTrail.owner = characterBody.gameObject;
-                damageTrail.dpsCoefficient = 6f;
-                //damageTrailNetID = damageTrail.GetComponent<NetworkIdentity>();
-                //NetworkServer.Spawn(damageTrail.gameObject);
-            }
-        }
-
         private void StartThrustersDash() {
             if (characterDirection) {
                 previousTurnSpeed = characterDirection.turnSpeed;
                 characterDirection.turnSpeed = turnSpeed;
             }
 
-            controller.bodyState.ForceJetsOn(JetDirection.Front);
-
-            if (shouldFireTrail) {
-                CreateDamageTrail();
-            }
-
-            originalLayer = gameObject.layer;
-
-            // idk what this is
-            gameObject.layer = LayerIndex.GetAppropriateFakeLayerForTeam(teamComponent.teamIndex).intVal;
-            characterMotor?.Motor.RebuildCollidableLayers();
-
-            // Util.PlaySound("Play_chef_skill3_start", base.gameObject);
-
-
-            if (isAuthority) {
-                Vector2 vector = Util.Vector3XZToVector2XY(inputBank.aimDirection);
-                characterDirection.moveVector = new Vector3(vector.x, 0f, vector.y).normalized;
+            if (controller && controller.bodyState != null) {
+                controller.bodyState.ForceJetsOn(JetDirection.Front);
             }
 
             if (modelLocator) {
                 modelLocator.normalizeToFloor = true;
             }
 
-            if (characterBody && isAuthority && startEffect) {
-                EffectManager.SpawnEffect(startEffect, new EffectData {
-                    origin = characterBody.corePosition
-                }, true);
+            if (isAuthority) {
+                Vector2 vector = Util.Vector3XZToVector2XY(inputBank.aimDirection);
+                characterDirection.moveVector = new Vector3(vector.x, 0f, vector.y).normalized;
+                if (characterBody && startEffect) {
+                    EffectManager.SpawnEffect(startEffect, new EffectData {
+                        origin = characterBody.corePosition
+                    }, true);
+                }
+
+                originalLayer = gameObject.layer;
+                gameObject.layer = LayerIndex.GetAppropriateFakeLayerForTeam(teamComponent.teamIndex).intVal;
+                if (characterMotor && characterMotor.Motor) {
+                    characterMotor.Motor.RebuildCollidableLayers();
+                }
             }
-            // Util.PlaySound("Stop_chef_skill3_charge_loop", base.gameObject);
 
             if (shouldActivateHitbox) {
                 PerformAttack();
@@ -129,6 +106,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             if (!isAuthority) {
                 return;
             }
+
             HitBoxGroup hitBoxGroup = null;
             Transform transform = GetModelTransform();
             if (transform) {
@@ -151,12 +129,19 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         }
 
         private void ExitThrustersDash() {
-            if (characterDirection) {
-                characterDirection.turnSpeed = previousTurnSpeed;
-            }
+            if (isAuthority) {
+                gameObject.layer = originalLayer;
+                if (characterMotor && characterMotor.Motor) {
+                    characterMotor.Motor.RebuildCollidableLayers();
+                }
 
-            if (damageTrail) {
-                damageTrail.active = false;
+                if (characterDirection) {
+                    characterDirection.turnSpeed = previousTurnSpeed;
+                }
+
+                if (!outer.destroying && characterBody) {
+                    characterBody.isSprinting = false;
+                }
             }
 
             if (modelAnimator) {
@@ -164,17 +149,6 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 if (isGrounded) {
                     PlayAnimation("OuterCannons, Override", "FlipCannons");
                 }
-            }
-
-            gameObject.layer = originalLayer;
-            characterMotor?.Motor.RebuildCollidableLayers();
-            if (!outer.destroying && characterBody) {
-                // if ((bool)endEffectPrefab && base.isAuthority) {
-                //     EffectManager.SpawnEffect(endEffectPrefab, new EffectData {
-                //         origin = base.characterBody.corePosition
-                //     }, transmit: true);
-                // }
-                characterBody.isSprinting = false;
             }
         }
 
@@ -231,5 +205,4 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             return InterruptPriority.Frozen;
         }
     }
-
 }

@@ -13,6 +13,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Modules.Content.AddEntityState(typeof(BurstThrustersDash));
 
+            Modules.Content.AddEntityState(typeof(BurstThrustersDashTrail));
+
             Modules.Content.AddEntityState(typeof(Eruption));
 
             Modules.Content.AddEntityState(typeof(FlowThrusters));
@@ -27,9 +29,13 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Modules.Content.AddEntityState(typeof(LunarDragonMain));
 
-            Modules.Content.AddEntityState(typeof(JetsOn));
+            Modules.Content.AddEntityState(typeof(JetsOnBase));
 
             Modules.Content.AddEntityState(typeof(JetsOff));
+
+            Modules.Content.AddEntityState(typeof(JetsOnBottom));
+
+            Modules.Content.AddEntityState(typeof(JetsOnFront));
 
             Modules.Content.AddEntityState(typeof(SpawnState));
         }

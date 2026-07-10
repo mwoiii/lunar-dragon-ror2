@@ -1,0 +1,9 @@
+﻿namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
+    public class JetsOnFront : JetsOnBase {
+
+        protected override void GetJetEffects() {
+            jetLeftEffect = FindModelChild("JetLeftFront");
+            jetRightEffect = FindModelChild("JetRightFront");
+        }
+    }
+}

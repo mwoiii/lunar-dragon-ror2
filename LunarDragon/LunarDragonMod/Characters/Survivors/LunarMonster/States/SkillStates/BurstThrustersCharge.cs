@@ -37,68 +37,35 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         public override void OnEnter() {
             base.OnEnter();
-            if (characterDirection) {
-                previousTurnSpeed = characterDirection.turnSpeed;
-            }
-            controller = GetComponent<LunarDragonController>();
             StartChargeThrusters();
         }
 
         public override void OnExit() {
             base.OnExit();
+            ExitChargeThrusters();
         }
 
         private void StartChargeThrusters() {
-            if (controller) {
-                controller.canJump = false;
-            }
-
             chargeDuration = baseChargeDuration / attackSpeedStat;
+            controller = GetComponent<LunarDragonController>();
 
-            if (!characterMotor.isGrounded) {
-                hasFinishedCharging = true;
+            if (isAuthority) {
+                if (characterDirection) {
+                    previousTurnSpeed = characterDirection.turnSpeed;
+                }
+                if (controller) {
+                    controller.canJump = false;
+                }
+                if (!characterMotor.isGrounded) {
+                    hasFinishedCharging = true;
+                }
             }
-
-            // Util.PlaySound("Play_chef_skill3_charge_start", base.gameObject);
         }
-
-        //private void HandleRotation() {
-        //    moveVector = inputBank.moveVector;
-        //    aimDirection = inputBank.aimDirection;
-        //    
-        //    if (useRootMotion) {
-        //        if (hasCharacterMotor) {
-        //            base.characterMotor.moveDirection = Vector3.zero;
-        //        }
-        //        if (hasRailMotor) {
-        //            base.railMotor.inputMoveVector = moveVector;
-        //        }
-        //    } else {
-        //        if (hasCharacterMotor) {
-        //            base.characterMotor.moveDirection = moveVector;
-        //        }
-        //        if (hasRailMotor) {
-        //            base.railMotor.inputMoveVector = moveVector;
-        //        }
-        //    }
-        //    if (!hasRailMotor && hasCharacterDirection) {
-        //        if (hasAimAnimator && aimAnimator.aimType == AimAnimator.AimType.Smart) {
-        //            Vector3 vector = ((moveVector == Vector3.zero) ? base.characterDirection.forward : moveVector);
-        //            float num = Vector3.Angle(aimDirection, vector);
-        //            float num2 = Mathf.Max(aimAnimator.pitchRangeMax + aimAnimator.pitchGiveupRange, aimAnimator.yawRangeMax + aimAnimator.yawGiveupRange);
-        //            base.characterDirection.moveVector = (((bool)base.characterBody && base.characterBody.shouldAim && num > num2) ? aimDirection : vector);
-        //        } else {
-        //            base.characterDirection.moveVector = (((bool)base.characterBody && base.characterBody.shouldAim) ? aimDirection : moveVector);
-        //        }
-        //    }
-        //    
-        //}
 
         public override void FixedUpdate() {
             base.FixedUpdate();
 
-            if (hasFinishedCharging) {
-                ExitChargeThrusters();
+            if (isAuthority && hasFinishedCharging) {
                 SetupDashState();
             } else {
                 ChargeThrustersFixedUpdate();
@@ -106,13 +73,11 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         }
 
         private void SetupDashState() {
-            BurstThrustersDash nextState = new BurstThrustersDash {
-                duration = Mathf.Max(0.5f, currentCharge * 2f), // 0.5, 2, 4
-                damageCoefficient = currentCharge > 1 ? LunarDragonStaticValues.utilityBurstThrustersUpperDamageCoefficient : LunarDragonStaticValues.utilityBurstThrustersLowerDamageCoefficient,
-                shouldActivateHitbox = currentCharge > 0,
-                shouldFireTrail = currentCharge > 1,
-                turnSpeed = currentCharge >= 1 ? turnSpeedDash : previousTurnSpeed
-            };
+            BurstThrustersDash nextState = currentCharge > 1 ? new BurstThrustersDashTrail() : new BurstThrustersDash();
+            nextState.duration = Mathf.Max(0.5f, currentCharge * 2f); // 0.5, 2, 4
+            nextState.damageCoefficient = currentCharge > 1 ? LunarDragonStaticValues.utilityBurstThrustersUpperDamageCoefficient : LunarDragonStaticValues.utilityBurstThrustersLowerDamageCoefficient;
+            nextState.shouldActivateHitbox = currentCharge > 0;
+            nextState.turnSpeed = currentCharge >= 1 ? turnSpeedDash : previousTurnSpeed;
 
             if (currentCharge == 0) {
                 nextState.speedMultiplier = 1.8f;
@@ -142,13 +107,13 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
         }
 
         private void ChargeThrustersFixedUpdate() {
-            if (gearCharge > chargeThresholds[0]) {
+            if (isAuthority && gearCharge > chargeThresholds[0]) {
                 characterMotor.walkSpeedPenaltyCoefficient = penaltyCoefficient;
+                characterBody.SetSpreadBloom(gearCharge);
+                characterBody.SetAimTimer(3f);
             }
 
             gearCharge = Mathf.Clamp01(fixedAge / chargeDuration);
-            characterBody.SetSpreadBloom(gearCharge);
-            characterBody.SetAimTimer(3f);
 
             // triggers each time a threshold is reached
             if (gearCharge >= minChargeForChargedAttack && gearCharge != 1f && gearCharge >= chargeThresholds[currentCharge]) {
@@ -156,28 +121,19 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 switch (currentCharge) {
                     case 1:
                         PlayCrossfade("FullBody, Override", "UtilityCharge", "Charge.playbackRate", chargeDuration * 0.5f, chargeDuration * 0.2f);
-                        if (characterDirection) {
+                        if (isAuthority && characterDirection) {
                             characterDirection.turnSpeed = turnSpeedCharge;
                         }
                         break;
                     case 2:
-                        if (controller && controller.bodyState != null) {
+                        if (isAuthority && controller && controller.bodyState != null) {
                             controller.bodyState.ForceJetsOn(LunarDragonMain.JetDirection.Front);
                         }
                         break;
                 }
             }
 
-            ChargeThrustersAuthorityFixedUpdate();
-        }
-
-        private void ChargeThrustersAuthorityFixedUpdate() {
-            if (!isAuthority) {
-                return;
-            }
-
-            // baseskillstate for networking
-            if (inputBank.skill3.justReleased || gearCharge >= chargeThresholds[^1]) {
+            if (isAuthority && inputBank.skill3.justReleased || gearCharge >= chargeThresholds[^1]) {
                 hasFinishedCharging = true;
             }
         }
@@ -189,28 +145,31 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 PlayCrossfade("FullBody, Override", "UtilityFire", 0.005f);
             }
 
-            if (characterBody && characterBody.teamComponent) {
-                BlastAttack blastAttack = new BlastAttack {
-                    attacker = characterBody.gameObject,
-                    baseDamage = characterBody.damage * (2f + 6f * gearCharge),
-                    crit = characterBody.RollCrit(),
-                    falloffModel = BlastAttack.FalloffModel.None,
-                    inflictor = characterBody.gameObject,
-                    position = characterBody.transform.position,
-                    procChainMask = default(ProcChainMask),
-                    baseForce = 200f + 1200f * gearCharge,
-                    procCoefficient = 1f,
-                    radius = 4f + 10f * gearCharge,
-                    teamIndex = characterBody.teamComponent.teamIndex,
-                    damageType = DamageType.IgniteOnHit
-                };
-                blastAttack.Fire();
-            }
-
             GetModelAnimator().SetBool("inUtilityLoop", true);
-            characterMotor.walkSpeedPenaltyCoefficient = 1f;
-            if (controller) {
-                controller.canJump = true;
+
+            if (isAuthority) {
+                if (characterBody && characterBody.teamComponent) {
+                    BlastAttack blastAttack = new BlastAttack {
+                        attacker = characterBody.gameObject,
+                        baseDamage = characterBody.damage * (2f + 6f * gearCharge),
+                        crit = characterBody.RollCrit(),
+                        falloffModel = BlastAttack.FalloffModel.None,
+                        inflictor = characterBody.gameObject,
+                        position = characterBody.transform.position,
+                        procChainMask = default(ProcChainMask),
+                        baseForce = 200f + 1200f * gearCharge,
+                        procCoefficient = 1f,
+                        radius = 4f + 10f * gearCharge,
+                        teamIndex = characterBody.teamComponent.teamIndex,
+                        damageType = DamageType.IgniteOnHit
+                    };
+                    blastAttack.Fire();
+                }
+
+                characterMotor.walkSpeedPenaltyCoefficient = 1f;
+                if (controller) {
+                    controller.canJump = true;
+                }
             }
         }
 

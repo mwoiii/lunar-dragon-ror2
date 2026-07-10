@@ -85,10 +85,17 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
                 }
 
                 bool requestActivateJetpack = (jumpButtonState && canHover) || forceJetpack;
-                bool jetpackIsActive = jetpackStateMachine.state.GetType() == typeof(JetsOn);
+                bool jetpackIsActive = jetpackStateMachine.state is JetsOnBase;
 
                 if (requestActivateJetpack && !jetpackIsActive) {
-                    jetpackStateMachine.SetNextState(new JetsOn(jetDirection));
+                    switch (jetDirection) {
+                        case JetDirection.Front:
+                            jetpackStateMachine.SetNextState(new JetsOnFront());
+                            break;
+                        default:
+                            jetpackStateMachine.SetNextState(new JetsOnBottom());
+                            break;
+                    }
                 }
 
                 if (!requestActivateJetpack && jetpackIsActive) {
