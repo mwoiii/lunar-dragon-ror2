@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3410562364
+CRC: 4250171745
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6969861e81b0dbc0afcae42197953984
+    Hash: 255a7430ab67dd39b90dc3a56cfcf572
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 862145881abfe7017a9e2a8040990ebf
+    Hash: 20a12b0ef98afcb4f1f10b8f07bb43e9
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -30,6 +30,8 @@ ClassTypes:
 - Class: 65
   Script: {instanceID: 0}
 - Class: 74
+  Script: {instanceID: 0}
+- Class: 90
   Script: {instanceID: 0}
 - Class: 91
   Script: {instanceID: 0}
@@ -108,7 +110,7 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers:
-- AssemblyName: RoR2
+- AssemblyName: Assembly-CSharp
   ClassName: ChildLocator/NameTransformPair
 - AssemblyName: RoR2
   ClassName: RoR2.DamageTypeCombo
@@ -134,6 +136,7 @@ Assets:
 - Assets/LunarDragon/Skills/SecondaryPlasmaball/HeavyPlasmaballProjectile.prefab
 - Assets/LunarDragon/Skills/SecondaryIceball/HeavyIceballProjectile.prefab
 - Assets/LunarDragon/Skills/SecondaryFireball/FireballEruption.prefab
+- Assets/LunarDragon/lunardragon.fbx
 - Assets/LunarDragon/Crosshair/LunarDragonCrosshair.prefab
 - Assets/LunarDragon/Skills/SecondaryIceball/IceballGlacier.prefab
 - Assets/LunarDragon/Skin1/matOrbRight.mat
@@ -145,6 +148,7 @@ Assets:
 - Assets/LunarDragon/Skin2/matOrbRightMastery.mat
 - Assets/LunarDragon/Icons/texMasterySkinIcon.png
 - Assets/LunarDragon/Skin2/matBodyMastery.mat
+- Assets/LunarDragon/CommandoMesh.mesh
 - Assets/LunarDragon/Skin1/matOrbLeft.mat
 - Assets/LunarDragon/Icons/texLunarDragonIcon.png
 - Assets/LunarDragon/Skin1/matCannon.mat

@@ -3,7 +3,37 @@ guid: 701f3761aae8a2b42aa28b1b29349957
 ModelImporter:
   serializedVersion: 21300
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: BodyLight
+    second: {fileID: 2100000, guid: aa055b7db2e7d804dbe2394bca86b49b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: CannonLight
+    second: {fileID: 2100000, guid: 8c60ee8a005bc9b4eb4de34ebfa5f483, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GlowBLue
+    second: {fileID: 2100000, guid: 65e71fb77c483f14faffcce96dfe2d2e, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GlowOrange
+    second: {fileID: 2100000, guid: 8a0de6b46c62e3b4094bc94dc373ab67, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: GlowWhite
+    second: {fileID: 2100000, guid: baffa2bcb5baa8042a61fdadbce5cc47, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LimbsLight
+    second: {fileID: 2100000, guid: 196bf9e2c61eec845bc7fd9ce1454bd1, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -1076,7 +1106,7 @@ ModelImporter:
       maskType: 3
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
@@ -1101,7 +1131,7 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
-    meshOptimizationFlags: -1
+    meshOptimizationFlags: 0
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
@@ -1117,7 +1147,7 @@ ModelImporter:
     tangentImportMode: 3
     normalCalculationMode: 4
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
-    blendShapeNormalImportMode: 1
+    blendShapeNormalImportMode: 2
     normalSmoothingSource: 0
   referencedClips: []
   importAnimation: 1
@@ -1691,5 +1721,5 @@ ModelImporter:
   remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
-  assetBundleName: 
+  assetBundleName: lunardragonbundle
   assetBundleVariant: 
