@@ -99,8 +99,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         private static void CreateJetEffect() {
             jetEffectPrefab = PrefabAPI.CreateEmptyPrefab("JetEffect", false);
-            jetEffectPrefab.transform.position = new Vector3(0.001f, 0f, 0f);
-            jetEffectPrefab.transform.localScale = new Vector3(0.0007f, 0.0007f, 0.006f);
+            jetEffectPrefab.transform.localScale = new Vector3(0.1834f, 0.1834f, 1.572f);
             jetEffectPrefab.transform.eulerAngles = new Vector3(0f, 90f, 0f);
 
             TryBuildAsset("Jet Effect Components", () => {

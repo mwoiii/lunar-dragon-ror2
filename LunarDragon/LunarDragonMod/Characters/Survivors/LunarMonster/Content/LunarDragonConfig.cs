@@ -1,16 +1,13 @@
 ﻿using BepInEx.Configuration;
 using LunarDragonMod.Modules;
 
-namespace LunarDragonMod.Survivors.LunarDragon
-{
-    public static class LunarDragonConfig
-    {
+namespace LunarDragonMod.Survivors.LunarDragon {
+    public static class LunarDragonConfig {
         public static ConfigEntry<bool> someConfigBool;
         public static ConfigEntry<float> someConfigFloat;
         public static ConfigEntry<float> someConfigFloatWithCustomRange;
 
-        public static void Init()
-        {
+        public static void Init() {
             string section = "LunarDragon";
 
             someConfigBool = Config.BindAndOptions(

@@ -128,6 +128,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             AddHitboxes();
             SetupAkBanks();
             bodyPrefab.AddComponent<LunarDragonController>();
+            bodyPrefab.GetComponent<Interactor>().maxInteractionDistance = 8f;
         }
 
         private void SetupAkBanks() {

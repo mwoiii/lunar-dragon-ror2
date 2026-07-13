@@ -1,4 +1,5 @@
-﻿using LunarDragonMod.Modules.Characters;
+﻿using KinematicCharacterController;
+using LunarDragonMod.Modules.Characters;
 using R2API;
 using RoR2;
 using RoR2.CharacterAI;
@@ -252,12 +253,20 @@ namespace LunarDragonMod.Modules {
         }
 
         private static void SetupCapsuleCollider(GameObject prefab) {
-            //character collider MUST be commando's size!
+            float radius = 1.8f;
+            Vector3 center = Vector3.zero;
+            float height = 4.8f;
+            int direction = 1;
+            float yOffset = 1.3f;
             CapsuleCollider capsuleCollider = prefab.GetComponent<CapsuleCollider>();
-            capsuleCollider.center = new Vector3(0f, 0f, 0f);
-            capsuleCollider.radius = 0.5f;
-            capsuleCollider.height = 1.82f;
-            capsuleCollider.direction = 1;
+            capsuleCollider.center = center;
+            capsuleCollider.radius = radius;
+            capsuleCollider.height = height;
+            capsuleCollider.direction = direction;
+            KinematicCharacterMotor motor = prefab.GetComponent<KinematicCharacterMotor>();
+            motor.CapsuleRadius = radius;
+            motor.CapsuleHeight = height;
+            motor.CapsuleYOffset = yOffset;
         }
         #endregion body setup
 
