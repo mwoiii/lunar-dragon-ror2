@@ -661,7 +661,9 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Utility Heavy Explosion Effect", () => {
                 Transform particles = utilityDashHeavyEffect.transform.Find("Particles");
                 particles.transform.localScale = Vector3.one * 2f;
-                particles.Find("Point light").GetComponent<Light>().color = new Color(1f, 0.72f, 0f);
+                Light pointLight = particles.Find("Point light").GetComponent<Light>();
+                pointLight.color = new Color(1f, 0.72f, 0f);
+                pointLight.range = 30f;
                 ParticleSystemRenderer psr = particles.Find("Fire").GetComponent<ParticleSystemRenderer>();
                 Material matFire = new Material(psr.sharedMaterial);
                 matFire.shader = Addressables.LoadAssetAsync<Shader>(RoR2_Base_Shaders.HGOpaqueCloudRemap_shader).WaitForCompletion();
@@ -677,6 +679,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Utility Medium Explosion Effect", () => {
                 Transform particles = utilityDashMediumEffect.transform.Find("Particles");
                 particles.transform.localScale = Vector3.one * 1.5f;
+                particles.Find("Sparks_Ps").transform.localScale = Vector3.one * 0.5f;
+                particles.Find("Point light").GetComponent<Light>().range = 15f;
                 Object.Destroy(particles.Find("Fire, Linger").gameObject);
                 Object.Destroy(particles.Find("RockBurst_Ps").gameObject);
             });
@@ -685,6 +689,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Utility Light Explosion Effect", () => {
                 Transform particles = utilityDashLightEffect.transform.Find("Particles");
                 particles.transform.localScale = Vector3.one * 1.2f;
+                particles.Find("Point light").GetComponent<Light>().range = 10f;
                 Object.Destroy(particles.Find("Fire, Linger").gameObject);
                 Object.Destroy(particles.Find("RockBurst_Ps").gameObject);
                 Object.Destroy(particles.Find("Sparks_Ps").gameObject);
