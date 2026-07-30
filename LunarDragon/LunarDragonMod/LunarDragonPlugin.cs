@@ -32,7 +32,7 @@ namespace LunarDragonMod {
             Modules.Language.Init();
 
             DamageTypeCollection.Init();
-            new LunarMonsterSurvivor().Init();
+            new LunarDragonSurvivor().Init();
 
             RoR2Application.onLoadFinished += OnLoadFinished;
 

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1563548913
+CRC: 2309837162
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0263b666b8cc917c298909bdddd89e75
+    Hash: 4a92186efcca1739cd6f77fe606770e7
   TypeTreeHash:
     serializedVersion: 2
     Hash: 20a12b0ef98afcb4f1f10b8f07bb43e9
@@ -150,6 +150,7 @@ Assets:
 - Assets/LunarDragon/Skin2/matBodyMastery.mat
 - Assets/LunarDragon/Skin1/matOrbLeft.mat
 - Assets/LunarDragon/Icons/texLunarDragonIcon.png
+- Assets/LunarDragon/Icons/texWIPIcon.png
 - Assets/LunarDragon/Skin1/matCannon.mat
 - Assets/LunarDragon/Skin1/matBody.mat
 - Assets/LunarDragon/Skin2/matLimbsMastery.mat

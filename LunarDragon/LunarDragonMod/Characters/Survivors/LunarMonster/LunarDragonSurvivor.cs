@@ -1,17 +1,16 @@
-﻿using LunarDragonMod.Characters.Survivors.LunarMonster.States;
-using LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates;
+﻿using LunarDragonMod.Characters.Survivors.LunarMonster.Content;
+using LunarDragonMod.Characters.Survivors.LunarMonster.States;
 using LunarDragonMod.Modules;
 using LunarDragonMod.Modules.Characters;
 using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
-using RoR2.Skills;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace LunarDragonMod.Survivors.LunarDragon {
-    public class LunarMonsterSurvivor : SurvivorBase<LunarMonsterSurvivor> {
+    public class LunarDragonSurvivor : SurvivorBase<LunarDragonSurvivor> {
         public override string bodyName => "LunarDragonBody";
 
         public override string masterName => "LunarDragonMonsterMaster";
@@ -30,7 +29,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             subtitleNameToken = LUNAR_DRAGON_PREFIX + "SUBTITLE",
 
             characterPortrait = assetBundle.LoadAsset<Texture>("texLunarDragonIcon"),
-            bodyColor = Color.white,
+            bodyColor = new Color(0.67f, 0.65f, 0.74f),
             sortPosition = 100,
 
             crosshair = assetBundle.LoadAsset<GameObject>("LunarDragonCrosshair"), // Asset.LoadCrosshair("Standard"),
@@ -120,8 +119,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             InitializeCharacterMaster();
 
             AdditionalBodySetup();
-
-            AddHooks();
         }
 
         private void AdditionalBodySetup() {
@@ -154,7 +151,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             }
 
             deathBehavior.deathState = new EntityStates.SerializableEntityStateType(typeof(DeathState));
-
         }
 
         public void AddHitboxes() {
@@ -178,271 +174,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         #region skills
         public override void InitializeSkills() {
-            //remove the genericskills from the commando body we cloned
             Skills.ClearGenericSkills(bodyPrefab);
-            //add our own
-            //AddPassiveSkill();
-            AddPrimarySkills();
-            AddSecondarySkills();
-            AddUtilitySkills();
-            AddSpecialSkills();
+            LunarDragonSkills.Init(bodyPrefab);
         }
 
-        //skip if you don't have a passive
-        //also skip if this is your first look at skills
-        private void AddPassiveSkill() {
-            //option 1. fake passive icon just to describe functionality we will implement elsewhere
-            bodyPrefab.GetComponent<SkillLocator>().passiveSkill = new SkillLocator.PassiveSkill {
-                enabled = true,
-                skillNameToken = LUNAR_DRAGON_PREFIX + "PASSIVE_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "PASSIVE_DESCRIPTION",
-                keywordToken = "KEYWORD_STUNNING",
-                icon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
-            };
-
-            //option 2. a new SkillFamily for a passive, used if you want multiple selectable passives
-            GenericSkill passiveGenericSkill = Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, "PassiveSkill");
-            SkillDef passiveSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo {
-                skillName = "LunarDragonPassive",
-                skillNameToken = LUNAR_DRAGON_PREFIX + "PASSIVE_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "PASSIVE_DESCRIPTION",
-                keywordTokens = new string[] { "KEYWORD_AGILE" },
-                skillIcon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
-
-                //unless you're somehow activating your passive like a skill, none of the following is needed.
-                //but that's just me saying things. the tools are here at your disposal to do whatever you like with
-
-                //activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.Shoot)),
-                //activationStateMachineName = "Weapon1",
-                //interruptPriority = EntityStates.InterruptPriority.Skill,
-
-                //baseRechargeInterval = 1f,
-                //baseMaxStock = 1,
-
-                //rechargeStock = 1,
-                //requiredStock = 1,
-                //stockToConsume = 1,
-
-                //resetCooldownTimerOnUse = false,
-                //fullRestockOnAssign = true,
-                //dontAllowPastMaxStocks = false,
-                //mustKeyPress = false,
-                //beginSkillCooldownOnSkillEnd = false,
-
-                //isCombatSkill = true,
-                //canceledFromSprinting = false,
-                //cancelSprintingOnActivation = false,
-                //forceSprintDuringState = false,
-
-            });
-            Skills.AddSkillsToFamily(passiveGenericSkill.skillFamily, passiveSkillDef1);
-        }
-
-        //if this is your first look at skilldef creation, take a look at Secondary first
-        private void AddPrimarySkills() {
-            Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Primary);
-
-            //the primary skill is created using a constructor for a typical primary
-            //it is also a SteppedSkillDef. Custom Skilldefs are very useful for custom behaviors related to casting a skill. see ror2's different skilldefs for reference
-            SteppedSkillDef primarySkillDef1 = Skills.CreateSkillDef<SteppedSkillDef>(new SkillDefInfo
-                (
-                    "LunarDragonElementalBlitz",
-                    LUNAR_DRAGON_PREFIX + "PRIMARY_ELEMENTAL_BLITZ_NAME",
-                    LUNAR_DRAGON_PREFIX + "PRIMARY_ELEMENTAL_BLITZ_DESCRIPTION",
-                    assetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
-                    new EntityStates.SerializableEntityStateType(typeof(ElementalBlitz)),
-                    "Weapon",
-                    false
-                ));
-            //custom Skilldefs can have additional fields that you can set manually
-            primarySkillDef1.stepCount = 3;
-            primarySkillDef1.stepGraceDuration = 1f;
-
-            Skills.AddPrimarySkills(bodyPrefab, primarySkillDef1);
-        }
-
-        private void AddSecondarySkills() {
-            Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Secondary);
-
-            //here is a basic skill def with all fields accounted for
-            SkillDef secondarySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo {
-                skillName = "LunarDragonEruption",
-                skillNameToken = LUNAR_DRAGON_PREFIX + "SECONDARY_ERUPTION_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SECONDARY_ERUPTION_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
-
-                activationState = new EntityStates.SerializableEntityStateType(typeof(Eruption)),
-                activationStateMachineName = "Weapon",
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-
-                baseRechargeInterval = 12f,
-                baseMaxStock = 1,
-
-                rechargeStock = 1,
-                requiredStock = 1,
-                stockToConsume = 1,
-
-                resetCooldownTimerOnUse = false,
-                fullRestockOnAssign = true,
-                dontAllowPastMaxStocks = false,
-                mustKeyPress = false,
-                beginSkillCooldownOnSkillEnd = false,
-
-                isCombatSkill = true,
-                canceledFromSprinting = false,
-                cancelSprintingOnActivation = true,
-                forceSprintDuringState = false,
-            });
-
-            SkillDef secondarySkillDef2 = Skills.CreateSkillDef(new SkillDefInfo {
-                skillName = "LunarDragonSurge",
-                skillNameToken = LUNAR_DRAGON_PREFIX + "SECONDARY_SURGE_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SECONDARY_SURGE_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
-
-                activationState = new EntityStates.SerializableEntityStateType(typeof(Surge)),
-                activationStateMachineName = "Weapon2",
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-
-                baseRechargeInterval = 8f,
-                baseMaxStock = 1,
-
-                rechargeStock = 1,
-                requiredStock = 1,
-                stockToConsume = 1,
-
-                resetCooldownTimerOnUse = false,
-                fullRestockOnAssign = true,
-                dontAllowPastMaxStocks = false,
-                mustKeyPress = true,
-                beginSkillCooldownOnSkillEnd = false,
-
-                isCombatSkill = true,
-                canceledFromSprinting = false,
-                cancelSprintingOnActivation = true,
-                forceSprintDuringState = false,
-            });
-
-            SkillDef secondarySkillDef3 = Skills.CreateSkillDef(new SkillDefInfo {
-                skillName = "LunarDragonGlaciate",
-                skillNameToken = LUNAR_DRAGON_PREFIX + "SECONDARY_GLACIATE_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SECONDARY_GLACIATE_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
-
-                activationState = new EntityStates.SerializableEntityStateType(typeof(Glaciate)),
-                activationStateMachineName = "Weapon",
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-
-                baseRechargeInterval = 8f,
-                baseMaxStock = 1,
-
-                rechargeStock = 1,
-                requiredStock = 1,
-                stockToConsume = 1,
-
-                resetCooldownTimerOnUse = false,
-                fullRestockOnAssign = true,
-                dontAllowPastMaxStocks = false,
-                mustKeyPress = false,
-                beginSkillCooldownOnSkillEnd = false,
-
-                isCombatSkill = true,
-                canceledFromSprinting = false,
-                cancelSprintingOnActivation = true,
-                forceSprintDuringState = false,
-            });
-
-            Skills.AddSecondarySkills(bodyPrefab, secondarySkillDef1, secondarySkillDef2, secondarySkillDef3);
-        }
-
-        private void AddUtilitySkills() {
-            Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Utility);
-
-            SkillDef utilitySkillDef1 = Skills.CreateSkillDef(new SkillDefInfo {
-                skillName = "LunarDragonBurstThrusters",
-                skillNameToken = LUNAR_DRAGON_PREFIX + "UTILITY_BURST_THRUSTERS_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "UTILITY_BURST_THRUSTERS_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
-
-                activationState = new EntityStates.SerializableEntityStateType(typeof(BurstThrustersCharge)),
-                activationStateMachineName = "Weapon",
-                interruptPriority = EntityStates.InterruptPriority.PrioritySkill,
-
-                baseRechargeInterval = 2f,
-                baseMaxStock = 1,
-
-                rechargeStock = 1,
-                requiredStock = 1,
-                stockToConsume = 1,
-
-                resetCooldownTimerOnUse = false,
-                fullRestockOnAssign = true,
-                dontAllowPastMaxStocks = false,
-                mustKeyPress = false,
-                beginSkillCooldownOnSkillEnd = true,
-
-                isCombatSkill = false,
-                canceledFromSprinting = false,
-                cancelSprintingOnActivation = false,
-                forceSprintDuringState = false,
-            });
-
-            SkillDef utilitySkillDef2 = Skills.CreateSkillDef(new SkillDefInfo {
-                skillName = "LunarDragonFlowThrusters",
-                skillNameToken = LUNAR_DRAGON_PREFIX + "UTILITY_FLOW_THRUSTERS_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "UTILITY_FLOW_THRUSTERS_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
-
-                activationState = new EntityStates.SerializableEntityStateType(typeof(FlowThrusters)),
-                activationStateMachineName = "Body",
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-
-                baseRechargeInterval = 7f,
-                baseMaxStock = 1,
-
-                rechargeStock = 1,
-                requiredStock = 1,
-                stockToConsume = 1,
-
-                resetCooldownTimerOnUse = false,
-                fullRestockOnAssign = true,
-                dontAllowPastMaxStocks = false,
-                mustKeyPress = false,
-                beginSkillCooldownOnSkillEnd = true,
-
-                isCombatSkill = false,
-                canceledFromSprinting = false,
-                cancelSprintingOnActivation = false,
-                forceSprintDuringState = false,
-            });
-
-            Skills.AddUtilitySkills(bodyPrefab, utilitySkillDef1, utilitySkillDef2);
-        }
-
-        private void AddSpecialSkills() {
-            Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, SkillSlot.Special);
-
-            //a basic skill. some fields are omitted and will just have default values
-            SkillDef specialSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo {
-                skillName = "LunarDragonAmbush",
-                skillNameToken = LUNAR_DRAGON_PREFIX + "SPECIAL_AMBUSH_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SPECIAL_AMBUSH_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSpecialIcon"),
-
-                activationState = new EntityStates.SerializableEntityStateType(typeof(SkillStates.DracoAmbushAscent)),
-                //setting this to the "weapon2" EntityStateMachine allows us to cast this skill at the same time primary, which is set to the "weapon" EntityStateMachine
-                activationStateMachineName = "Body",
-                interruptPriority = EntityStates.InterruptPriority.Skill,
-
-                baseMaxStock = 1,
-                baseRechargeInterval = 10f,
-
-                isCombatSkill = true,
-                mustKeyPress = false,
-            });
-
-            Skills.AddSpecialSkills(bodyPrefab, specialSkillDef1);
-        }
         #endregion skills
 
         #region skins
@@ -485,7 +220,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         }
         #endregion skins
 
-        //Character Master is what governs the AI of your character when it is not controlled by a player (artifact of vengeance, goobo)
         public override void InitializeCharacterMaster() {
             //you must only do one of these. adding duplicate masters breaks the game.
 
@@ -497,17 +231,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             //how to load a master set up in unity, can be an empty gameobject with just AISkillDriver components
             //assetBundle.LoadMaster(bodyPrefab, masterName);
-        }
-
-        private void AddHooks() {
-            R2API.RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
-        }
-
-        private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, R2API.RecalculateStatsAPI.StatHookEventArgs args) {
-
-            if (sender.HasBuff(LunarDragonBuffs.armorBuff)) {
-                args.armorAdd += 300;
-            }
         }
     }
 }
