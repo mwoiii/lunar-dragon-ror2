@@ -74,7 +74,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             }
 
             if (controller && controller.bodyState != null) {
-                controller.bodyState.ForceJetsOn(JetDirection.Front);
+                controller.bodyState.ForceJetsOn();
             }
 
             if (modelLocator) {

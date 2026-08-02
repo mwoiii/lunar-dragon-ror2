@@ -54,7 +54,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         public static GameObject fireTrailPrefab;
 
         internal static void LoadAssetBundle(string bundleName) {
-
             try {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"LunarDragonMod.{bundleName}")) {
                     if (assetStream != null) {

@@ -1,6 +1,7 @@
 ﻿using EntityStates;
 using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
+using System;
 using UnityEngine;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
@@ -9,16 +10,12 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
     // Should only ever be one in existence, on Body state machine
 
     public class LunarDragonMain : GenericCharacterMain {
-        public enum JetDirection {
-            Bottom,
-            Front
-        }
 
         public LunarDragonController controller;
 
         protected bool forceJetpack;
 
-        protected JetDirection jetDirection;
+        public Type jetState = typeof(JetsOnBottom);
 
         protected EntityStateMachine jetpackStateMachine;
 
@@ -88,14 +85,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
                 bool jetpackIsActive = jetpackStateMachine.state is JetsOnBase;
 
                 if (requestActivateJetpack && !jetpackIsActive) {
-                    switch (jetDirection) {
-                        case JetDirection.Front:
-                            jetpackStateMachine.SetNextState(new JetsOnFront());
-                            break;
-                        default:
-                            jetpackStateMachine.SetNextState(new JetsOnBottom());
-                            break;
-                    }
+                    jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(jetState));
                 }
 
                 if (!requestActivateJetpack && jetpackIsActive) {
@@ -115,9 +105,11 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
             base.OnExit();
         }
 
-        public void ForceJetsOn(JetDirection direction) {
+        public void ForceJetsOn(Type jetState = null) {
             forceJetpack = true;
-            jetDirection = direction;
+            if (jetState != null) {
+                this.jetState = jetState;
+            }
         }
     }
 }

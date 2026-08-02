@@ -37,6 +37,12 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Modules.Content.AddEntityState(typeof(JetsOnFront));
 
+            Modules.Content.AddEntityState(typeof(JetsOnFrontTrailLight));
+
+            Modules.Content.AddEntityState(typeof(JetsOnFrontTrailMedium));
+
+            Modules.Content.AddEntityState(typeof(JetsOnFrontTrailHeavy));
+
             Modules.Content.AddEntityState(typeof(SpawnState));
         }
     }

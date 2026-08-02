@@ -1,13 +1,10 @@
 ﻿using EntityStates;
 using UnityEngine;
-using static LunarDragonMod.Characters.Survivors.LunarMonster.States.LunarDragonMain;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
     // Code copied from JetpackOn, modified for custom jets
     public class JetsOnBase : BaseState {
-
-        public JetDirection jetDirection;
 
         private Animator animator;
 
@@ -75,7 +72,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
         }
 
         public override void OnExit() {
-            base.OnEnter();
+            base.OnExit();
 
             if (jetLeftEffect) {
                 jetLeftEffect.gameObject.SetActive(false);

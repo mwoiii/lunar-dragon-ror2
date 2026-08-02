@@ -86,12 +86,15 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             switch (currentCharge) {
                 case 0:
                     nextState.startEffect = LunarDragonAssets.utilityDashLightEffect;
+                    nextState.jetState = typeof(JetsOnFrontTrailLight);
                     break;
                 case 1:
                     nextState.startEffect = LunarDragonAssets.utilityDashMediumEffect;
+                    nextState.jetState = typeof(JetsOnFrontTrailMedium);
                     break;
                 default:
                     nextState.startEffect = LunarDragonAssets.utilityDashHeavyEffect;
+                    nextState.jetState = typeof(JetsOnFrontTrailHeavy);
                     break;
             }
 
@@ -127,7 +130,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                         break;
                     case 2:
                         if (isAuthority && controller && controller.bodyState != null) {
-                            controller.bodyState.ForceJetsOn(LunarDragonMain.JetDirection.Front);
+                            controller.bodyState.ForceJetsOn(typeof(JetsOnFront));
                         }
                         break;
                 }
