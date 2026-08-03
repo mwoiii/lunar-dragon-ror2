@@ -154,7 +154,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 if (characterBody && characterBody.teamComponent) {
                     BlastAttack blastAttack = new BlastAttack {
                         attacker = characterBody.gameObject,
-                        baseDamage = characterBody.damage * (2f + 6f * gearCharge),
+                        baseDamage = characterBody.damage * (2f + 12f * gearCharge),
                         crit = characterBody.RollCrit(),
                         falloffModel = BlastAttack.FalloffModel.None,
                         inflictor = characterBody.gameObject,

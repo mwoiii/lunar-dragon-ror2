@@ -65,7 +65,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
 
                 while (prevTrailTime > 0.1f) {
                     if (jetLeftTrail.time != prevTrailTime) { // detect an outside influence
-                        break;
+                        yield break;
                     }
 
                     float newTrailTime = Mathf.Lerp(prevTrailTime, 0f, Time.deltaTime * fadeSpeed);

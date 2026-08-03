@@ -658,6 +658,11 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             utilityDashHeavyEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarGolem.LunarGolemDeath_prefab).WaitForCompletion().InstantiateClone("DragonUtilityExplosionHeavy", false);
             TryBuildAsset("Utility Heavy Explosion Effect", () => {
+                ShakeEmitter shake = utilityDashHeavyEffect.GetComponent<ShakeEmitter>();
+                shake.startDelay = 0f;
+                shake.duration = 0.4f;
+                shake.wave.amplitude = 1.8f;
+                shake.wave.frequency = 120f;
                 Transform particles = utilityDashHeavyEffect.transform.Find("Particles");
                 particles.transform.localScale = Vector3.one * 2f;
                 Light pointLight = particles.Find("Point light").GetComponent<Light>();
@@ -676,8 +681,12 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             utilityDashMediumEffect = utilityDashHeavyEffect.InstantiateClone("DragonUtilityExplosionMedium", false);
             TryBuildAsset("Utility Medium Explosion Effect", () => {
+                ShakeEmitter shake = utilityDashMediumEffect.GetComponent<ShakeEmitter>();
+                shake.duration = 0.36f;
+                shake.wave.amplitude = 1.4f;
+                shake.wave.frequency = 80f;
                 Transform particles = utilityDashMediumEffect.transform.Find("Particles");
-                particles.transform.localScale = Vector3.one * 1.5f;
+                particles.transform.localScale = Vector3.one * 2f;
                 particles.Find("Sparks_Ps").transform.localScale = Vector3.one * 0.5f;
                 particles.Find("Point light").GetComponent<Light>().range = 15f;
                 Object.Destroy(particles.Find("Fire, Linger").gameObject);
@@ -686,6 +695,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             utilityDashLightEffect = utilityDashMediumEffect.InstantiateClone("DragonUtilityExplosionLight", false);
             TryBuildAsset("Utility Light Explosion Effect", () => {
+                ShakeEmitter shake = utilityDashLightEffect.GetComponent<ShakeEmitter>();
+                shake.duration = 0.3f;
+                shake.wave.amplitude = 1f;
+                shake.wave.frequency = 60f;
                 Transform particles = utilityDashLightEffect.transform.Find("Particles");
                 particles.transform.localScale = Vector3.one * 1.2f;
                 particles.Find("Point light").GetComponent<Light>().range = 10f;
