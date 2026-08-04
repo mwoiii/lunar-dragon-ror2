@@ -18,8 +18,6 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         public float damageCoefficient = LunarDragonStaticValues.utilityBurstThrustersLowerDamageCoefficient;
 
-        public GameObject startEffect;
-
         public float turnSpeed;
 
         private const float upwardForceMagnitude = 2400f;
@@ -84,11 +82,6 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             if (isAuthority) {
                 Vector2 vector = Util.Vector3XZToVector2XY(inputBank.aimDirection);
                 characterDirection.moveVector = new Vector3(vector.x, 0f, vector.y).normalized;
-                if (characterBody && startEffect) {
-                    EffectManager.SpawnEffect(startEffect, new EffectData {
-                        origin = characterBody.corePosition
-                    }, true);
-                }
 
                 originalLayer = gameObject.layer;
                 gameObject.layer = LayerIndex.GetAppropriateFakeLayerForTeam(teamComponent.teamIndex).intVal;

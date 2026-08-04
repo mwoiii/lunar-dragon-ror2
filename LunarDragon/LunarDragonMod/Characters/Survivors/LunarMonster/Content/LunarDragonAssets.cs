@@ -45,6 +45,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject laserHitEffectPrefab;
 
+        public static GameObject utilitySmokeEffect;
+
         public static GameObject utilityDashLightEffect;
 
         public static GameObject utilityDashMediumEffect;
@@ -84,6 +86,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Primary Laser", CreateLaser);
             TryBuildAsset("Secondary Plasmaball", CreateHeavyPlasmaball);
 
+            TryBuildAsset("Utility Smoke", CreateDashSmoke);
             TryBuildAsset("Utility Dash Explosions", CreateDashExplosions);
             TryBuildAsset("Utility Fire Trail", CreateFireTrail);
         }
@@ -231,6 +234,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         private static void CreateHeavyFireball() {
             heavyFireballPrefab = assetBundle.LoadAsset<GameObject>("HeavyFireballProjectile");
+
+            GameObject heavyFireballEruption = assetBundle.LoadAsset<GameObject>("FireballEruption");
 
             GameObject heavyFireballGhost = PrefabAPI.InstantiateClone(fireballPrefab.GetComponent<ProjectileController>().ghostPrefab, "DragonFireballHeavyGhost", false);
             TryBuildAsset("Secondary Fireball Ghost", () => {
@@ -441,7 +446,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Content.CreateAndAddEffectDef(heavyFireballPlumePrefab);
 
-            plumeShakeSFX = PrefabAPI.CreateEmptyPrefab("FireballHeavyPlume Shake, SFX", false);
+            plumeShakeSFX = PrefabAPI.CreateEmptyPrefab("FireballHeavyPlume Shake, SFX", true);
             TryBuildAsset("Secondary Fireball Plume Shake, SFX", () => {
                 EffectComponent effectComponent = plumeShakeSFX.AddComponent<EffectComponent>();
                 effectComponent.applyScale = true;
@@ -468,7 +473,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Content.CreateAndAddEffectDef(plumeShakeSFX);
 
-            heavyFireballPlumeLargePrefab = heavyFireballPlumePrefab.InstantiateClone("FireballHeavyPlumeLargeVFX", false);
+            heavyFireballPlumeLargePrefab = heavyFireballPlumePrefab.InstantiateClone("FireballHeavyPlumeLargeVFX", true);
             TryBuildAsset("Secondary Fireball Plume Large VFX", () => {
 
                 heavyFireballPlumeLargePrefab.transform.Find("ParticleLoop/Debris, 3D").localScale = Vector3.one * 2f;
@@ -485,7 +490,11 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Content.CreateAndAddEffectDef(heavyFireballPlumeLargePrefab);
 
+            PrefabAPI.RegisterNetworkPrefab(heavyFireballPrefab);
             Content.AddProjectilePrefab(heavyFireballPrefab);
+
+            PrefabAPI.RegisterNetworkPrefab(heavyFireballEruption);
+            Content.AddProjectilePrefab(heavyFireballEruption);
         }
 
 
@@ -652,6 +661,25 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             });
 
             Content.CreateAndAddEffectDef(laserHitEffectPrefab);
+        }
+
+        private static void CreateDashSmoke() {
+
+            utilitySmokeEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Bandit2.Bandit2SmokeBomb_prefab).WaitForCompletion().InstantiateClone("DragonUtilitySmoke", false);
+            TryBuildAsset("Utility Smoke Effect", () => {
+                Transform core = utilitySmokeEffect.transform.Find("Core");
+                core.transform.localScale = Vector3.one * 0.7f;
+                core.transform.localPosition = new Vector3(0f, 1f, -1f);
+                core.Find("Debris, 3D").gameObject.SetActive(true);
+                core.Find("Debris").gameObject.SetActive(true);
+                core.Find("Dust").gameObject.SetActive(true);
+                Object.Destroy(core.Find("Dust, CenterSphere").gameObject);
+                foreach (Transform child in core) {
+                    core.localScale = Vector3.one * 0.5f;
+                }
+            });
+
+            Content.CreateAndAddEffectDef(utilitySmokeEffect);
         }
 
         private static void CreateDashExplosions() {

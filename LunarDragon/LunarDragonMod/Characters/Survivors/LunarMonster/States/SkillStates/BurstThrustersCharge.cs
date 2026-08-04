@@ -83,17 +83,19 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                 nextState.speedMultiplier = 1.8f;
             }
 
+            GameObject startEffect = null;
+
             switch (currentCharge) {
                 case 0:
-                    nextState.startEffect = LunarDragonAssets.utilityDashLightEffect;
+                    startEffect = LunarDragonAssets.utilityDashLightEffect;
                     nextState.jetState = typeof(JetsOnFrontTrailLight);
                     break;
                 case 1:
-                    nextState.startEffect = LunarDragonAssets.utilityDashMediumEffect;
+                    startEffect = LunarDragonAssets.utilityDashMediumEffect;
                     nextState.jetState = typeof(JetsOnFrontTrailMedium);
                     break;
                 default:
-                    nextState.startEffect = LunarDragonAssets.utilityDashHeavyEffect;
+                    startEffect = LunarDragonAssets.utilityDashHeavyEffect;
                     nextState.jetState = typeof(JetsOnFrontTrailHeavy);
                     break;
             }
@@ -102,6 +104,11 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             EntityStateMachine bodyStateMachine = FindSiblingStateMachine("Body");
             if (bodyStateMachine) {
                 bodyStateMachine.SetNextState(nextState);
+                if (characterBody && startEffect) {
+                    EffectManager.SpawnEffect(startEffect, new EffectData {
+                        origin = characterBody.corePosition
+                    }, true);
+                }
             }
             if (characterDirection) {
                 characterDirection.turnSpeed = previousTurnSpeed;
@@ -132,6 +139,10 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
                         if (isAuthority && controller && controller.bodyState != null) {
                             controller.bodyState.ForceJetsOn(typeof(JetsOnFront));
                         }
+                        EffectManager.SpawnEffect(LunarDragonAssets.utilitySmokeEffect, new EffectData {
+                            origin = characterBody.footPosition,
+                            rotation = modelLocator.modelBaseTransform.rotation
+                        }, false);
                         break;
                 }
             }
