@@ -686,6 +686,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             utilityDashHeavyEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LunarGolem.LunarGolemDeath_prefab).WaitForCompletion().InstantiateClone("DragonUtilityExplosionHeavy", false);
             TryBuildAsset("Utility Heavy Explosion Effect", () => {
+                utilityDashHeavyEffect.GetComponent<EffectComponent>().soundName = "Play_MULT_m1_grenade_launcher_explo";
                 ShakeEmitter shake = utilityDashHeavyEffect.GetComponent<ShakeEmitter>();
                 shake.startDelay = 0f;
                 shake.duration = 0.4f;
@@ -723,6 +724,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             utilityDashLightEffect = utilityDashMediumEffect.InstantiateClone("DragonUtilityExplosionLight", false);
             TryBuildAsset("Utility Light Explosion Effect", () => {
+                utilityDashLightEffect.GetComponent<EffectComponent>().soundName = "";
                 ShakeEmitter shake = utilityDashLightEffect.GetComponent<ShakeEmitter>();
                 shake.duration = 0.3f;
                 shake.wave.amplitude = 1f;
@@ -735,6 +737,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 Object.Destroy(particles.Find("Sparks_Ps").gameObject);
                 Object.Destroy(particles.Find("PP").gameObject);
             });
+
+            PlaySoundOnDelay extraSound = utilityDashHeavyEffect.AddComponent<PlaySoundOnDelay>();
+            extraSound.soundString = "Play_GG_Tanker_PuddleIgnite";
+            extraSound.delay = 0f;
 
             Content.CreateAndAddEffectDef(utilityDashLightEffect);
             Content.CreateAndAddEffectDef(utilityDashMediumEffect);
