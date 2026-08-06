@@ -14,9 +14,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         private const float ring1Radius = 7f;
 
-        private const float ring2Radius = 14f;
+        private const float ring2Radius = 12f;
 
-        private const float ring3Radius = 21f;
+        private const float ring3Radius = 17f;
 
         private const float boxesToRadiusRatio = 1f;
 
@@ -88,8 +88,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
                         inflictor = projectileController.owner,
                         position = hitInfo.point,
                         procChainMask = default(ProcChainMask),
-                        physForceFlags = PhysForceFlags.massIsOne | PhysForceFlags.ignoreGroundStick,
-                        bonusForce = direction * 12f + Vector3.up * 8f,
+                        physForceFlags = PhysForceFlags.ignoreGroundStick, // massIsOne kind of sucks for this
+                        bonusForce = direction * 1200f + Vector3.up * 800f,
                         procCoefficient = 0.85f,
                         radius = 4f,
                         teamIndex = teamFilter.teamIndex,

@@ -45,7 +45,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
 
         private ChildLocator childLocator;
 
-        private bool hasFiredHeavyBlitz;
+        private bool hasFired;
 
         private bool holdingKeyFromStart = true;
 
@@ -67,42 +67,35 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
 
         }
 
-        public override void OnExit() {
-            base.OnExit();
-        }
+        protected virtual void FireProjectile() {
+            Util.PlayAttackSpeedSound(attackSoundString, gameObject, attackSoundPitch);
 
-        protected virtual void FireBlitzProjectile() {
-            if (!hasFiredHeavyBlitz) {
-                // base.characterBody.AddSpreadBloom(bloom);
-                Ray ray = GetAimRay();
-                // TrajectoryAimAssist.ApplyTrajectoryAimAssist(ref ray, projectilePrefab, base.gameObject);
+            if (muzzleflashEffectPrefab) {
+                EffectManager.SimpleMuzzleFlash(muzzleflashEffectPrefab, gameObject, muzzleString, transmit: false);
+            }
 
-                if ((bool)childLocator) {
+            if (isAuthority) {
+                if (childLocator) {
                     muzzleTransform = childLocator.FindChild(muzzleString);
                 }
 
-                if (muzzleflashEffectPrefab) {
-                    EffectManager.SimpleMuzzleFlash(muzzleflashEffectPrefab, gameObject, muzzleString, transmit: false);
-                }
-
                 // if aiming at something up close, adjust direction so projectile will still hit despite muzzle distance
+                Ray ray = GetAimRay();
                 Vector3 direction = ray.direction;
                 if (Physics.Raycast(ray, out RaycastHit hitInfo, 600f, LayerIndex.world.mask)) {
                     direction = hitInfo.point - muzzleTransform.position;
                 }
 
-                if (isAuthority) {
-                    FireProjectileInfo fireProjectileInfo = default;
-                    fireProjectileInfo.projectilePrefab = projectilePrefab;
-                    fireProjectileInfo.position = muzzleTransform.position + Vector3.up * 1.5f;
-                    fireProjectileInfo.rotation = Util.QuaternionSafeLookRotation(direction);
-                    fireProjectileInfo.owner = gameObject;
-                    fireProjectileInfo.damage = damageStat * damageCoefficient;
-                    fireProjectileInfo.force = 300f;
-                    fireProjectileInfo.crit = Util.CheckRoll(critStat, characterBody.master);
-                    fireProjectileInfo.damageColorIndex = DamageColorIndex.Default;
-                    ProjectileManager.instance.FireProjectile(fireProjectileInfo);
-                }
+                FireProjectileInfo fireProjectileInfo = default;
+                fireProjectileInfo.projectilePrefab = projectilePrefab;
+                fireProjectileInfo.position = muzzleTransform.position + Vector3.up * 1.5f;
+                fireProjectileInfo.rotation = Util.QuaternionSafeLookRotation(direction);
+                fireProjectileInfo.owner = gameObject;
+                fireProjectileInfo.damage = damageStat * damageCoefficient;
+                fireProjectileInfo.force = 300f;
+                fireProjectileInfo.crit = Util.CheckRoll(critStat, characterBody.master);
+                fireProjectileInfo.damageColorIndex = DamageColorIndex.Default;
+                ProjectileManager.instance.FireProjectile(fireProjectileInfo);
                 ApplyAirborneKnockback(ray.direction, 1800f);
                 AddRecoil(-1f * recoilAmplitude.y, -1.5f * recoilAmplitude.y, -1f * recoilAmplitude.x, 1f * recoilAmplitude.x);
                 characterBody.AddSpreadBloom(bloom);
@@ -120,11 +113,10 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.Ba
 
         public override void FixedUpdate() {
             base.FixedUpdate();
-            if (fixedAge >= duration * fireDelay || hasFiredHeavyBlitz) {
-                if (!hasFiredHeavyBlitz) {
-                    Util.PlayAttackSpeedSound(attackSoundString, gameObject, attackSoundPitch);
-                    FireBlitzProjectile();
-                    hasFiredHeavyBlitz = true;
+            if (fixedAge >= duration * fireDelay || hasFired) {
+                if (!hasFired) {
+                    FireProjectile();
+                    hasFired = true;
                 }
                 if (isAuthority && fixedAge >= duration / attackSpeedStat && canLeaveStateAfterFire) {
                     outer.SetNextStateToMain();

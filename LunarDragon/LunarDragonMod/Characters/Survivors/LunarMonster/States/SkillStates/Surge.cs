@@ -37,8 +37,8 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
             base.OnEnter();
         }
 
-        protected override void FireBlitzProjectile() {
-            base.FireBlitzProjectile();
+        protected override void FireProjectile() {
+            base.FireProjectile();
             hasFired = true;
             searchingCountdown = 5;
         }

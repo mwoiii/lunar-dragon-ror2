@@ -1,5 +1,6 @@
 ﻿using LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.BaseStates;
 using LunarDragonMod.Survivors.LunarDragon;
+using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
@@ -10,11 +11,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         protected override float damageCoefficient => LunarDragonStaticValues.secondaryFireBlastDamageCoefficient;
 
-        // protected override float baseDuration => 0.7f;
-
-        protected override string attackSoundString => "";
-
-        // protected override float attackSoundPitch => 1f;
+        protected override string attackSoundString => "Play_moonBrother_dash";
 
         protected override GameObject muzzleflashEffectPrefab => LunarDragonAssets.heavyFireballMuzzlePrefab;
 
@@ -24,7 +21,15 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
 
         protected override string animationStateName => "SecondaryShoot1";
 
-        // protected override float recoilAmplitude => 0f;
+        private static Wave shakeWave = new Wave() {
+            amplitude = 0.5f,
+            frequency = 20f
+        };
+
+        protected override void FireProjectile() {
+            ShakeEmitter.CreateSimpleShakeEmitter(transform.position, shakeWave, 0.3f, 60f, true);
+            base.FireProjectile();
+        }
 
     }
 }
