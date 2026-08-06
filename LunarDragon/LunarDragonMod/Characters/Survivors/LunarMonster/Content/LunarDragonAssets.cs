@@ -7,6 +7,7 @@ using RoR2;
 using RoR2.Projectile;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Reflection;
+using ThreeEyedGames;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -19,7 +20,11 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject fireballPrefab;
 
+        public static GameObject fireballImpactPrefab;
+
         public static GameObject iceballPrefab;
+
+        public static GameObject iceballImpactPrefab;
 
         public static GameObject iceballMuzzlePrefab;
 
@@ -55,6 +60,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject fireTrailPrefab;
 
+        public static GameObject impactDecalBase;
+
         internal static void LoadAssetBundle(string bundleName) {
             try {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"LunarDragonMod.{bundleName}")) {
@@ -74,6 +81,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             LoadAssetBundle("lunardragonbundle");
 
             LunarDragonPlugin.instance.StartCoroutine(ShaderSwapper.ShaderSwapper.UpgradeStubbedShadersAsync(assetBundle));
+
+            TryBuildAsset("Impact Decal Base", CreateImpactDecalBase);
 
             TryBuildAsset("Jet Effect", CreateJetEffect);
 
@@ -97,6 +106,26 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             } catch (System.Exception e) {
                 Log.Warning($"Failed to complete building asset {assetName}!\n\n{e}");
             }
+        }
+
+        private static void CreateImpactDecalBase() {
+            impactDecalBase = PrefabAPI.CreateEmptyPrefab("ImpactDecal", false);
+
+            TryBuildAsset("Impact Decal Components", () => {
+                MeshRenderer renderer = impactDecalBase.AddComponent<MeshRenderer>();
+                renderer.sharedMaterials = new Material[0];
+                impactDecalBase.AddComponent<MeshFilter>().sharedMesh = Addressables.LoadAssetAsync<Mesh>(Decalicious.DecalCube_asset).WaitForCompletion();
+                impactDecalBase.AddComponent<SetRandomRotation>().setRandomYRotation = true;
+                Decal decal = impactDecalBase.AddComponent<Decal>();
+                decal.Fade = 1f;
+                decal.Material = Addressables.LoadAssetAsync<Material>(RoR2_Base_SurvivorPod.matPodImpactDecal_mat).WaitForCompletion();
+                AnimateShaderAlpha shaderAlpha = impactDecalBase.AddComponent<AnimateShaderAlpha>();
+                shaderAlpha.decal = decal;
+                shaderAlpha.alphaCurve = new AnimationCurve(
+                    new Keyframe(0f, 1f, 0f, -5f),
+                    new Keyframe(3f, 0f, 0f, 0f)
+                );
+            });
         }
 
         private static void CreateJetEffect() {
@@ -169,7 +198,18 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             fireballPrefab.GetComponent<ProjectileController>().ghostPrefab = dragonFireballGhost;
 
-            fireballPrefab.GetComponent<ProjectileImpactExplosion>().impactEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LemurianBruiser.OmniExplosionVFXLemurianBruiserFireballImpact_prefab).WaitForCompletion();
+            TryBuildAsset("Primary Fireball Impact Explosion", () => {
+                fireballImpactPrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LemurianBruiser.OmniExplosionVFXLemurianBruiserFireballImpact_prefab).WaitForCompletion(), "DragonFireballImpact", false);
+                GameObject impactDecal = Object.Instantiate(impactDecalBase, fireballImpactPrefab.transform, false);
+                Material matDecal = new Material(Addressables.LoadAssetAsync<Material>(RoR2_DLC2_Chef.matChefOilPoolFireDecal_mat).WaitForCompletion());
+                matDecal.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampDroneFire_png).WaitForCompletion());
+                impactDecal.GetComponent<Decal>().Material = matDecal;
+                impactDecal.name = "FireImpactDecal";
+                impactDecal.transform.localScale = Vector3.one * 0.8f;
+            });
+
+            fireballPrefab.GetComponent<ProjectileImpactExplosion>().impactEffect = fireballImpactPrefab;
+            Content.CreateAndAddEffectDef(fireballImpactPrefab);
 
             Content.AddProjectilePrefab(fireballPrefab);
         }
@@ -201,10 +241,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             iceballPrefab.GetComponent<ProjectileController>().ghostPrefab = dragonIceballGhost;
 
-            GameObject impactEffect = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_DLC2_Chef.BoostedProjectileExplosionVFX_prefab).WaitForCompletion(), "IceBallExplosionVFX", false);
+            iceballImpactPrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_DLC2_Chef.BoostedProjectileExplosionVFX_prefab).WaitForCompletion(), "IceBallExplosionVFX", false);
             TryBuildAsset("Primary Iceball Impact Explosion", () => {
                 #region BoostedProjectileExplosionVFXimpactEffect.GetComponent<EffectComponent>().soundName = "Play_mage_shift_wall_explode";
-                foreach (Transform child in impactEffect.transform.Find("Dash, Bright")) {
+                foreach (Transform child in iceballImpactPrefab.transform.Find("Dash, Bright")) {
                     ParticleSystem particleSystem = child.GetComponent<ParticleSystem>();
                     ParticleSystem.MainModule main = particleSystem.main;
                     child.localScale = Vector3.one * 0.5f;
@@ -218,16 +258,25 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     main.startSizeMultiplier = 0.5f;
                 }
 
-                ShakeEmitter shakeEmitter = impactEffect.GetComponent<ShakeEmitter>();
+                ShakeEmitter shakeEmitter = iceballImpactPrefab.GetComponent<ShakeEmitter>();
                 shakeEmitter.wave.amplitude = 0.2f;
                 shakeEmitter.wave.frequency = 12f;
                 shakeEmitter.duration = 0.15f;
                 shakeEmitter.radius = 120f;
+
+                GameObject impactDecal = Object.Instantiate(impactDecalBase, iceballImpactPrefab.transform, false);
+                Decal decal = impactDecal.GetComponent<Decal>();
+                Material matDecal = new Material(decal.Material);
+                matDecal.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampIce_png).WaitForCompletion());
+                matDecal.SetColor("_Color", new Color(1f, 1f, 1f, 0.28f));
+                decal.Material = matDecal;
+                impactDecal.name = "IceImpactDecal";
+                impactDecal.transform.localScale = Vector3.one * 10f;
                 #endregion
             });
 
-            Content.CreateAndAddEffectDef(impactEffect);
-            iceballPrefab.GetComponent<ProjectileImpactExplosion>().impactEffect = impactEffect;
+            Content.CreateAndAddEffectDef(iceballImpactPrefab);
+            iceballPrefab.GetComponent<ProjectileImpactExplosion>().impactEffect = iceballImpactPrefab;
 
             Content.AddProjectilePrefab(iceballPrefab);
         }
@@ -375,6 +424,9 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Secondary Fireball Plume VFX", () => {
                 #region VFXScorchlingBurrowing
 
+                Object.Destroy(heavyFireballPlumePrefab.GetComponent<DestroyOnParticleEnd>());
+                heavyFireballPlumePrefab.AddComponent<DestroyOnTimer>().duration = 2f;
+
                 Transform sparks = heavyFireballPlumePrefab.transform.Find("ParticleLoop/Sparks");
                 sparks.localScale = Vector3.one * 1.5f;
                 ParticleSystem.MainModule main = sparks.GetComponent<ParticleSystem>().main;
@@ -442,6 +494,18 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 main.startSizeZ = new ParticleSystem.MinMaxCurve(5f, 10f);
                 main.startRotation = 0f;
                 #endregion
+
+                GameObject impactDecal = Object.Instantiate(impactDecalBase, heavyFireballPlumePrefab.transform, false); AnimateShaderAlpha impactAlpha = impactDecal.GetComponent<AnimateShaderAlpha>();
+                impactAlpha.timeMax = 3f;
+                impactAlpha.alphaCurve = new AnimationCurve(
+                    new Keyframe(0f, 1f, 0f, -5f),
+                    new Keyframe(1f, 0f, 0f, 0f)
+                );
+                Material matDecal = new Material(Addressables.LoadAssetAsync<Material>(RoR2_DLC2_Chef.matChefOilPoolFireDecal_mat).WaitForCompletion());
+                matDecal.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampLunarWispFire_png).WaitForCompletion());
+                impactDecal.GetComponent<Decal>().Material = matDecal;
+                impactDecal.name = "LunarFireImpactDecal";
+                impactDecal.transform.localScale = Vector3.one * 8f;
             });
 
             Content.CreateAndAddEffectDef(heavyFireballPlumePrefab);
@@ -476,6 +540,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             heavyFireballPlumeLargePrefab = heavyFireballPlumePrefab.InstantiateClone("FireballHeavyPlumeLargeVFX", true);
             TryBuildAsset("Secondary Fireball Plume Large VFX", () => {
 
+                Object.Destroy(heavyFireballPlumeLargePrefab.transform.Find("LunarFireImpactDecal").gameObject);
+
+                heavyFireballPlumePrefab.GetComponent<DestroyOnTimer>().duration = 5f;
+
                 heavyFireballPlumeLargePrefab.transform.Find("ParticleLoop/Debris, 3D").localScale = Vector3.one * 2f;
 
                 heavyFireballPlumeLargePrefab.transform.Find("ParticleLoop/DirtMounts").localScale *= 2f;
@@ -486,6 +554,14 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 main.startSizeX = new ParticleSystem.MinMaxCurve(8f, 12f);
                 main.startSizeY = new ParticleSystem.MinMaxCurve(16f, 24f);
                 main.startSizeZ = new ParticleSystem.MinMaxCurve(8f, 12f);
+
+                GameObject impactDecal = Object.Instantiate(impactDecalBase, heavyFireballPlumeLargePrefab.transform, false);
+                Material matDecal = new Material(Addressables.LoadAssetAsync<Material>(RoR2_DLC2_Chef.matChefOilPoolFireDecal_mat).WaitForCompletion());
+                matDecal.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampLunarWispFire_png).WaitForCompletion());
+                impactDecal.GetComponent<Decal>().Material = matDecal;
+                impactDecal.name = "LunarFireImpactDecalLarge";
+                impactDecal.transform.localScale = Vector3.one * 20f;
+
             });
 
             Content.CreateAndAddEffectDef(heavyFireballPlumeLargePrefab);
@@ -496,7 +572,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             PrefabAPI.RegisterNetworkPrefab(heavyFireballEruption);
             Content.AddProjectilePrefab(heavyFireballEruption);
         }
-
 
         private static void CreateHeavyIceball() {
             heavyIceballPrefab = assetBundle.LoadAsset<GameObject>("HeavyIceballProjectile");
@@ -596,6 +671,17 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 shakeEmitter.wave.frequency = 20f;
                 shakeEmitter.duration = 0.15f;
                 shakeEmitter.radius = 120f;
+
+                GameObject impactDecal = Object.Instantiate(impactDecalBase, laserEnd, false);
+                AnimateShaderAlpha impactAlpha = impactDecal.GetComponent<AnimateShaderAlpha>();
+                impactAlpha.timeMax = 0.55f;
+                impactAlpha.alphaCurve = new AnimationCurve(
+                    new Keyframe(0f, 1f, 0f, 0f),
+                    new Keyframe(0.5f, 0.7f, 0f, -5f),
+                    new Keyframe(1f, 0f, 0f, 0f)
+                );
+                impactDecal.name = "LaserImpactDecal";
+                impactDecal.transform.localScale = Vector3.one * 7f;
 
                 Object.Destroy(laserBeam);
                 #endregion

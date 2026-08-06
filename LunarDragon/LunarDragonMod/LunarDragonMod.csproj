@@ -43,9 +43,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="Decalicious">
+	    <HintPath>lib\Decalicious.dll</HintPath>
+		<Private>False</Private>
+	  </Reference>
 	  <Reference Include="ShaderSwapper">
 	    <HintPath>lib\ShaderSwapper.dll</HintPath>
-	    <Private>True</Private>
+	    <Private>False</Private>
 	  </Reference>
 	</ItemGroup>
 
