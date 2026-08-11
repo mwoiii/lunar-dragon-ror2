@@ -56,7 +56,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Content {
                     "LunarDragonElementalBlitz",
                     LUNAR_DRAGON_PREFIX + "PRIMARY_ELEMENTAL_BLITZ_NAME",
                     LUNAR_DRAGON_PREFIX + "PRIMARY_ELEMENTAL_BLITZ_DESCRIPTION",
-                    assetBundle.LoadAsset<Sprite>("texPrimaryIcon"),
+                    assetBundle.LoadAsset<Sprite>("texPrimary1Icon"),
                     new SerializableEntityStateType(typeof(ElementalBlitz)),
                     "Weapon",
                     false
@@ -75,7 +75,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Content {
                 skillName = "LunarDragonEruption",
                 skillNameToken = LUNAR_DRAGON_PREFIX + "SECONDARY_ERUPTION_NAME",
                 skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SECONDARY_ERUPTION_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSecondaryIcon"),
+                skillIcon = assetBundle.LoadAsset<Sprite>("texSecondary1Icon"),
 
                 activationState = new SerializableEntityStateType(typeof(Eruption)),
                 activationStateMachineName = "Weapon",

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2374705989
+CRC: 2271308906
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d5015ac8551ecd733d4bfb0fe2f90083
+    Hash: b00a06c0e820a71a34f2eedc76dca3bb
   TypeTreeHash:
     serializedVersion: 2
     Hash: 20a12b0ef98afcb4f1f10b8f07bb43e9
@@ -132,6 +132,7 @@ SerializeReferenceClassIdentifiers:
   ClassName: UnityEngine.Networking.NetworkSceneId
 Assets:
 - Assets/LunarDragon/LunarDragonDisplay.prefab
+- Assets/LunarDragon/Icons/texPrimary1Icon.png
 - Assets/LunarDragon/Skin2/matOrbLeftMastery.mat
 - Assets/LunarDragon/Skills/SecondaryPlasmaball/HeavyPlasmaballProjectile.prefab
 - Assets/LunarDragon/Skills/SecondaryIceball/HeavyIceballProjectile.prefab
@@ -142,9 +143,10 @@ Assets:
 - Assets/LunarDragon/Skills/SecondaryIceball/IceballGlacier.prefab
 - Assets/LunarDragon/JetTrail/matTrail.mat
 - Assets/LunarDragon/Skin1/matOrbRight.mat
-- Assets/LunarDragon/Skin2/matCannonMastery.mat
+- Assets/LunarDragon/Icons/texSecondary1Icon.png
 - Assets/LunarDragon/Skills/PrimaryFireball/FireballProjectile.prefab
 - Assets/LunarDragon/Skills/SecondaryFireball/HeavyFireballProjectile.prefab
+- Assets/LunarDragon/Skin2/matCannonMastery.mat
 - Assets/LunarDragon/mdlLunarDragon.prefab
 - Assets/LunarDragon/Skin1/matOrbCenter.mat
 - Assets/LunarDragon/Skin2/matOrbRightMastery.mat

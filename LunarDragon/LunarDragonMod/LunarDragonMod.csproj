@@ -15,12 +15,12 @@
 
   <ItemGroup>
     <None Remove=".gitignore" />
-    <None Remove="lunardragonbundle" />
+    <None Remove="mwmwlunardragonbundle" />
     <None Remove="nuget.config" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="lunardragonbundle" />
+    <EmbeddedResource Include="mwmwlunardragonbundle" />
   </ItemGroup>
 
 	<ItemGroup>

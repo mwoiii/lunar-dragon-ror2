@@ -78,7 +78,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         }
 
         public static void Init() {
-            LoadAssetBundle("lunardragonbundle");
+            LoadAssetBundle("mwmwlunardragonbundle");
 
             LunarDragonPlugin.instance.StartCoroutine(ShaderSwapper.ShaderSwapper.UpgradeStubbedShadersAsync(assetBundle));
 
