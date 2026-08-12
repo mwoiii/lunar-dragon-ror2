@@ -169,7 +169,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Content {
                 skillName = "LunarDragonBurstThrusters",
                 skillNameToken = LUNAR_DRAGON_PREFIX + "UTILITY_BURST_THRUSTERS_NAME",
                 skillDescriptionToken = LUNAR_DRAGON_PREFIX + "UTILITY_BURST_THRUSTERS_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texUtilityIcon"),
+                skillIcon = assetBundle.LoadAsset<Sprite>("texUtility1Icon"),
 
                 activationState = new SerializableEntityStateType(typeof(BurstThrustersCharge)),
                 activationStateMachineName = "Weapon",
