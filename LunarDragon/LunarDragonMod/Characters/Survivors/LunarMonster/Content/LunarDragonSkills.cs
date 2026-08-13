@@ -19,7 +19,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Content {
         public static void Init(GameObject bodyPrefab) {
             LunarDragonSkills.bodyPrefab = bodyPrefab;
             assetBundle = LunarDragonAssets.assetBundle;
-            //AddPassiveSkill();
+            AddPassiveSkill();
             AddPrimarySkills();
             AddSecondarySkills();
             AddUtilitySkills();
@@ -32,20 +32,19 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Content {
                 enabled = true,
                 skillNameToken = LUNAR_DRAGON_PREFIX + "PASSIVE_NAME",
                 skillDescriptionToken = LUNAR_DRAGON_PREFIX + "PASSIVE_DESCRIPTION",
-                keywordToken = "KEYWORD_STUNNING",
-                icon = assetBundle.LoadAsset<Sprite>("texPassiveIcon"),
+                icon = assetBundle.LoadAsset<Sprite>("texPassive1Icon"),
             };
 
             //option 2. a new SkillFamily for a passive, used if you want multiple selectable passives
-            GenericSkill passiveGenericSkill = Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, "PassiveSkill");
-            SkillDef passiveSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo {
-                skillName = "LunarDragonPassive",
-                skillNameToken = LUNAR_DRAGON_PREFIX + "PASSIVE_NAME",
-                skillDescriptionToken = LUNAR_DRAGON_PREFIX + "PASSIVE_DESCRIPTION",
-                keywordTokens = new string[] { "KEYWORD_AGILE" },
-                skillIcon = assetBundle.LoadAsset<Sprite>("texPassiveIcon")
-            });
-            Skills.AddSkillsToFamily(passiveGenericSkill.skillFamily, passiveSkillDef1);
+            //GenericSkill passiveGenericSkill = Skills.CreateGenericSkillWithSkillFamily(bodyPrefab, "PassiveSkill");
+            //SkillDef passiveSkillDef1 = Skills.CreateSkillDef(new SkillDefInfo {
+            //    skillName = "LunarDragonPassive",
+            //    skillNameToken = LUNAR_DRAGON_PREFIX + "PASSIVE_NAME",
+            //    skillDescriptionToken = LUNAR_DRAGON_PREFIX + "PASSIVE_DESCRIPTION",
+            //    keywordTokens = new string[] { "KEYWORD_AGILE" },
+            //    skillIcon = assetBundle.LoadAsset<Sprite>("texPassiveIcon")
+            //});
+            //Skills.AddSkillsToFamily(passiveGenericSkill.skillFamily, passiveSkillDef1);
         }
 
         private static void AddPrimarySkills() {

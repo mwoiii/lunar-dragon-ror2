@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4175885311
+CRC: 4064848669
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 1a2885f6b2580c02c404233dac32fcb6
+    Hash: 6107e476bd92df9fa6967bc5655ed3e9
   TypeTreeHash:
     serializedVersion: 2
     Hash: 20a12b0ef98afcb4f1f10b8f07bb43e9
@@ -163,5 +163,6 @@ Assets:
 - Assets/LunarDragon/Skin2/matOrbCenterMastery.mat
 - Assets/LunarDragon/Skills/PrimaryIceball/IceballProjectile.prefab
 - Assets/LunarDragon/Skin1/matLimbs.mat
+- Assets/LunarDragon/Icons/texPassive1Icon.png
 - Assets/LunarDragon/Icons/texDefaultSkinIcon.png
 Dependencies: []

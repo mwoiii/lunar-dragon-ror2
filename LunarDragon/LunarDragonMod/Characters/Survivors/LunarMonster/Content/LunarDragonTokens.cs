@@ -11,14 +11,14 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         public static void AddLunarDragonTokens() {
             string prefix = LunarDragonSurvivor.LUNAR_DRAGON_PREFIX;
 
-            string desc = "Lunar Dragon description. <color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
-             + "< ! > Primary tip." + Environment.NewLine + Environment.NewLine
-             + "< ! > Secondary tip." + Environment.NewLine + Environment.NewLine
-             + "< ! > Utility tip." + Environment.NewLine + Environment.NewLine
-             + "< ! > Special tip." + Environment.NewLine + Environment.NewLine;
+            string desc = "An almost perfect design. The Lunar Dragon is a monstrous survivor with a devastating arsenal.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
+             + "< ! > While strong, the Lunar Dragon is also an easy target. Prioritize enemies who can exploit this weakness." + Environment.NewLine + Environment.NewLine
+             + "< ! > Elemental Blitz is slow, but fires unique, powerful blasts. Switch targets between attacks to maximize your advantage." + Environment.NewLine + Environment.NewLine
+             + "< ! > Burst Thrusters can be charged on the ground to increase its duration and damage, additionally gaining a flaming trail at high charge. Use the skill while hovering in the air instead for a hasty, low-cooldown dash." + Environment.NewLine + Environment.NewLine
+             + "< ! > Draco Ambush is the Lunar Dragon's flagship attack. Hold it for the right moment to utterly devastate any and all targets." + Environment.NewLine + Environment.NewLine;
 
-            string outro = "..and so it left.";
-            string outroFailure = "..and so it vanished.";
+            string outro = "..and so it left, with aspirations anew.";
+            string outroFailure = "..and so it vanished, its purpose fulfilled.";
 
             Language.Add(prefix + "NAME", "Lunar Dragon");
             Language.Add(prefix + "DESCRIPTION", desc);
