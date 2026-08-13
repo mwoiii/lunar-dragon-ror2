@@ -235,7 +235,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Content {
                 skillName = "LunarDragonAmbush",
                 skillNameToken = LUNAR_DRAGON_PREFIX + "SPECIAL_AMBUSH_NAME",
                 skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SPECIAL_AMBUSH_DESCRIPTION",
-                skillIcon = assetBundle.LoadAsset<Sprite>("texSpecialIcon"),
+                skillIcon = assetBundle.LoadAsset<Sprite>("texSpecial1Icon"),
 
                 activationState = new SerializableEntityStateType(typeof(DracoAmbushAscent)),
                 activationStateMachineName = "Body",

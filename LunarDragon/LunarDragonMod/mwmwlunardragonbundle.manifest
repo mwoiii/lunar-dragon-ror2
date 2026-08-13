@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 540172278
+CRC: 4175885311
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5457ff0a797600a80e44267cd7fb60d5
+    Hash: 1a2885f6b2580c02c404233dac32fcb6
   TypeTreeHash:
     serializedVersion: 2
     Hash: 20a12b0ef98afcb4f1f10b8f07bb43e9
@@ -147,8 +147,9 @@ Assets:
 - Assets/LunarDragon/Icons/texSecondary1Icon.png
 - Assets/LunarDragon/Skills/PrimaryFireball/FireballProjectile.prefab
 - Assets/LunarDragon/Skills/SecondaryFireball/HeavyFireballProjectile.prefab
-- Assets/LunarDragon/Skin2/matCannonMastery.mat
+- Assets/LunarDragon/Icons/texSpecial1Icon.png
 - Assets/LunarDragon/mdlLunarDragon.prefab
+- Assets/LunarDragon/Skin2/matCannonMastery.mat
 - Assets/LunarDragon/Skin1/matOrbCenter.mat
 - Assets/LunarDragon/Skin2/matOrbRightMastery.mat
 - Assets/LunarDragon/Icons/texMasterySkinIcon.png
