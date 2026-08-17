@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WwiseDocument Type="WorkUnit" ID="{551E7867-E6D0-4526-884C-E6DC65C772D5}" SchemaVersion="119">
+	<SoundBanks>
+		<WorkUnit Name="Default Work Unit" ID="{551E7867-E6D0-4526-884C-E6DC65C772D5}" PersistMode="Standalone">
+			<ChildrenList>
+				<SoundBank Name="LunarDragonMod" ID="{E61C0E57-4D87-446E-86B3-FDD4544177D0}">
+					<ObjectInclusionList>
+						<ObjectRef Name="Play_LunarDragonCry" ID="{9D63FF45-6FC5-4289-A738-334D8B61FF71}" WorkUnitID="{3AA64F0F-A5DB-41D4-BA66-24056BC3D9DD}" Origin="Manual" Filter="7"/>
+					</ObjectInclusionList>
+					<ObjectExclusionList/>
+					<GameSyncExclusionList/>
+				</SoundBank>
+			</ChildrenList>
+		</WorkUnit>
+	</SoundBanks>
+</WwiseDocument>

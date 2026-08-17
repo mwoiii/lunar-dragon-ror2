@@ -15,7 +15,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
              + "< ! > While strong, the Lunar Dragon is also an easy target. Prioritize enemies who can exploit this weakness." + Environment.NewLine + Environment.NewLine
              + "< ! > Elemental Blitz is slow, but fires unique, powerful blasts. Switch targets between attacks to maximize your advantage." + Environment.NewLine + Environment.NewLine
              + "< ! > Burst Thrusters can be charged on the ground to increase its duration and damage, additionally gaining a flaming trail at high charge. Use the skill while hovering in the air instead for a hasty, low-cooldown dash." + Environment.NewLine + Environment.NewLine
-             + "< ! > Draco Ambush is the Lunar Dragon's flagship attack. Hold it for the right moment to utterly devastate any and all targets." + Environment.NewLine + Environment.NewLine;
+             + "< ! > Draco Ambush is the Lunar Dragon's flagship attack. Keep it for the right moment to utterly devastate any and all targets." + Environment.NewLine + Environment.NewLine;
 
             string outro = "..and so it left, with aspirations anew.";
             string outroFailure = "..and so it vanished, its purpose fulfilled.";
