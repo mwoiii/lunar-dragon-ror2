@@ -62,6 +62,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject impactDecalBase;
 
+        public static Material iceDecalMaterial;
+
+        public static GameObject displayEffectPrefab;
+
         internal static void LoadAssetBundle(string bundleName) {
             try {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"LunarDragonMod.{bundleName}")) {
@@ -98,6 +102,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Utility Smoke", CreateDashSmoke);
             TryBuildAsset("Utility Dash Explosions", CreateDashExplosions);
             TryBuildAsset("Utility Fire Trail", CreateFireTrail);
+
+            TryBuildAsset("Display Effect", CreateDisplayEffect);
         }
 
         private static void TryBuildAsset(string assetName, System.Action buildAction) {
@@ -266,10 +272,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
                 GameObject impactDecal = Object.Instantiate(impactDecalBase, iceballImpactPrefab.transform, false);
                 Decal decal = impactDecal.GetComponent<Decal>();
-                Material matDecal = new Material(decal.Material);
-                matDecal.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampIce_png).WaitForCompletion());
-                matDecal.SetColor("_Color", new Color(1f, 1f, 1f, 0.28f));
-                decal.Material = matDecal;
+                iceDecalMaterial = new Material(decal.Material);
+                iceDecalMaterial.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampIce_png).WaitForCompletion());
+                iceDecalMaterial.SetColor("_Color", new Color(1f, 1f, 1f, 0.28f));
+                decal.Material = iceDecalMaterial;
                 impactDecal.name = "IceImpactDecal";
                 impactDecal.transform.localScale = Vector3.one * 10f;
                 #endregion
@@ -537,7 +543,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Content.CreateAndAddEffectDef(plumeShakeSFX);
 
-            heavyFireballPlumeLargePrefab = heavyFireballPlumePrefab.InstantiateClone("FireballHeavyPlumeLargeVFX", true);
+            heavyFireballPlumeLargePrefab = heavyFireballPlumePrefab.InstantiateClone("FireballHeavyPlumeLargeVFX", false);
             TryBuildAsset("Secondary Fireball Plume Large VFX", () => {
 
                 Object.Destroy(heavyFireballPlumeLargePrefab.transform.Find("LunarFireImpactDecal").gameObject);
@@ -750,7 +756,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         }
 
         private static void CreateDashSmoke() {
-
             utilitySmokeEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Bandit2.Bandit2SmokeBomb_prefab).WaitForCompletion().InstantiateClone("DragonUtilitySmoke", false);
             TryBuildAsset("Utility Smoke Effect", () => {
                 Transform core = utilitySmokeEffect.transform.Find("Core");
@@ -851,6 +856,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     new GradientAlphaKey(1f, 0f),
                     new GradientAlphaKey(0f, 1f),
                 };
+                ParticleSystemRenderer psr = dragonFireSegment.GetComponent<ParticleSystemRenderer>();
+                Material matFire = new Material(psr.sharedMaterial);
+                matFire.SetFloat("_AlphaBoost", 0.96f);
+                psr.sharedMaterial = matFire;
 
                 GameObject segmentSmoke = Object.Instantiate(dragonFireSegment, dragonFireSegment.transform, false);
                 Object.Destroy(segmentSmoke.GetComponent<DestroyOnTimer>());
@@ -866,11 +875,12 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     new GradientColorKey(Color.black, 0.6f),
                 };
                 colorOverLifetime.color = color;
-                ParticleSystemRenderer psr = segmentSmoke.GetComponent<ParticleSystemRenderer>();
+                psr = segmentSmoke.GetComponent<ParticleSystemRenderer>();
                 Material matSmoke = new Material(psr.sharedMaterial);
                 matSmoke.shader = Addressables.LoadAssetAsync<Shader>(RoR2_Base_Shaders.HGOpaqueCloudRemap_shader).WaitForCompletion();
                 matSmoke.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampTritone3_png).WaitForCompletion());
-                matSmoke.SetFloat("_Cutoff", 0.65f);
+                matSmoke.SetFloat("_Cutoff", 0.73f);
+                matSmoke.SetFloat("_AlphaBoost", 1.3f);
                 matSmoke.SetInt("_RampInfo", 5);
                 psr.sharedMaterial = matSmoke;
             });
@@ -892,6 +902,52 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             //fireTrailPrefab.RegisterNetworkPrefab();
             //dragonFireSegment.AddComponent<EffectComponent>();
             //Content.CreateAndAddEffectDef(dragonFireSegment);
+        }
+
+        private static void CreateDisplayEffect() {
+            displayEffectPrefab = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Brother.BrotherSlamImpact_prefab).WaitForCompletion().InstantiateClone("DragonDisplayEffect", false);
+            TryBuildAsset("Display Effect VFX", () => {
+                ShakeEmitter[] shakes = displayEffectPrefab.GetComponents<ShakeEmitter>();
+                foreach (ShakeEmitter shake in shakes) {
+                    Object.Destroy(shake);
+                }
+                Object.Destroy(displayEffectPrefab.GetComponent<DestroyOnTimer>());
+
+                Transform spikes = displayEffectPrefab.transform.Find("Spikes, Small");
+                spikes.localPosition = Vector3.zero;
+                spikes.localScale = new Vector3(0.25f, 0.25f, 0.2f);
+                ScaleOverTime scaleOverTime = spikes.gameObject.AddComponent<ScaleOverTime>();
+                scaleOverTime.separateAxes = true;
+                scaleOverTime.zCurve = new AnimationCurve(
+                    new Keyframe(0f, 0f, 0f, 2f),
+                    new Keyframe(0.048f, 0.209f, 0f, 0f),
+                    new Keyframe(0.246f, 0.16f, 0.2f, 0f)
+                ) {
+                    postWrapMode = WrapMode.ClampForever
+                };
+                ParticleSystem ps = spikes.GetComponent<ParticleSystem>();
+                ParticleSystem.MainModule main = ps.main;
+                main.startLifetime = float.PositiveInfinity;
+                ParticleSystem.ShapeModule shape = ps.shape;
+                shape.radiusThickness = 0.5f;
+                ParticleSystem.EmissionModule emission = ps.emission;
+                emission.burstCount = 1;
+                ParticleSystem.Burst burst = emission.GetBurst(0);
+                burst.cycleCount = 1;
+                burst.count = 16;
+                emission.SetBurst(0, burst);
+                ParticleSystem.SizeOverLifetimeModule size = ps.sizeOverLifetime;
+                size.enabled = false;
+
+                Transform decalTransform = displayEffectPrefab.transform.Find("Decal");
+                decalTransform.localPosition = Vector3.zero;
+                decalTransform.localScale = Vector3.one * 2f;
+                Decal decal = decalTransform.GetComponent<Decal>();
+                decal.Material = iceDecalMaterial;
+                decal.Fade = 0.2f;
+                decalTransform.gameObject.AddComponent<SetRandomRotation>().setRandomYRotation = true;
+                Object.Destroy(decalTransform.GetComponent<AnimateShaderAlpha>());
+            });
         }
     }
 }

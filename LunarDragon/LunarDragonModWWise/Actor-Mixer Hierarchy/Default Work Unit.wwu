@@ -8,9 +8,6 @@
 						<Property Name="3DSpatialization" Type="int16" Value="1"/>
 					</PropertyList>
 					<ReferenceList>
-						<Reference Name="Attenuation">
-							<ObjectRef Name="HoshinoVoice" ID="{9830A41C-761A-4624-BBB2-2EB6A3144606}" WorkUnitID="{5F106AC4-E56F-46FF-893B-A30F1011F427}"/>
-						</Reference>
 						<Reference Name="Conversion">
 							<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B594BE48-ABB6-4217-AF24-E7FBEF229967}"/>
 						</Reference>
@@ -29,9 +26,6 @@
 								</Property>
 							</PropertyList>
 							<ReferenceList>
-								<Reference Name="Attenuation">
-									<ObjectRef Name="HoshinoVoice" ID="{9830A41C-761A-4624-BBB2-2EB6A3144606}" WorkUnitID="{5F106AC4-E56F-46FF-893B-A30F1011F427}"/>
-								</Reference>
 								<Reference Name="Conversion">
 									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B594BE48-ABB6-4217-AF24-E7FBEF229967}"/>
 								</Reference>
