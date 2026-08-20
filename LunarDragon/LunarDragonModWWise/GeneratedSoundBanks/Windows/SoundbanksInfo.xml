@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="535293614" Type="User" Language="SFX" Hash="{68375721-5D21-70DF-084C-6502DD3C3A6D}">
+		<SoundBank Id="535293614" Type="User" Language="SFX" Hash="{9EDFE19C-0554-D6E6-D6DD-9AF8F0C6B44E}">
 			<ShortName>LunarDragonMod</ShortName>
 			<Path>LunarDragonMod.bnk</Path>
 			<Media>
@@ -46,5 +46,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{D5D5A177-1B39-7B65-9C46-9D28BA218C01}</FileHash>
+	<FileHash>{02A50B84-F849-1467-AFE0-F2A86D2359E2}</FileHash>
 </SoundBanksInfo>

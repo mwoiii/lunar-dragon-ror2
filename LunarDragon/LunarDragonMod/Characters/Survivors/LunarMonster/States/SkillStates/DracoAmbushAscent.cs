@@ -14,7 +14,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.SkillStates {
         public override void FixedUpdate() {
             base.FixedUpdate();
             stopwatch += Time.deltaTime;
-            if (isAuthority && stopwatch > 10f) {
+            if (isAuthority && stopwatch > 2) {
                 outer.SetNextStateToMain();
             }
         }

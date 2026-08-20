@@ -1364,7 +1364,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: SpecialDiveEnd
-  m_Speed: 1
+  m_Speed: 0.55
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 7868737512278497927}
@@ -1377,7 +1377,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -4662017074254760101, guid: c41834a4b13ef694bbed96f10f128f3d, type: 3}
+  m_Motion: {fileID: 6530839543503632139, guid: c41834a4b13ef694bbed96f10f128f3d, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -4468,7 +4468,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 6558778246419636505, guid: c41834a4b13ef694bbed96f10f128f3d, type: 3}
+  m_Motion: {fileID: 2607349589313881195, guid: c41834a4b13ef694bbed96f10f128f3d, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -4537,9 +4537,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 0.25
+  m_TransitionDuration: 0.440556
   m_TransitionOffset: 0
-  m_ExitTime: 0.89285713
+  m_ExitTime: 0.52166885
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
