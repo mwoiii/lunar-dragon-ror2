@@ -1,9 +1,7 @@
-﻿using LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.BaseStates;
-using LunarDragonMod.Survivors.LunarDragon;
-using LunarDragonMod.Survivors.LunarDragon.Components;
+﻿using LunarDragonMod.Survivors.LunarDragon.Components;
 using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     public class Surge : SecondaryBase {
 

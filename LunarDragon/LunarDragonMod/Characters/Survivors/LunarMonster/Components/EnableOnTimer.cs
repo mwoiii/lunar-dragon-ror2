@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.Components {
+namespace LunarDragonMod.Characters.Survivors.LunarDragon.Components {
     public class EnableOnTimer : MonoBehaviour {
         public float duration;
 

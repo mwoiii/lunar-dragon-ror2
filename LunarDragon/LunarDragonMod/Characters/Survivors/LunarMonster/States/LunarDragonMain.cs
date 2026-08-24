@@ -1,10 +1,11 @@
 ﻿using EntityStates;
 using LunarDragonMod.Survivors.LunarDragon.Components;
+using LunarDragonMod.Survivors.LunarDragon.States;
 using RoR2;
 using System;
 using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
+namespace LunarDragonMod.Survivors.LunarDragon {
 
     // Code copied from MageCharacterMain, modified for custom jetpack state
     // Should only ever be one in existence, on Body state machine

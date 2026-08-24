@@ -1,8 +1,7 @@
 ﻿using EntityStates;
-using LunarDragonMod.Survivors.LunarDragon;
 using LunarDragonMod.Survivors.LunarDragon.Components;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
     public class BurstThrustersDashTrail : BurstThrustersDash {
 
         private DamageTrailDynamic damageTrail;

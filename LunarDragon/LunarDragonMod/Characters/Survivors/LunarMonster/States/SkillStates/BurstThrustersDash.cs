@@ -1,12 +1,11 @@
 ﻿using EntityStates;
-using LunarDragonMod.Survivors.LunarDragon;
 using RoR2;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     // Based off chef code
 

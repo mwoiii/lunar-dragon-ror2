@@ -1,6 +1,5 @@
 ﻿using EntityStates;
 using HG;
-using LunarDragonMod.Survivors.LunarDragon;
 using RoR2;
 using RoR2.Projectile;
 using RoR2.Skills;
@@ -11,7 +10,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     public class ElementalBlitz : BaseState, SteppedSkillDef.IStepSetter {
 

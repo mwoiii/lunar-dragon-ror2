@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     public class JetsOnFrontTrailHeavy : JetsOnFrontTrailBase {
 

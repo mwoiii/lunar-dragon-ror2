@@ -1,9 +1,7 @@
-﻿using LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.BaseStates;
-using LunarDragonMod.Survivors.LunarDragon;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     public class Eruption : SecondaryBase {
 

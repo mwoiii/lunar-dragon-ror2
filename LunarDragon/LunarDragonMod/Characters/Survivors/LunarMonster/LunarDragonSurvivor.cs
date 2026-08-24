@@ -1,8 +1,8 @@
-﻿using LunarDragonMod.Characters.Survivors.LunarMonster.Content;
-using LunarDragonMod.Characters.Survivors.LunarMonster.States;
+﻿using LunarDragonMod.Characters.Survivors.LunarDragon.Content;
 using LunarDragonMod.Modules;
 using LunarDragonMod.Modules.Characters;
 using LunarDragonMod.Survivors.LunarDragon.Components;
+using LunarDragonMod.Survivors.LunarDragon.States;
 using RoR2;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Collections.Generic;

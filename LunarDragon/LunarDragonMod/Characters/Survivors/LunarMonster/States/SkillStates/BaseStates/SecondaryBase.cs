@@ -1,10 +1,9 @@
 ﻿using EntityStates;
-using LunarDragonMod.Survivors.LunarDragon;
 using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates.BaseStates {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     public class SecondaryBase : BaseSkillState {
 

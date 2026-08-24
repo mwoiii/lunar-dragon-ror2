@@ -1,4 +1,4 @@
-﻿using LunarDragonMod.Characters.Survivors.LunarMonster.States;
+﻿using LunarDragonMod.Characters.Survivors.LunarDragon.States;
 using RoR2;
 using UnityEngine;
 

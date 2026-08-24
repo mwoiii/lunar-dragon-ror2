@@ -2524,7 +2524,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2346206622966450390, guid: d545d659f1a24a6428d968946fcfab70, type: 3}
+    - {fileID: 5484645912411245618, guid: d545d659f1a24a6428d968946fcfab70, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d545d659f1a24a6428d968946fcfab70, type: 3}
+--- !u!1 &7155910778355336718 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7916894659921244004, guid: d545d659f1a24a6428d968946fcfab70, type: 3}
+  m_PrefabInstance: {fileID: 7155910778355336717}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7155910778355336719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7155910778355336718}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -744921097, guid: 65057e713e1213e449ae3e2078477755, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 0.27
+  soundString: Play_LunarDragonCry
+  resetOnEnable: 1
 --- !u!1001 &8004760339897573997
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,11 +1,11 @@
 ﻿using EntityStates;
-using LunarDragonMod.Survivors.LunarDragon;
+using LunarDragonMod.Characters.Survivors.LunarDragon.States;
 using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
 using System;
 using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     public class BurstThrustersCharge : BaseState {
 

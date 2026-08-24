@@ -1,7 +1,7 @@
 ﻿using EntityStates;
 using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
     public class JetsOff : BaseState {
 
         private Animator animator;

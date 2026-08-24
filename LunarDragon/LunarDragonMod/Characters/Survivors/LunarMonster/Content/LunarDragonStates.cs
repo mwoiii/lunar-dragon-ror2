@@ -1,6 +1,4 @@
-﻿using LunarDragonMod.Characters.Survivors.LunarMonster.States;
-using LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates;
-using LunarDragonMod.Survivors.LunarDragon.SkillStates;
+﻿using LunarDragonMod.Survivors.LunarDragon.States;
 
 namespace LunarDragonMod.Survivors.LunarDragon {
     public static class LunarDragonStates {
@@ -21,7 +19,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Modules.Content.AddEntityState(typeof(Glaciate));
 
-            Modules.Content.AddEntityState(typeof(DracoAmbushAscent));
+            Modules.Content.AddEntityState(typeof(DracoAmbushAim));
 
             Modules.Content.AddEntityState(typeof(DeathState));
 

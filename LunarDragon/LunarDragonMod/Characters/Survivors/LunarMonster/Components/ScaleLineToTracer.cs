@@ -1,7 +1,7 @@
 ﻿using RoR2;
 using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.Components {
+namespace LunarDragonMod.Characters.Survivors.LunarDragon.Components {
 
     public class ScaleLineToTracer : MonoBehaviour {
 

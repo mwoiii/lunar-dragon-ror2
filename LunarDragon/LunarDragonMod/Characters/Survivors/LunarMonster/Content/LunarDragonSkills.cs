@@ -1,13 +1,12 @@
 ﻿using EntityStates;
-using LunarDragonMod.Characters.Survivors.LunarMonster.States.SkillStates;
 using LunarDragonMod.Modules;
 using LunarDragonMod.Survivors.LunarDragon;
-using LunarDragonMod.Survivors.LunarDragon.SkillStates;
+using LunarDragonMod.Survivors.LunarDragon.States;
 using RoR2;
 using RoR2.Skills;
 using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.Content {
+namespace LunarDragonMod.Characters.Survivors.LunarDragon.Content {
     public static class LunarDragonSkills {
 
         private static GameObject bodyPrefab;
@@ -236,15 +235,20 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Content {
                 skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SPECIAL_AMBUSH_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texSpecial1Icon"),
 
-                activationState = new SerializableEntityStateType(typeof(DracoAmbushAscent)),
-                activationStateMachineName = "Body",
-                interruptPriority = InterruptPriority.Skill,
+                activationState = new SerializableEntityStateType(typeof(DracoAmbushAim)),
+                activationStateMachineName = "Weapon",
+                interruptPriority = InterruptPriority.PrioritySkill,
 
                 baseMaxStock = 1,
                 baseRechargeInterval = 10f,
+                stockToConsume = 0,
+
+                beginSkillCooldownOnSkillEnd = true,
 
                 isCombatSkill = true,
-                mustKeyPress = false,
+                mustKeyPress = true,
+                canceledFromSprinting = false,
+                cancelSprintingOnActivation = false,
             });
 
             SkillDef specialSkillDef2 = Skills.CreateSkillDef(new SkillDefInfo {
@@ -253,7 +257,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Content {
                 skillDescriptionToken = LUNAR_DRAGON_PREFIX + "SPECIAL_AMBUSH_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texWIPIcon"),
 
-                activationState = new SerializableEntityStateType(typeof(DracoAmbushAscent)),
+                activationState = new SerializableEntityStateType(typeof(DracoAmbushAim)),
                 activationStateMachineName = "Body",
                 interruptPriority = InterruptPriority.Skill,
 

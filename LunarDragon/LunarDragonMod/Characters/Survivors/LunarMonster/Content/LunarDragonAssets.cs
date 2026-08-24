@@ -1,4 +1,4 @@
-﻿using LunarDragonMod.Characters.Survivors.LunarMonster.Components;
+﻿using LunarDragonMod.Characters.Survivors.LunarDragon.Components;
 using LunarDragonMod.Modules;
 using LunarDragonMod.Modules.DamageTypes;
 using LunarDragonMod.Survivors.LunarDragon.Components;

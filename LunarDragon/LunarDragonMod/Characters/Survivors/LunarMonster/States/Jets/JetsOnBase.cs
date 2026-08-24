@@ -1,7 +1,7 @@
 ﻿using EntityStates;
 using UnityEngine;
 
-namespace LunarDragonMod.Characters.Survivors.LunarMonster.States {
+namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     // Code copied from JetpackOn, modified for custom jets
     public class JetsOnBase : BaseState {
