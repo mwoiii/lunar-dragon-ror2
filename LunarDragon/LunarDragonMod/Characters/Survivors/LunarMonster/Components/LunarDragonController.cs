@@ -1,5 +1,4 @@
-﻿using LunarDragonMod.Characters.Survivors.LunarDragon.States;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.Components {

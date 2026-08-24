@@ -14,9 +14,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
     /// </summary>
     public class DracoAmbushAim : BaseSkillState {
 
-        // Serialized fields
-
         public GameObject endpointVisualizerPrefab => Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Huntress.HuntressArrowRainIndicator_prefab).WaitForCompletion();
+
+        public GameObject dotCrosshair = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_UI.SimpleDotCrosshair_prefab).WaitForCompletion();
+
 
         public float baseMinimumDuration => 0.15f;
 
@@ -30,9 +31,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public bool toggleActivate = true;
 
-        public bool hideCrosshair = false;
-
         public LayerMask layerMask = LayerIndex.CommonMasks.bullet;
+
+        private GameObject heldCrosshair;
 
         private bool holdingActivationKey = true;
 
@@ -70,7 +71,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 }
 
                 if (characterBody) {
-                    characterBody.hideCrosshair = hideCrosshair;
+                    heldCrosshair = characterBody._defaultCrosshairPrefab;
+                    characterBody._defaultCrosshairPrefab = dotCrosshair;
                 }
 
                 originOverride = FindModelChild(originOverrideString);
@@ -85,7 +87,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 SceneCamera.onSceneCameraPreRender -= OnPreRenderSceneCam;
 
                 if (characterBody) {
-                    characterBody.hideCrosshair = false;
+                    characterBody._defaultCrosshairPrefab = heldCrosshair;
                 }
 
                 if (endpointVisualizerTransform) {
