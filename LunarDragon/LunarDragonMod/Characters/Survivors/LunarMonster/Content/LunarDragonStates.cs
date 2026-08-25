@@ -21,6 +21,14 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Modules.Content.AddEntityState(typeof(DracoAmbushAim));
 
+            Modules.Content.AddEntityState(typeof(DracoAmbushAscent));
+
+            Modules.Content.AddEntityState(typeof(DracoAmbushAscentHold));
+
+            Modules.Content.AddEntityState(typeof(DracoAmbushDescentHold));
+
+            Modules.Content.AddEntityState(typeof(DracoAmbushDescent));
+
             Modules.Content.AddEntityState(typeof(DeathState));
 
             Modules.Content.AddEntityState(typeof(FloorNormalizedMain));

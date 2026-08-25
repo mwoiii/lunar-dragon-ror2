@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using LunarDragonMod.Survivors.LunarDragon.States;
+using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.Components {
@@ -10,8 +11,43 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         public LunarDragonMain bodyState;
 
+        public EntityStateMachine bodyStateMachine;
+
+        public EntityStateMachine weaponStateMachine;
+
+        public EntityStateMachine utilityStateMachine;
+
         private void Awake() {
+            bodyStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Body");
+            weaponStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Weapon");
+            utilityStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Utility");
             AddJets();
+        }
+
+        public void DisableWeaponStateMachine() {
+            weaponStateMachine.SetNextState(new SkillBlocker());
+        }
+
+        public void ResetWeaponStateMachine() {
+            weaponStateMachine.SetNextStateToMain();
+        }
+
+        public void DisableUtilityStateMachine() {
+            utilityStateMachine.SetNextState(new SkillBlocker());
+        }
+
+        public void ResetUtilityStateMachine() {
+            utilityStateMachine.SetNextStateToMain();
+        }
+
+        public void DisableAllSkillStateMachines() {
+            DisableWeaponStateMachine();
+            DisableUtilityStateMachine();
+        }
+
+        public void ResetAllSkillStateMachines() {
+            ResetWeaponStateMachine();
+            ResetUtilityStateMachine();
         }
 
         private void AddJets() {

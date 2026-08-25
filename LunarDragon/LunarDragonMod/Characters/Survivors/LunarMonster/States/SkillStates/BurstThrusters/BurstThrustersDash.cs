@@ -79,6 +79,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
 
             if (isAuthority) {
+                if (controller) {
+                    controller.DisableWeaponStateMachine();
+                }
                 Vector2 vector = Util.Vector3XZToVector2XY(inputBank.aimDirection);
                 characterDirection.moveVector = new Vector3(vector.x, 0f, vector.y).normalized;
 
@@ -122,6 +125,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private void ExitThrustersDash() {
             if (isAuthority) {
+                if (controller) {
+                    controller.ResetWeaponStateMachine();
+                }
                 gameObject.layer = originalLayer;
                 if (characterMotor && characterMotor.Motor) {
                     characterMotor.Motor.RebuildCollidableLayers();
@@ -191,7 +197,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 }
             }
         }
-
 
         public override InterruptPriority GetMinimumInterruptPriority() {
             return InterruptPriority.Frozen;

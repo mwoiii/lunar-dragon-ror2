@@ -5,7 +5,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     public class SkillBlocker : BaseState {
 
-        public float duration = 0.1f;
+        public float duration = float.PositiveInfinity;
 
         public override void OnExit() {
             base.OnExit();

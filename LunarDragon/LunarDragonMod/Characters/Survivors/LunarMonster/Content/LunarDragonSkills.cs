@@ -170,7 +170,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarDragon.Content {
                 skillIcon = assetBundle.LoadAsset<Sprite>("texUtility1Icon"),
 
                 activationState = new SerializableEntityStateType(typeof(BurstThrustersCharge)),
-                activationStateMachineName = "Weapon",
+                activationStateMachineName = "Utility",
                 interruptPriority = InterruptPriority.PrioritySkill,
 
                 baseRechargeInterval = 2f,
@@ -236,7 +236,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarDragon.Content {
                 skillIcon = assetBundle.LoadAsset<Sprite>("texSpecial1Icon"),
 
                 activationState = new SerializableEntityStateType(typeof(DracoAmbushAim)),
-                activationStateMachineName = "Weapon",
+                activationStateMachineName = "Aim",
                 interruptPriority = InterruptPriority.PrioritySkill,
 
                 baseMaxStock = 1,

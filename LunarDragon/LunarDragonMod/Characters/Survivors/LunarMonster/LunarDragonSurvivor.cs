@@ -160,17 +160,14 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         }
 
         public override void InitializeEntityStateMachines() {
-            //clear existing state machines from your cloned body (probably commando)
-            //omit all this if you want to just keep theirs
             Prefabs.ClearEntityStateMachines(bodyPrefab);
 
-            //the main "Body" state machine has some special properties
             Prefabs.AddMainEntityStateMachine(bodyPrefab, "Body", typeof(FloorNormalizedMain), typeof(SpawnState));
-            //if you set up a custom main characterstate, set it up here
-            //don't forget to register custom entitystates in your LunarDragonStates.cs
 
             Prefabs.AddEntityStateMachine(bodyPrefab, "Weapon");
-            Prefabs.AddEntityStateMachine(bodyPrefab, "Weapon2");
+            Prefabs.AddEntityStateMachine(bodyPrefab, "Weapon2"); // unused, intended for electric secondary (surge)
+            Prefabs.AddEntityStateMachine(bodyPrefab, "Utility");
+            Prefabs.AddEntityStateMachine(bodyPrefab, "Aim");
             Prefabs.AddEntityStateMachine(bodyPrefab, "Jet");
         }
 

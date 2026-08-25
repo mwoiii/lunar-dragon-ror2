@@ -1,4 +1,5 @@
 ﻿using EntityStates;
+using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Runtime.CompilerServices;
@@ -7,25 +8,19 @@ using UnityEngine.AddressableAssets;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
 
-    /// <summary>
-    /// Heavily modified version of decompiled code from EntityStates.AimThrowableBase.
-    /// Removed projectile-specific logic, has an option to be a toggle input (activated with primary) with the toggleActivate field.
-    /// Not for use with primary skills
-    /// </summary>
     public class DracoAmbushAim : BaseSkillState {
 
         public GameObject endpointVisualizerPrefab => Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Huntress.HuntressArrowRainIndicator_prefab).WaitForCompletion();
 
         public GameObject dotCrosshair = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_UI.SimpleDotCrosshair_prefab).WaitForCompletion();
 
-
         public float baseMinimumDuration => 0.15f;
 
         public string originOverrideString => "";
 
-        public float maxDistance = 100f;
+        public float maxDistance = 200f;
 
-        public float rayRadius = 0.7f;
+        public float rayRadius = 2.3f;
 
         public float endpointVisualizerRadiusScale = 4f;
 
@@ -43,7 +38,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private const int coarseSplit = 10;
 
-        private const int fineSplit = 100; // this is a fraction of coarsesplit
+        private const int fineSplit = 100; // this divides a coarse segment (max possible raycasts in absolute worst case is coarseSplit * fineSplit) ((super omega unlikely))
 
         private bool IsNewKeyDownAuthority => IsKeyDownAuthority() && !holdingActivationKey;
 
@@ -57,12 +52,30 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         protected float minimumDuration;
 
+        private Transform mainCamera;
+
+        private CameraTargetParams.AimRequest aimRequest;
+
         protected AimThrowableBase.TrajectoryInfo currentTrajectoryInfo;
+
+        private bool hasPosition;
+
+        private LunarDragonController controller;
 
         public override void OnEnter() {
             base.OnEnter();
 
             if (isAuthority) {
+                if (TryGetComponent(out controller)) {
+                    controller.DisableWeaponStateMachine();
+                }
+
+                // I have never heard of splitscreen in my entire life
+                if (CameraRigController.readOnlyInstancesList.Count > 0) {
+                    mainCamera = CameraRigController.readOnlyInstancesList[0].transform;
+                }
+
+                aimRequest = cameraTargetParams.RequestAimWithData(new Vector3(0f, 16f, -20f), 0.2f, 0.2f);
 
                 _endpointVisualizerPrefab = endpointVisualizerPrefab;
 
@@ -84,6 +97,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public override void OnExit() {
             if (isAuthority) {
+                aimRequest?.Dispose();
+
                 SceneCamera.onSceneCameraPreRender -= OnPreRenderSceneCam;
 
                 if (characterBody) {
@@ -94,13 +109,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     Destroy(endpointVisualizerTransform.gameObject);
                     endpointVisualizerTransform = null;
                 }
+
+                if (controller) {
+                    controller.ResetWeaponStateMachine();
+                }
             }
 
             base.OnExit();
-        }
-
-        protected virtual EntityState PickNextState() {
-            return null;
         }
 
         public override InterruptPriority GetMinimumInterruptPriority() {
@@ -127,7 +142,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                         NextState();
 
                     } else if (toggleActivate) {
-                        if (holdingActivationKey) {
+                        if (holdingActivationKey && hasPosition) {
 
                             // toggle - released from activation press
                             holdingActivationKey = false;
@@ -166,14 +181,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             return Vector3.Dot(normal, Vector3.up) >= threshold;
         }
 
-        protected virtual void NextState() {
-            EntityState entityState = PickNextState();
-
-            if (entityState != null) {
-                outer.SetNextState(entityState);
-            } else {
-                outer.SetNextStateToMain();
+        private void NextState() {
+            if (controller) {
+                controller.bodyStateMachine.SetNextState(new DracoAmbushAscent() {
+                    targetFootPosition = currentTrajectoryInfo.hitPoint
+                });
             }
+            outer.SetNextStateToMain();
 
             stateFinished = true;
         }
@@ -183,6 +197,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             RaycastHit hitInfo = default;
 
             bool success = false;
+            if (mainCamera) {
+                aimRay.origin = mainCamera.position;
+                aimRay.direction = mainCamera.forward;
+            }
 
             // (1) checking if aimray is valid as it is
             bool collided = Util.CharacterSpherecast(gameObject, aimRay, rayRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal);
@@ -230,6 +248,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (success) {
                 currentTrajectoryInfo.hitPoint = hitInfo.point;
                 currentTrajectoryInfo.hitNormal = hitInfo.normal;
+                hasPosition = true;
             }
             //else {
             //    Log.Info($"3b FAILURE, USE LAST");
@@ -247,7 +266,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private void OnPreRenderSceneCam(SceneCamera sceneCam) {
             if (endpointVisualizerTransform) {
-                endpointVisualizerTransform.gameObject.layer = ((sceneCam.cameraRigController.target == gameObject) ? LayerIndex.defaultLayer.intVal : LayerIndex.noDraw.intVal);
+                endpointVisualizerTransform.gameObject.layer = sceneCam.cameraRigController.target == gameObject ? LayerIndex.defaultLayer.intVal : LayerIndex.noDraw.intVal;
             }
         }
     }

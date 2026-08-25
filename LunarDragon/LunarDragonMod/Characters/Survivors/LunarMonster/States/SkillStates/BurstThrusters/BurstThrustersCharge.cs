@@ -53,6 +53,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     previousTurnSpeed = characterDirection.turnSpeed;
                 }
                 if (controller) {
+                    controller.DisableWeaponStateMachine();
                     controller.canJump = false;
                 }
                 if (!characterMotor.isGrounded) {
@@ -161,6 +162,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             GetModelAnimator().SetBool("inUtilityLoop", true);
 
             if (isAuthority) {
+                if (controller) {
+                    controller.DisableWeaponStateMachine();
+                }
                 if (characterBody && characterBody.teamComponent) {
                     BlastAttack blastAttack = new BlastAttack {
                         attacker = characterBody.gameObject,
