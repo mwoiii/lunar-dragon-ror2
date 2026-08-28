@@ -10,8 +10,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private float lifetime = 0.75f;
 
-        public CharacterModel characterModel;
-
         public HurtBoxGroup hurtBoxGroup;
 
         public Vector3 targetFootPosition;
@@ -47,8 +45,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (isAuthority) {
                 FireExplosion();
             }
-            if (characterModel) {
-                characterModel.invisibilityCount--;
+            if (modelLocator) {
+                modelLocator.autoUpdateModelTransform = true;
             }
             if (hurtBoxGroup) {
                 hurtBoxGroup.hurtBoxesDeactivatorCounter--;
@@ -65,7 +63,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 inflictor = gameObject,
                 procChainMask = default(ProcChainMask),
                 procCoefficient = 1f,
-                radius = 40f,
+                radius = 70f,
                 teamIndex = characterBody.teamComponent.teamIndex,
             };
             blastAttack.damageType |= DamageType.IgniteOnHit;

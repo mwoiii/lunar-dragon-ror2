@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1767103133
+CRC: 4120544174
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 61ed05992ea9647dfbb08767fff2d229
+    Hash: 9e36985556c781e23107521fd714691d
   TypeTreeHash:
     serializedVersion: 2
-    Hash: badcfb02ba1c3c54f1b06ecc3c631361
+    Hash: d75c3ce4acf21cb4f7f61a1d7d261d06
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -44,13 +44,11 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1044368294, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 2014105726, guid: 65057e713e1213e449ae3e2078477755, type: 3}
+  Script: {fileID: 463222144, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1783796254, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-- Class: 114
-  Script: {fileID: 1351617430, guid: 65057e713e1213e449ae3e2078477755, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
@@ -60,8 +58,6 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
 - Class: 114
-  Script: {fileID: -49251586, guid: 65057e713e1213e449ae3e2078477755, type: 3}
-- Class: 114
   Script: {fileID: -132178706, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 802132372, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -69,8 +65,6 @@ ClassTypes:
   Script: {fileID: -875252823, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -146705984, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 463222144, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 488236779, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -94,9 +88,17 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 816898038, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: -1051324407, guid: 65057e713e1213e449ae3e2078477755, type: 3}
+  Script: {fileID: 11500000, guid: d4e5e91ac06332048833b95d1504f74a, type: 3}
 - Class: 114
-  Script: {fileID: -744921097, guid: 65057e713e1213e449ae3e2078477755, type: 3}
+  Script: {fileID: 11500000, guid: 04d670bece4790f4182ab1d00765b091, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: b30b94fefae831546a379350b7802b48, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c1e2a22f32bafb546bddfa52bbe43710, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 971405550c5731c4c892f9194248f1c0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: c40eb7c7c1062d444b687aab0a267bed, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 135
@@ -162,10 +164,12 @@ Assets:
 - Assets/LunarDragon/Skin2/matOrbRightMastery.mat
 - Assets/LunarDragon/Icons/texMasterySkinIcon.png
 - Assets/LunarDragon/Skin2/matBodyMastery.mat
+- Assets/LunarDragon/Skills/SpecialAscent/DescendingData.asset
 - Assets/LunarDragon/Skin1/matOrbLeft.mat
 - Assets/LunarDragon/Icons/texLunarDragonIcon.png
 - Assets/LunarDragon/Icons/texWIPIcon.png
 - Assets/LunarDragon/Skin1/matCannon.mat
+- Assets/LunarDragon/Skills/SpecialAscent/RisingData.asset
 - Assets/LunarDragon/Skin1/matBody.mat
 - Assets/LunarDragon/Skin2/matLimbsMastery.mat
 - Assets/LunarDragon/Skin2/matOrbCenterMastery.mat

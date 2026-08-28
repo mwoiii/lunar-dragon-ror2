@@ -9,11 +9,25 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private float lifetime = 3f;
 
-        public CharacterModel characterModel;
-
         public HurtBoxGroup hurtBoxGroup;
 
         public Vector3 targetFootPosition;
+
+        private AnimationCurve xCurve = LunarDragonAssets.ascentDescendingData.xCurve;
+
+        private AnimationCurve yCurve = LunarDragonAssets.ascentDescendingData.yCurve;
+
+        private AnimationCurve zCurve = LunarDragonAssets.ascentDescendingData.zCurve;
+
+        public Transform modelTransform;
+
+        public Vector3 center;
+
+        public Vector3 up;
+
+        public Vector3 forward;
+
+        public Vector3 right;
 
         public override void OnEnter() {
             cameraTargetParams.AddLerpRequest(0.5f);
@@ -23,15 +37,24 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public override void Update() {
             base.Update();
+            stopwatch += Time.deltaTime;
             if (isAuthority) {
-                stopwatch += Time.deltaTime;
                 if (stopwatch >= lifetime) {
                     outer.SetNextState(new DracoAmbushDescent() {
                         targetFootPosition = targetFootPosition,
                         hurtBoxGroup = hurtBoxGroup,
-                        characterModel = characterModel
                     });
                 }
+            }
+            if (modelTransform && stopwatch < lifetime) {
+                float scaledTime = stopwatch / lifetime;
+                Vector3 offset = (
+                    forward * zCurve.Evaluate(scaledTime) * 350f +
+                    right * xCurve.Evaluate(scaledTime) * 350f +
+                    up * yCurve.Evaluate(scaledTime) * 1000f
+                );
+                modelTransform.LookAt(targetFootPosition + offset);
+                modelTransform.position = targetFootPosition + offset;
             }
         }
 

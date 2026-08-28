@@ -66,6 +66,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject displayEffectPrefab;
 
+        public static AnimationCurveData ascentRisingData;
+
+        public static AnimationCurveData ascentDescendingData;
+
         internal static void LoadAssetBundle(string bundleName) {
             try {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"LunarDragonMod.{bundleName}")) {
@@ -104,6 +108,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Utility Fire Trail", CreateFireTrail);
 
             TryBuildAsset("Display Effect", CreateDisplayEffect);
+
+            TryBuildAsset("Ascent Motion Data", GetAscentData);
         }
 
         private static void TryBuildAsset(string assetName, System.Action buildAction) {
@@ -948,6 +954,11 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 decalTransform.gameObject.AddComponent<SetRandomRotation>().setRandomYRotation = true;
                 Object.Destroy(decalTransform.GetComponent<AnimateShaderAlpha>());
             });
+        }
+
+        private static void GetAscentData() {
+            ascentRisingData = assetBundle.LoadAsset<AnimationCurveData>("RisingData");
+            ascentDescendingData = assetBundle.LoadAsset<AnimationCurveData>("DescendingData");
         }
     }
 }
