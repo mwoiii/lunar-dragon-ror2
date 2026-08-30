@@ -24,7 +24,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
             Animator animator = GetModelAnimator();
             if (animator) {
-                animator.SetBool("isHovering", false);
+                animator.SetBool(LunarDragonAnimationParameters.isHovering, false);
+                animator.SetBool(LunarDragonAnimationParameters.forceIdle, true);
             }
             if (isGrounded) {
                 PlayCrossfade("FullBody, Override", "SpecialDiveStart", 0.005f);

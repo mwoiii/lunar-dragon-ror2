@@ -4,6 +4,7 @@ using LunarDragonMod.Modules.DamageTypes;
 using LunarDragonMod.Survivors.LunarDragon.Components;
 using R2API;
 using RoR2;
+using RoR2.CharacterSpeech;
 using RoR2.Projectile;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Reflection;
@@ -70,6 +71,12 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static AnimationCurveData ascentDescendingData;
 
+        public static CharacterSpeechController.SpeechInfo[] seeDragonResponses;
+
+        public static CharacterSpeechController.SpeechInfo[] killDragonResponses;
+
+        public static CharacterSpeechController.SpeechInfo[] killHurtDragonResponses;
+
         internal static void LoadAssetBundle(string bundleName) {
             try {
                 using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"LunarDragonMod.{bundleName}")) {
@@ -110,6 +117,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Display Effect", CreateDisplayEffect);
 
             TryBuildAsset("Ascent Motion Data", GetAscentData);
+
+            TryBuildAsset("Mithrix Dialogue", CreateMithrixDialogue);
         }
 
         private static void TryBuildAsset(string assetName, System.Action buildAction) {
@@ -959,6 +968,82 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         private static void GetAscentData() {
             ascentRisingData = assetBundle.LoadAsset<AnimationCurveData>("RisingData");
             ascentDescendingData = assetBundle.LoadAsset<AnimationCurveData>("DescendingData");
+        }
+
+        private static void CreateMithrixDialogue() {
+            // duping the last entry because SendResponseFromPool has a bug where it be skipping the last one
+            // they didn't nose that random.range is end exclusive... and still did length - 1.....
+            seeDragonResponses = new CharacterSpeechController.SpeechInfo[] {
+                new CharacterSpeechController.SpeechInfo() {
+                    token = LunarDragonTokens.mithrixDialogueSee1,
+                    duration = 2f,
+                    maxWait = 0.5f,
+                    priority = 10000,
+                    mustPlay = true
+                },
+                new CharacterSpeechController.SpeechInfo() {
+                    token = LunarDragonTokens.mithrixDialogueSee2,
+                    duration = 2f,
+                    maxWait = 0.5f,
+                    priority = 10000,
+                    mustPlay = true
+                },
+                new CharacterSpeechController.SpeechInfo() {
+                    token = LunarDragonTokens.mithrixDialogueSee2,
+                    duration = 2f,
+                    maxWait = 0.5f,
+                    priority = 10000,
+                    mustPlay = true
+                },
+            };
+
+            killDragonResponses = new CharacterSpeechController.SpeechInfo[] {
+                new CharacterSpeechController.SpeechInfo() {
+                    token = LunarDragonTokens.mithrixDialogueKill1,
+                    duration = 1f,
+                    maxWait = 0.1f,
+                    priority = 10,
+                    mustPlay = true
+                },
+                new CharacterSpeechController.SpeechInfo() {
+                    token = LunarDragonTokens.mithrixDialogueKill2,
+                    duration = 1f,
+                    maxWait = 0.1f,
+                    priority = 10,
+                    mustPlay = true
+                },
+                new CharacterSpeechController.SpeechInfo() {
+                    token = LunarDragonTokens.mithrixDialogueKill2,
+                    duration = 1f,
+                    maxWait = 0.1f,
+                    priority = 10,
+                    mustPlay = true
+                },
+            };
+
+            killHurtDragonResponses = new CharacterSpeechController.SpeechInfo[] {
+                new CharacterSpeechController.SpeechInfo() {
+                    token = LunarDragonTokens.mithrixHurtDialogueKill1,
+                    duration = 1f,
+                    maxWait = 0.1f,
+                    priority = 10,
+                    mustPlay = true
+                },
+                new CharacterSpeechController.SpeechInfo() {
+                    token = LunarDragonTokens.mithrixHurtDialogueKill2,
+                    duration = 1f,
+                    maxWait = 0.1f,
+                    priority = 10,
+                    mustPlay = true
+                },
+                new CharacterSpeechController.SpeechInfo() {
+                    token = LunarDragonTokens.mithrixHurtDialogueKill2,
+                    duration = 1f,
+                    maxWait = 0.1f,
+                    priority = 10,
+                    mustPlay = true
+                },
+            };
         }
     }
 }

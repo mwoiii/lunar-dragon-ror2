@@ -5,13 +5,19 @@ using LunarDragonMod.Survivors.LunarDragon.Components;
 using LunarDragonMod.Survivors.LunarDragon.States;
 using RoR2;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace LunarDragonMod.Survivors.LunarDragon {
     public class LunarDragonSurvivor : SurvivorBase<LunarDragonSurvivor> {
+
         public override string bodyName => "LunarDragonBody";
+
+        public static BodyIndex bodyIndex;
+
+        private static string _bodyName;
 
         public override string masterName => "LunarDragonMonsterMaster";
 
@@ -22,6 +28,11 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         public const string LUNAR_DRAGON_PREFIX = LunarDragonPlugin.DEVELOPER_PREFIX + "_LunarDragon_";
 
         public override string survivorTokenPrefix => LUNAR_DRAGON_PREFIX;
+
+        [SystemInitializer(new Type[] { typeof(BodyCatalog) })]
+        private static void GetBodyIndex() {
+            bodyIndex = BodyCatalog.FindBodyIndex(_bodyName);
+        }
 
         public override BodyInfo bodyInfo => new BodyInfo {
             bodyName = bodyName,
@@ -100,6 +111,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         }
 
         public override void InitializeCharacter() {
+            LunarDragonTokens.Init();
             LunarDragonAssets.Init();
             assetBundle = LunarDragonAssets.assetBundle;
 
@@ -109,7 +121,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             LunarDragonConfig.Init();
             LunarDragonStates.Init();
-            LunarDragonTokens.Init();
             LunarDragonBuffs.Init(assetBundle);
 
             SetDeathBehaviour();
@@ -127,6 +138,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             bodyPrefab.AddComponent<LunarDragonController>();
             bodyPrefab.GetComponent<Interactor>().maxInteractionDistance = 8f;
             displayPrefab.GetComponent<InstantiatePrefabBehavior>().prefab = LunarDragonAssets.displayEffectPrefab;
+            _bodyName = bodyName;
         }
 
         private void SetupAkBanks() {

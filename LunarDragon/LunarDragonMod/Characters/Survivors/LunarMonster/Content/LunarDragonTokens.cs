@@ -4,6 +4,19 @@ using System;
 
 namespace LunarDragonMod.Survivors.LunarDragon {
     public static class LunarDragonTokens {
+
+        public static string mithrixDialogueSee1;
+
+        public static string mithrixDialogueSee2;
+
+        public static string mithrixDialogueKill1;
+
+        public static string mithrixDialogueKill2;
+
+        public static string mithrixHurtDialogueKill1;
+
+        public static string mithrixHurtDialogueKill2;
+
         public static void Init() {
             AddLunarDragonTokens();
         }
@@ -84,6 +97,26 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Language.Add(Tokens.GetAchievementNameToken(LunarDragonWIPAchievement.identifier), "Patience");
             Language.Add(Tokens.GetAchievementDescriptionToken(LunarDragonWIPAchievement.identifier), "This content is still being developed!");
+            #endregion
+
+            #region Mithrix Dialogue
+            mithrixDialogueSee1 = prefix + "BROTHER_SEE_DRAGON_1";
+            Language.Add(mithrixDialogueSee1, "The Grand Chimera. But of course.");
+
+            mithrixDialogueSee2 = prefix + "BROTHER_SEE_DRAGON_2";
+            Language.Add(mithrixDialogueSee2, "The Grand Chimera. Predictable.");
+
+            mithrixDialogueKill1 = prefix + "BROTHER_KILL_DRAGON_1";
+            Language.Add(mithrixDialogueKill1, "Wasted elements.");
+
+            mithrixDialogueKill2 = prefix + "BROTHER_KILL_DRAGON_2";
+            Language.Add(mithrixDialogueKill2, "Return to dust, Chimera.");
+
+            mithrixHurtDialogueKill1 = prefix + "BROTHERHURT_KILL_DRAGON_1";
+            Language.Add(mithrixHurtDialogueKill1, "KNOW YOUR PLACE, CHIMERA.");
+
+            mithrixHurtDialogueKill2 = prefix + "BROTHERHURT_KILL_DRAGON_2";
+            Language.Add(mithrixHurtDialogueKill2, "YOU CANNOT SURPASS YOUR CREATOR, CHIMERA.");
             #endregion
         }
     }

@@ -43,7 +43,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             base.OnEnter();
             if (animator) {
                 animator.SetLayerWeight(hoverLayerIndex, 0f);
-                animator.SetBool("isHovering", false);
+                animator.SetBool(LunarDragonAnimationParameters.isHovering, false);
             }
         }
     }

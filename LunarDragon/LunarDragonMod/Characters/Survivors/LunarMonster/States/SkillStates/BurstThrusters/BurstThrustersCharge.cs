@@ -159,7 +159,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 PlayCrossfade("FullBody, Override", "UtilityFire", 0.005f);
             }
 
-            GetModelAnimator().SetBool("inUtilityLoop", true);
+            GetModelAnimator().SetBool(LunarDragonAnimationParameters.forceIdle, true);
 
             if (isAuthority) {
                 if (controller) {

@@ -47,7 +47,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
             animator = GetModelAnimator();
             if (animator) {
-                animator.SetBool("isHovering", true);
+                animator.SetBool(LunarDragonAnimationParameters.isHovering, true);
                 hoverLayerIndex = animator.GetLayerIndex("Hover");
                 hoveringDegree = animator.GetLayerWeight(hoverLayerIndex);
             }

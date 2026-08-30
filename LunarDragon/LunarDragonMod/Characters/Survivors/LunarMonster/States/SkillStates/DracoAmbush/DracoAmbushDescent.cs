@@ -24,6 +24,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (isAuthority && characterMotor) {
                 characterMotor.useGravity = true;
             }
+            Animator animator = GetModelAnimator();
+            if (animator) {
+                animator.SetBool(LunarDragonAnimationParameters.forceIdle, false);
+            }
         }
 
         public override void Update() {

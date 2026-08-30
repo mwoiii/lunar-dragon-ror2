@@ -143,7 +143,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
 
             if (modelAnimator) {
-                modelAnimator.SetBool("inUtilityLoop", false);
+                modelAnimator.SetBool(LunarDragonAnimationParameters.forceIdle, false);
                 if (isGrounded) {
                     PlayAnimation("OuterCannons, Override", "FlipCannons");
                 }
