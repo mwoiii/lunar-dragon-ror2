@@ -17,10 +17,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         public EntityStateMachine utilityStateMachine;
 
+        public EntityStateMachine jetpackStateMachine;
+
         private void Awake() {
             bodyStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Body");
             weaponStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Weapon");
             utilityStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Utility");
+            jetpackStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Jet");
             AddJets();
         }
 

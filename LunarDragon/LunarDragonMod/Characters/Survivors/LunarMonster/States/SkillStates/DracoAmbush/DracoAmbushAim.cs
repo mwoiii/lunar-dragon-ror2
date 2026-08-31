@@ -79,18 +79,18 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
                 _endpointVisualizerPrefab = endpointVisualizerPrefab;
 
-                if (_endpointVisualizerPrefab) {
-                    endpointVisualizerTransform = Object.Instantiate(_endpointVisualizerPrefab, transform.position, Quaternion.identity).transform;
-                }
-
                 if (characterBody) {
+                    if (_endpointVisualizerPrefab && characterBody.isPlayerControlled) {
+                        endpointVisualizerTransform = Object.Instantiate(_endpointVisualizerPrefab, transform.position, Quaternion.identity).transform;
+                    }
                     heldCrosshair = characterBody._defaultCrosshairPrefab;
                     characterBody._defaultCrosshairPrefab = dotCrosshair;
                 }
 
+                UpdateVisualizers(currentTrajectoryInfo);
+
                 originOverride = FindModelChild(originOverrideString);
                 minimumDuration = baseMinimumDuration / attackSpeedStat;
-                UpdateVisualizers(currentTrajectoryInfo);
                 SceneCamera.onSceneCameraPreRender += OnPreRenderSceneCam;
             }
         }
@@ -142,7 +142,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                         NextState();
 
                     } else if (toggleActivate) {
-                        if (holdingActivationKey && hasPosition) {
+                        if (holdingActivationKey) {
 
                             // toggle - released from activation press
                             holdingActivationKey = false;
@@ -167,7 +167,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     }
                 }
 
-                if (toggleActivate && inputBank.skill1.justPressed && age >= minimumDuration) {
+                if (toggleActivate && inputBank.skill1.justPressed && age >= minimumDuration && hasPosition) {
 
                     // toggle - activation with primary
                     NextState();
@@ -177,7 +177,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool ExceedsDPThreshold(Vector3 normal, float threshold = 0.6f) {
+        private bool ExceedsDPThreshold(Vector3 normal, float threshold = 0.8f) {
             return Vector3.Dot(normal, Vector3.up) >= threshold;
         }
 
@@ -197,7 +197,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             RaycastHit hitInfo = default;
 
             bool success = false;
-            if (mainCamera) {
+            if (mainCamera && characterBody && characterBody.isPlayerControlled) {
                 aimRay.origin = mainCamera.position;
                 aimRay.direction = mainCamera.forward;
             }
@@ -205,17 +205,17 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             // (1) checking if aimray is valid as it is
             bool collided = Util.CharacterSpherecast(gameObject, aimRay, rayRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal);
             if (collided && ExceedsDPThreshold(hitInfo.normal)) {
-                //Log.Info($"1b SUCCESS: {hitInfo.point}");
+                //Log.Info($"1b SUCCESS: {hitInfo.point}, {Vector3.Dot(hitInfo.normal, Vector3.up)}");
                 success = true;
             }
 
             // (2) if no collision or bad angle, trying to project straight down
             Vector3 endPoint = collided ? hitInfo.point : aimRay.origin + aimRay.direction * maxDistance;
             if (!success) {
-                Ray projectionRay = new Ray(endPoint, Vector3.down);
-                if (Util.CharacterSpherecast(gameObject, projectionRay, rayRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal) && ExceedsDPThreshold(hitInfo.normal)) {
+                Ray projectionRay = new Ray(endPoint + hitInfo.normal * 5f, Vector3.down);
+                if (Util.CharacterSpherecast(gameObject, projectionRay, rayRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal) && ExceedsDPThreshold(hitInfo.normal) && hitInfo.point != endPoint) {
                     success = true;
-                    //Log.Info($"2b SUCCESS: {hitInfo.point}");
+                    //Log.Info($"2b SUCCESS: {hitInfo.point}, {Vector3.Dot(hitInfo.normal, Vector3.up)}, (({hitInfo.point}, {endPoint}))");
                 }
             }
 
@@ -229,12 +229,12 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
                 for (int i = coarseSplit - 1; i > 0; i--) {
                     Ray coarseProjectionRay = new Ray(aimRay.origin + (aimRay.direction * distance * coarseMult * i), Vector3.down);
-                    if (Util.CharacterSpherecast(gameObject, coarseProjectionRay, coarseRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal) && ExceedsDPThreshold(hitInfo.normal, 0.1f)) {
+                    if (Util.CharacterSpherecast(gameObject, coarseProjectionRay, coarseRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal) && ExceedsDPThreshold(hitInfo.normal, 0.5f)) {
                         for (int j = 0; j <= fineSplit; j++) {
                             Ray fineProjectionRay = new Ray(coarseProjectionRay.origin - (aimRay.direction * coarseRadius * fineMult * j) + (aimRay.direction * coarseRadius), Vector3.down);
-                            if (Util.CharacterSpherecast(gameObject, fineProjectionRay, rayRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal) && ExceedsDPThreshold(hitInfo.normal)) {
+                            if (Util.CharacterSpherecast(gameObject, fineProjectionRay, rayRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal) && ExceedsDPThreshold(hitInfo.normal) && hitInfo.distance > 0) {
                                 success = true;
-                                //Log.Info($"3a/4a SUCCESS: {i}, {j}");
+                                //Log.Info($"3a/4a SUCCESS: {i}, {j}, {Vector3.Dot(hitInfo.normal, Vector3.up)}, {hitInfo.distance}");
                                 break;
                             }
                         }

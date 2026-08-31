@@ -1,9 +1,10 @@
 ﻿using EntityStates;
+using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
-    public class DracoAmbushDescentHold : BaseState {
+    public class DracoAmbushDescending : BaseState {
 
         private float stopwatch;
 
@@ -13,11 +14,11 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public Vector3 targetFootPosition;
 
-        private AnimationCurve xCurve = LunarDragonAssets.ascentDescendingData.xCurve;
+        private AnimationCurve xCurve = LunarDragonAssets.specialAmbushDescendingData.xCurve;
 
-        private AnimationCurve yCurve = LunarDragonAssets.ascentDescendingData.yCurve;
+        private AnimationCurve yCurve = LunarDragonAssets.specialAmbushDescendingData.yCurve;
 
-        private AnimationCurve zCurve = LunarDragonAssets.ascentDescendingData.zCurve;
+        private AnimationCurve zCurve = LunarDragonAssets.specialAmbushDescendingData.zCurve;
 
         public Transform modelTransform;
 
@@ -33,6 +34,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             cameraTargetParams.AddLerpRequest(0.5f);
             TeleportHelper.TeleportBody(characterBody, targetFootPosition, true);
             base.OnEnter();
+            if (TryGetComponent(out LunarDragonController controller)) {
+                controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFrontTrailLight)));
+            }
         }
 
         public override void Update() {
@@ -40,7 +44,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             stopwatch += Time.deltaTime;
             if (isAuthority) {
                 if (stopwatch >= lifetime) {
-                    outer.SetNextState(new DracoAmbushDescent() {
+                    outer.SetNextState(new DracoAmbushLanding() {
                         targetFootPosition = targetFootPosition,
                         hurtBoxGroup = hurtBoxGroup,
                     });
@@ -49,9 +53,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (modelTransform && stopwatch < lifetime) {
                 float scaledTime = stopwatch / lifetime;
                 Vector3 offset = (
-                    forward * zCurve.Evaluate(scaledTime) * 350f +
-                    right * xCurve.Evaluate(scaledTime) * 350f +
-                    up * yCurve.Evaluate(scaledTime) * 1000f
+                    forward * zCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationXMult +
+                    right * xCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationZMult +
+                    up * yCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationYMult
                 );
                 modelTransform.LookAt(targetFootPosition + offset);
                 modelTransform.position = targetFootPosition + offset;

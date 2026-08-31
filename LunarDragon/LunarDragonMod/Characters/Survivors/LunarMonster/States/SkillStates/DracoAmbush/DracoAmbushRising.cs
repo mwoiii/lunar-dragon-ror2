@@ -1,9 +1,10 @@
 ﻿using EntityStates;
+using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
-    public class DracoAmbushAscentHold : BaseState {
+    public class DracoAmbushRising : BaseState {
 
         private HurtBoxGroup hurtBoxGroup;
 
@@ -13,11 +14,11 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public Vector3 targetFootPosition;
 
-        private AnimationCurve xCurve = LunarDragonAssets.ascentRisingData.xCurve;
+        private AnimationCurve xCurve = LunarDragonAssets.specialAmbushRisingData.xCurve;
 
-        private AnimationCurve yCurve = LunarDragonAssets.ascentRisingData.yCurve;
+        private AnimationCurve yCurve = LunarDragonAssets.specialAmbushRisingData.yCurve;
 
-        private AnimationCurve zCurve = LunarDragonAssets.ascentRisingData.zCurve;
+        private AnimationCurve zCurve = LunarDragonAssets.specialAmbushRisingData.zCurve;
 
         private Transform modelTransform;
 
@@ -32,6 +33,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         public override void OnEnter() {
             base.OnEnter();
             OnTakeoff();
+            if (TryGetComponent(out LunarDragonController controller)) {
+                controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFrontTrailHeavy)));
+            }
         }
 
         private void OnTakeoff() {
@@ -46,6 +50,28 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     hurtBoxGroup.hurtBoxesDeactivatorCounter++;
                 }
             }
+
+            if (isAuthority && characterBody && characterBody.teamComponent) {
+                FireExplosion();
+            }
+        }
+
+        private void FireExplosion() {
+            BlastAttack blastAttack = new BlastAttack {
+                attacker = characterBody.gameObject,
+                baseDamage = characterBody.damage * LunarDragonStaticValues.specialAmbushTakeoffDamageCoefficient,
+                crit = characterBody.RollCrit(),
+                falloffModel = BlastAttack.FalloffModel.HalfLinear,
+                inflictor = characterBody.gameObject,
+                position = characterBody.transform.position,
+                procChainMask = default(ProcChainMask),
+                baseForce = 1500f,
+                procCoefficient = 1f,
+                radius = 18f,
+                teamIndex = characterBody.teamComponent.teamIndex,
+                damageType = DamageType.IgniteOnHit
+            };
+            blastAttack.Fire();
         }
 
         public override void Update() {
@@ -53,7 +79,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             stopwatch += Time.deltaTime;
             if (isAuthority) {
                 if (stopwatch >= lifetime) {
-                    outer.SetNextState(new DracoAmbushDescentHold() {
+                    outer.SetNextState(new DracoAmbushDescending() {
                         targetFootPosition = targetFootPosition,
                         hurtBoxGroup = hurtBoxGroup,
                         modelTransform = modelTransform,
@@ -66,9 +92,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (modelTransform) {
                 float scaledTime = stopwatch / lifetime;
                 Vector3 offset = (
-                    forward * zCurve.Evaluate(scaledTime) * 350f +
-                    right * xCurve.Evaluate(scaledTime) * 350f +
-                    up * yCurve.Evaluate(scaledTime) * 1000f
+                    forward * zCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationXMult +
+                    right * xCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationZMult +
+                    up * yCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationYMult
                 );
                 modelTransform.LookAt(center + offset);
                 modelTransform.position = center + offset;

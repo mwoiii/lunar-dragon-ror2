@@ -18,8 +18,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public Type jetState = typeof(JetsOnBottom);
 
-        protected EntityStateMachine jetpackStateMachine;
-
         public bool jumpButtonState;
 
         private bool heldPress;
@@ -36,7 +34,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             if (controller) {
                 controller.bodyState = this;
             }
-            jetpackStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Jet");
         }
 
         public override void FixedUpdate() {
@@ -82,15 +79,17 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     jumpButtonState = inputBank.jump.down;
                 }
 
-                bool requestActivateJetpack = (jumpButtonState && canHover) || forceJetpack;
-                bool jetpackIsActive = jetpackStateMachine.state is JetsOnBase;
+                if (controller && controller.jetpackStateMachine) {
+                    bool requestActivateJetpack = (jumpButtonState && canHover) || forceJetpack;
+                    bool jetpackIsActive = controller.jetpackStateMachine.state is JetsOnBase;
 
-                if (requestActivateJetpack && !jetpackIsActive) {
-                    jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(jetState));
-                }
+                    if (requestActivateJetpack && !jetpackIsActive) {
+                        controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(jetState));
+                    }
 
-                if (!requestActivateJetpack && jetpackIsActive) {
-                    jetpackStateMachine.SetNextState(new JetsOff());
+                    if (!requestActivateJetpack && jetpackIsActive) {
+                        controller.jetpackStateMachine.SetNextState(new JetsOff());
+                    }
                 }
             }
 
@@ -100,8 +99,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         }
 
         public override void OnExit() {
-            if (isAuthority && jetpackStateMachine) {
-                jetpackStateMachine.SetNextState(new Idle());
+            if (isAuthority && controller && controller.jetpackStateMachine) {
+                controller.jetpackStateMachine.SetNextState(new Idle());
             }
             base.OnExit();
         }

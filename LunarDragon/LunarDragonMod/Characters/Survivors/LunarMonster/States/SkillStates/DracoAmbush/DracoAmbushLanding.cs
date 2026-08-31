@@ -4,7 +4,7 @@ using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
-    public class DracoAmbushDescent : BaseState {
+    public class DracoAmbushLanding : BaseState {
 
         private float stopwatch;
 
@@ -14,9 +14,30 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public Vector3 targetFootPosition;
 
+        private LunarDragonController controller;
+
         public override void OnEnter() {
             base.OnEnter();
             OnLand();
+        }
+
+        private void OnLand() {
+            PlayAnimation("FullBody, Override", "SpecialDiveEnd");
+            if (TryGetComponent(out controller)) {
+                controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOff)));
+            }
+            if (isAuthority) {
+                if (TryGetComponent(out Interactor interactor)) {
+                    interactor.isRemoteOp = false;
+                }
+                FireExplosion();
+            }
+            if (modelLocator) {
+                modelLocator.autoUpdateModelTransform = true;
+            }
+            if (hurtBoxGroup) {
+                hurtBoxGroup.hurtBoxesDeactivatorCounter--;
+            }
         }
 
         public override void OnExit() {
@@ -36,7 +57,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (stopwatch >= lifetime) {
                 PlayAnimation("OuterCannons, Override", "FlipCannons");
                 if (isAuthority) {
-                    if (TryGetComponent(out LunarDragonController controller)) {
+                    if (controller) {
                         controller.ResetAllSkillStateMachines();
                     }
                     outer.SetNextStateToMain();
@@ -44,30 +65,17 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
         }
 
-        private void OnLand() {
-            PlayAnimation("FullBody, Override", "SpecialDiveEnd");
-            if (isAuthority) {
-                FireExplosion();
-            }
-            if (modelLocator) {
-                modelLocator.autoUpdateModelTransform = true;
-            }
-            if (hurtBoxGroup) {
-                hurtBoxGroup.hurtBoxesDeactivatorCounter--;
-            }
-        }
-
         private void FireExplosion() {
             BlastAttack blastAttack = new BlastAttack {
                 attacker = gameObject,
-                baseDamage = characterBody.damage * LunarDragonStaticValues.specialAscentDamageCoefficient,
+                baseDamage = characterBody.damage * LunarDragonStaticValues.specialAmbushLandDamageCoefficient,
                 crit = characterBody.RollCrit(),
                 position = characterBody.transform.position,
                 falloffModel = BlastAttack.FalloffModel.Linear,
                 inflictor = gameObject,
                 procChainMask = default(ProcChainMask),
                 procCoefficient = 1f,
-                radius = 70f,
+                radius = 50f,
                 teamIndex = characterBody.teamComponent.teamIndex,
             };
             blastAttack.damageType |= DamageType.IgniteOnHit;

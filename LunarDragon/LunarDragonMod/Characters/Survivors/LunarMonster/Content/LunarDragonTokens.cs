@@ -88,7 +88,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             #region Special
             Language.Add(prefix + "SPECIAL_AMBUSH_NAME", "Draco Ambush");
-            Language.Add(prefix + "SPECIAL_AMBUSH_DESCRIPTION", $"Soar into the skies to <style=cIsUtility>take aim</style>. Crash-land on the target position, dealing <style=cIsDamage>{100f * LunarDragonStaticValues.specialAscentDamageCoefficient}% damage in a large area</style>.");
+            Language.Add(prefix + "SPECIAL_AMBUSH_DESCRIPTION", $"Soar into the skies to <style=cIsUtility>take aim</style>. Crash-land on the target position, dealing <style=cIsDamage>{100f * LunarDragonStaticValues.specialAmbushLandDamageCoefficient}% damage</style> in a large area.");
             #endregion
 
             #region Achievements

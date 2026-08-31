@@ -67,9 +67,13 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject displayEffectPrefab;
 
-        public static AnimationCurveData ascentRisingData;
+        public static GameObject specialLiftoffSmokeEffect;
 
-        public static AnimationCurveData ascentDescendingData;
+        public static GameObject specialLiftoffExplosionEffect;
+
+        public static AnimationCurveData specialAmbushRisingData;
+
+        public static AnimationCurveData specialAmbushDescendingData;
 
         public static CharacterSpeechController.SpeechInfo[] seeDragonResponses;
 
@@ -116,7 +120,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             TryBuildAsset("Display Effect", CreateDisplayEffect);
 
-            TryBuildAsset("Ascent Motion Data", GetAscentData);
+            TryBuildAsset("Special Liftoff Effects", CreateAmbushLiftoffEffects);
+            TryBuildAsset("Special Motion Data", GetAmbushMotionData);
 
             TryBuildAsset("Mithrix Dialogue", CreateMithrixDialogue);
         }
@@ -775,7 +780,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Utility Smoke Effect", () => {
                 Transform core = utilitySmokeEffect.transform.Find("Core");
                 core.transform.localScale = Vector3.one * 0.7f;
-                core.transform.localPosition = new Vector3(0f, 1f, -1f);
                 core.Find("Debris, 3D").gameObject.SetActive(true);
                 core.Find("Debris").gameObject.SetActive(true);
                 core.Find("Dust").gameObject.SetActive(true);
@@ -812,6 +816,9 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 ParticleSystem.MainModule main = ps.main;
                 main.startColor = new ParticleSystem.MinMaxGradient(new Color(1f, 0.55f, 0.22f), new Color(0.74f, 0.16f, 0f));
                 Object.Destroy(particles.Find("Fire, Linger").gameObject);
+                psr = particles.Find("Flash, White").GetComponent<ParticleSystemRenderer>();
+                psr.maxParticleSize = 50f;
+                psr.transform.localScale = Vector3.one * 0.15f;
             });
 
             utilityDashMediumEffect = utilityDashHeavyEffect.InstantiateClone("DragonUtilityExplosionMedium", false);
@@ -965,9 +972,36 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             });
         }
 
-        private static void GetAscentData() {
-            ascentRisingData = assetBundle.LoadAsset<AnimationCurveData>("RisingData");
-            ascentDescendingData = assetBundle.LoadAsset<AnimationCurveData>("DescendingData");
+        private static void CreateAmbushLiftoffEffects() {
+            specialLiftoffExplosionEffect = utilityDashHeavyEffect.InstantiateClone("DragonSpecialExplosion", false);
+            TryBuildAsset("Special Liftoff Explosion", () => {
+                ShakeEmitter shake = specialLiftoffExplosionEffect.GetComponent<ShakeEmitter>();
+                shake.radius = 40f;
+                shake.duration = 0.8f;
+                shake.wave.amplitude = 3.5f;
+
+                Transform particles = specialLiftoffExplosionEffect.transform.Find("Particles");
+                particles.localScale *= 3f;
+                particles.Find("Fire").localScale = Vector3.one * 0.5f;
+                Object.Destroy(particles.Find("Fire, Linger").gameObject);
+            });
+
+            Content.CreateAndAddEffectDef(specialLiftoffExplosionEffect);
+
+            specialLiftoffSmokeEffect = utilitySmokeEffect.InstantiateClone("DragonSpecialSmoke", false);
+            TryBuildAsset("Special Liftoff Smoke Effect", () => {
+                Transform core = utilitySmokeEffect.transform.Find("Core");
+                foreach (Transform child in core) {
+                    core.localScale = Vector3.one * 5f;
+                }
+            });
+
+            Content.CreateAndAddEffectDef(specialLiftoffSmokeEffect);
+        }
+
+        private static void GetAmbushMotionData() {
+            specialAmbushRisingData = assetBundle.LoadAsset<AnimationCurveData>("RisingData");
+            specialAmbushDescendingData = assetBundle.LoadAsset<AnimationCurveData>("DescendingData");
         }
 
         private static void CreateMithrixDialogue() {

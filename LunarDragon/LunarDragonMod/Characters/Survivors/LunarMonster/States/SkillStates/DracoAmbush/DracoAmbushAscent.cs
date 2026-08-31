@@ -1,5 +1,6 @@
 ﻿using EntityStates;
 using LunarDragonMod.Survivors.LunarDragon.Components;
+using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
@@ -9,17 +10,33 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private float duration;
 
+        private const float groundDuration = 0.86f;
+
+        private const float airDuration = 0.4f;
+
+        private const float jetsTime = 0.4f; // air anim is just ground anim with first portion skipped
+
+        private float activateJetsTime;
+
+        private bool jetsActive;
+
+        private LunarDragonController controller;
+
         public Vector3 targetFootPosition;
 
         public override void OnEnter() {
             base.OnEnter();
             if (isAuthority) {
-                if (TryGetComponent(out LunarDragonController controller)) {
+                if (TryGetComponent(out controller)) {
                     controller.DisableAllSkillStateMachines();
                 }
                 if (characterMotor) {
                     characterMotor.velocity = Vector3.zero;
                     characterMotor.useGravity = false;
+                    characterMotor.Motor.ForceUnground();
+                }
+                if (TryGetComponent(out Interactor interactor)) {
+                    interactor.isRemoteOp = true;
                 }
             }
             Animator animator = GetModelAnimator();
@@ -29,23 +46,39 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
             if (isGrounded) {
                 PlayCrossfade("FullBody, Override", "SpecialDiveStart", 0.005f);
-                duration = 0.86f;
+                duration = groundDuration;
             } else {
                 PlayCrossfade("FullBody, Override", "SpecialDiveStartAir", 0.005f);
-                duration = 0.4f;
+                duration = airDuration;
             }
         }
 
         public override void Update() {
             base.Update();
-            if (isAuthority) {
-                stopwatch += Time.deltaTime;
-                if (stopwatch >= duration) {
-                    outer.SetNextState(new DracoAmbushAscentHold() {
-                        targetFootPosition = targetFootPosition,
-                    });
+            stopwatch += Time.deltaTime;
+            if (!jetsActive && stopwatch > duration - jetsTime) {
+                if (controller) {
+                    controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFront)));
                 }
+                EffectManager.SpawnEffect(LunarDragonAssets.specialLiftoffSmokeEffect, new EffectData {
+                    origin = characterBody.footPosition,
+                    rotation = characterBody.transform.rotation
+                }, false);
+                jetsActive = true;
             }
+            if (stopwatch >= duration && isAuthority) {
+                outer.SetNextState(new DracoAmbushRising() {
+                    targetFootPosition = targetFootPosition,
+                });
+            }
+        }
+
+        public override void OnExit() {
+            base.OnExit();
+            EffectManager.SpawnEffect(LunarDragonAssets.specialLiftoffExplosionEffect, new EffectData {
+                origin = characterBody.footPosition,
+                rotation = characterBody.transform.rotation
+            }, false);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority() {
