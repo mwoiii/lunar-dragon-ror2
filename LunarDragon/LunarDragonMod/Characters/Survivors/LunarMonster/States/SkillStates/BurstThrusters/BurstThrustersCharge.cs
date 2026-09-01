@@ -100,7 +100,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     break;
             }
 
-            skillLocator.utility.temporaryCooldownPenalty = currentCharge * 5 * skillLocator.utilityBonusStockSkill.cooldownScale; // 2, 7, 10
+            skillLocator.utility.temporaryCooldownPenalty = currentCharge * 5f * skillLocator.utilityBonusStockSkill.cooldownScale; // 2, 7, 10
             EntityStateMachine bodyStateMachine = FindSiblingStateMachine("Body");
             if (bodyStateMachine) {
                 bodyStateMachine.SetNextState(nextState);

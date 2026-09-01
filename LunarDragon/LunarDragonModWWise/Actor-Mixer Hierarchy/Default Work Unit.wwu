@@ -46,6 +46,35 @@
 								<ActiveSource Name="LunarDragonCry" ID="{E1632C22-985E-43B3-852F-E57FBF356BB8}" Platform="Linked"/>
 							</ActiveSourceList>
 						</Sound>
+						<Sound Name="LunarDragonAmbushImpact" ID="{E2F50C0F-A4E2-42AD-A5C0-A88AD4FF4D19}" ShortID="360986829">
+							<PropertyList>
+								<Property Name="3DSpatialization" Type="int16" Value="1"/>
+								<Property Name="OverridePositioning" Type="bool" Value="True"/>
+							</PropertyList>
+							<ReferenceList>
+								<Reference Name="Attenuation">
+									<ObjectRef Name="LunarDragonImpact" ID="{49DE2D66-A028-447D-8B58-B2E70DEB21AB}" WorkUnitID="{3C2E363D-8643-467E-B859-FCCA8B0FCCB4}"/>
+								</Reference>
+								<Reference Name="Conversion">
+									<ObjectRef Name="Default Conversion Settings" ID="{6D1B890C-9826-4384-BF07-C15223E9FB56}" WorkUnitID="{B594BE48-ABB6-4217-AF24-E7FBEF229967}"/>
+								</Reference>
+								<Reference Name="OutputBus">
+									<ObjectRef Name="Master Audio Bus" ID="{1514A4D8-1DA6-412A-A17E-75CA0C2149F3}" WorkUnitID="{56E4E473-4C94-4B32-B458-794C79201113}"/>
+								</Reference>
+							</ReferenceList>
+							<ChildrenList>
+								<AudioFileSource Name="LunarDragonAmbushImpact" ID="{5CB6E358-1124-4154-A6AF-CDC38934649B}">
+									<Language>SFX</Language>
+									<AudioFile>LunarDragonAmbushImpact.wav</AudioFile>
+									<MediaIDList>
+										<MediaID ID="725394170"/>
+									</MediaIDList>
+								</AudioFileSource>
+							</ChildrenList>
+							<ActiveSourceList>
+								<ActiveSource Name="LunarDragonAmbushImpact" ID="{5CB6E358-1124-4154-A6AF-CDC38934649B}" Platform="Linked"/>
+							</ActiveSourceList>
+						</Sound>
 					</ChildrenList>
 					<ObjectLists>
 						<ObjectList Name="RTPC">

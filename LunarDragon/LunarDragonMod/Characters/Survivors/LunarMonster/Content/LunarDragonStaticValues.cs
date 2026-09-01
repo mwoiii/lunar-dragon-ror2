@@ -22,7 +22,7 @@
 
         public const float specialAmbushAnimationXMult = 1500f;
 
-        public const float specialAmbushAnimationYMult = 5000f;
+        public const float specialAmbushAnimationYMult = 4500f;
 
         public const float specialAmbushAnimationZMult = 1500f;
     }

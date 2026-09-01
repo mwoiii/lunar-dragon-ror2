@@ -240,7 +240,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarDragon.Content {
                 interruptPriority = InterruptPriority.PrioritySkill,
 
                 baseMaxStock = 1,
-                baseRechargeInterval = 10f,
+                baseRechargeInterval = 60f,
                 stockToConsume = 0,
 
                 beginSkillCooldownOnSkillEnd = true,

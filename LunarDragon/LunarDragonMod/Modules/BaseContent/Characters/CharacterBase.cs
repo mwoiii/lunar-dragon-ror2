@@ -1,4 +1,5 @@
-﻿using RoR2;
+﻿using EntityStates;
+using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Modules.Characters {
@@ -87,6 +88,7 @@ namespace LunarDragonMod.Modules.Characters {
 
         public GameObject crosshair = null;
         public GameObject podPrefab = null;
+        public SerializableEntityStateType initialState;
         #endregion Character
 
         #region Stats

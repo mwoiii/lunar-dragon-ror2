@@ -19,12 +19,29 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         public EntityStateMachine jetpackStateMachine;
 
+        private ChildLocator childLocator;
+
+        private GameObject fireAura;
+
         private void Awake() {
             bodyStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Body");
             weaponStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Weapon");
             utilityStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Utility");
             jetpackStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Jet");
+            GetChildLocator();
             AddJets();
+        }
+
+        public void EnableFireAura() {
+            if (!fireAura && childLocator) {
+                fireAura = Instantiate(LunarDragonAssets.specialAscendingFireEffect, childLocator.FindChild("Chest"), false);
+            }
+        }
+
+        public void DisableFireAura() {
+            if (fireAura) {
+                Destroy(fireAura);
+            }
         }
 
         public void DisableWeaponStateMachine() {
@@ -53,18 +70,21 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
             ResetUtilityStateMachine();
         }
 
-        private void AddJets() {
+        private void GetChildLocator() {
             ModelLocator modelLocator = GetComponent<ModelLocator>();
             if (!modelLocator) {
-                Log.Error("Couldn't find ModelLocator! Jet effects not added.");
+                Log.Error("Couldn't find ModelLocator!");
                 return;
             }
+            childLocator = modelLocator.modelChildLocator;
+        }
 
-            if (modelLocator.modelChildLocator) {
-                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetLeftBottom"), false);
-                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetLeftFront"), false);
-                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetRightBottom"), false);
-                Instantiate(LunarDragonAssets.jetEffectPrefab, modelLocator.modelChildLocator.FindChild("JetRightFront"), false);
+        private void AddJets() {
+            if (childLocator) {
+                Instantiate(LunarDragonAssets.jetEffectPrefab, childLocator.FindChild("JetLeftBottom"), false);
+                Instantiate(LunarDragonAssets.jetEffectPrefab, childLocator.FindChild("JetLeftFront"), false);
+                Instantiate(LunarDragonAssets.jetEffectPrefab, childLocator.FindChild("JetRightBottom"), false);
+                Instantiate(LunarDragonAssets.jetEffectPrefab, childLocator.FindChild("JetRightFront"), false);
             } else {
                 Log.Error("Couldn't find ChildLocator! Jet effects not added.");
             }

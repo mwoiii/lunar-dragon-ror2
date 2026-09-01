@@ -28,7 +28,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
              + "< ! > While strong, the Lunar Dragon is also an easy target. Prioritize enemies who can exploit this weakness." + Environment.NewLine + Environment.NewLine
              + "< ! > Elemental Blitz is slow, but fires unique, powerful blasts. Switch targets between attacks to maximize your advantage." + Environment.NewLine + Environment.NewLine
              + "< ! > Burst Thrusters can be charged on the ground to increase its duration and damage, additionally gaining a flaming trail at high charge. Use the skill while hovering in the air instead for a hasty, low-cooldown dash." + Environment.NewLine + Environment.NewLine
-             + "< ! > Draco Ambush is the Lunar Dragon's flagship attack. Keep it for the right moment to utterly devastate any and all targets." + Environment.NewLine + Environment.NewLine;
+             + "< ! > Draco Ambush is the Lunar Dragon's flagship attack. Keep it for the right moment to utterly devastate your targets of choice." + Environment.NewLine + Environment.NewLine;
 
             string outro = "..and so it left, with aspirations anew.";
             string outroFailure = "..and so it vanished, its purpose fulfilled.";
@@ -88,7 +88,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             #region Special
             Language.Add(prefix + "SPECIAL_AMBUSH_NAME", "Draco Ambush");
-            Language.Add(prefix + "SPECIAL_AMBUSH_DESCRIPTION", $"Soar into the skies to <style=cIsUtility>take aim</style>. Crash-land on the target position, dealing <style=cIsDamage>{100f * LunarDragonStaticValues.specialAmbushLandDamageCoefficient}% damage</style> in a large area.");
+            Language.Add(prefix + "SPECIAL_AMBUSH_DESCRIPTION", $"<style=cIsUtility>Take aim</style>, and confirm a target to <style=cIsUtility>soar into the sky</style>. Unleash a devastating strike on the target position for <style=cIsDamage>{100f * LunarDragonStaticValues.specialAmbushLandDamageCoefficient}% damage</style> in a large area.");
             #endregion
 
             #region Achievements

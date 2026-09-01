@@ -1,4 +1,5 @@
-﻿using LunarDragonMod.Characters.Survivors.LunarDragon.Content;
+﻿using EntityStates;
+using LunarDragonMod.Characters.Survivors.LunarDragon.Content;
 using LunarDragonMod.Modules;
 using LunarDragonMod.Modules.Characters;
 using LunarDragonMod.Survivors.LunarDragon.Components;
@@ -43,8 +44,9 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             bodyColor = new Color(0.67f, 0.65f, 0.74f),
             sortPosition = 100,
 
-            crosshair = assetBundle.LoadAsset<GameObject>("LunarDragonCrosshair"), // Asset.LoadCrosshair("Standard"),
-            podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
+            crosshair = assetBundle.LoadAsset<GameObject>("LunarDragonCrosshair"),
+            //podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
+            initialState = new SerializableEntityStateType(typeof(AmbushSpawn)),
 
             maxHealth = 180f,
             healthRegen = 1f,

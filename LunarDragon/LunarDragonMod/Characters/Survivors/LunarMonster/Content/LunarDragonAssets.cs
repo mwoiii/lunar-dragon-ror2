@@ -11,6 +11,7 @@ using System.Reflection;
 using ThreeEyedGames;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Rendering.PostProcessing;
 
 namespace LunarDragonMod.Survivors.LunarDragon {
     public static class LunarDragonAssets {
@@ -20,6 +21,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         public static GameObject jetEffectPrefab;
 
         public static GameObject fireballPrefab;
+
+        public static GameObject fireballGhostPrefab;
 
         public static GameObject fireballImpactPrefab;
 
@@ -71,6 +74,10 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject specialLiftoffExplosionEffect;
 
+        public static GameObject specialAscendingFireEffect;
+
+        public static GameObject specialLandingExplosionEffect;
+
         public static AnimationCurveData specialAmbushRisingData;
 
         public static AnimationCurveData specialAmbushDescendingData;
@@ -121,6 +128,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Display Effect", CreateDisplayEffect);
 
             TryBuildAsset("Special Liftoff Effects", CreateAmbushLiftoffEffects);
+            TryBuildAsset("Special Ascending Effects", CreateAmbushAscendingEffects);
+            TryBuildAsset("Special Landing Effects", CreateAmbushLandingEffects);
             TryBuildAsset("Special Motion Data", GetAmbushMotionData);
 
             TryBuildAsset("Mithrix Dialogue", CreateMithrixDialogue);
@@ -182,14 +191,14 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         private static void CreateFireball() {
             fireballPrefab = assetBundle.LoadAsset<GameObject>("FireballProjectile");
 
-            GameObject dragonFireballGhost = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageLightningBombGhost_prefab).WaitForCompletion(), "DragonFireballGhost", false);
+            fireballGhostPrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageLightningBombGhost_prefab).WaitForCompletion(), "DragonFireballGhost", false);
             TryBuildAsset("Primary Fireball Ghost", () => {
                 #region MageLightningBombGhost
-                Object.Destroy(dragonFireballGhost.transform.Find("Sparks, Trail").gameObject);
+                Object.Destroy(fireballGhostPrefab.transform.Find("Sparks, Trail").gameObject);
 
-                Object.Destroy(dragonFireballGhost.transform.Find("Point light").gameObject);
+                Object.Destroy(fireballGhostPrefab.transform.Find("Point light").gameObject);
 
-                GameObject dragonFireballBase = dragonFireballGhost.transform.Find("Base").gameObject;
+                GameObject dragonFireballBase = fireballGhostPrefab.transform.Find("Base").gameObject;
                 ParticleSystemRenderer psr = dragonFireballBase.GetComponent<ParticleSystemRenderer>();
                 Material matBase = new Material(psr.sharedMaterial);
                 matBase.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampMageFire_png).WaitForCompletion());
@@ -197,7 +206,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 psr.sharedMaterial = matBase;
                 dragonFireballBase.transform.localScale = Vector3.one * 3f;
 
-                GameObject dragonFireballCore = dragonFireballGhost.transform.Find("OrbCore").gameObject;
+                GameObject dragonFireballCore = fireballGhostPrefab.transform.Find("OrbCore").gameObject;
                 MeshRenderer meshRenderer = dragonFireballCore.GetComponent<MeshRenderer>();
                 Material matOrbCore = new Material(Addressables.LoadAssetAsync<Material>(RoR2_DLC2_Child.matChildStarCore_mat).WaitForCompletion());
                 matOrbCore.SetColor("_TintColor", new Color(1f, 0.74f, 0f));
@@ -207,7 +216,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 #endregion
 
                 #region FireballGhost
-                GameObject lemFireball = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Lemurian.FireballGhost_prefab).WaitForCompletion(), dragonFireballGhost.transform);
+                GameObject lemFireball = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Lemurian.FireballGhost_prefab).WaitForCompletion(), fireballGhostPrefab.transform);
                 Object.Destroy(lemFireball.GetComponent<ProjectileGhostController>());
                 Object.Destroy(lemFireball.GetComponent<DetachParticleOnDestroyAndEndEmission>());
                 Object.Destroy(lemFireball.GetComponent<VFXAttributes>());
@@ -222,7 +231,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 #endregion
             });
 
-            fireballPrefab.GetComponent<ProjectileController>().ghostPrefab = dragonFireballGhost;
+            fireballPrefab.GetComponent<ProjectileController>().ghostPrefab = fireballGhostPrefab;
 
             TryBuildAsset("Primary Fireball Impact Explosion", () => {
                 fireballImpactPrefab = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LemurianBruiser.OmniExplosionVFXLemurianBruiserFireballImpact_prefab).WaitForCompletion(), "DragonFireballImpact", false);
@@ -973,7 +982,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         }
 
         private static void CreateAmbushLiftoffEffects() {
-            specialLiftoffExplosionEffect = utilityDashHeavyEffect.InstantiateClone("DragonSpecialExplosion", false);
+            specialLiftoffExplosionEffect = utilityDashHeavyEffect.InstantiateClone("DragonSpecialLiftoffEffect", false);
             TryBuildAsset("Special Liftoff Explosion", () => {
                 ShakeEmitter shake = specialLiftoffExplosionEffect.GetComponent<ShakeEmitter>();
                 shake.radius = 40f;
@@ -997,6 +1006,134 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             });
 
             Content.CreateAndAddEffectDef(specialLiftoffSmokeEffect);
+        }
+
+        private static void CreateAmbushAscendingEffects() {
+            specialAscendingFireEffect = fireballGhostPrefab.InstantiateClone("DragonSpecialAmbushAura", false);
+            TryBuildAsset("Special Ascending Aura", () => {
+                Object.Destroy(specialAscendingFireEffect.GetComponent<ProjectileGhostController>());
+                Object.Destroy(specialAscendingFireEffect.GetComponent<DetachParticleOnDestroyAndEndEmission>());
+                Object.Destroy(specialAscendingFireEffect.transform.Find("OrbCore").gameObject);
+                specialAscendingFireEffect.transform.localScale = Vector3.one * 5f;
+                specialAscendingFireEffect.transform.localPosition = Vector3.zero;
+                Object.Instantiate(assetBundle.LoadAsset<GameObject>("AmbushGlow"), specialAscendingFireEffect.transform, false);
+
+                ParticleSystem ps = specialAscendingFireEffect.transform.Find("FireballGhost(Clone)/Flames").GetComponent<ParticleSystem>();
+                ParticleSystem.EmissionModule emission = ps.emission;
+                emission.rateOverTime = 120f;
+
+                GameObject ppObj = new GameObject("PP");
+                ppObj.transform.SetParent(specialAscendingFireEffect.transform, false);
+                ppObj.layer = (int)LayerIndex.postProcess;
+                PostProcessVolume pp = ppObj.AddComponent<PostProcessVolume>();
+                pp.sharedProfile = Addressables.LoadAssetAsync<PostProcessProfile>(RoR2_Base_title_PostProcessing.ppLocalGolem_asset).WaitForCompletion();
+                pp.blendDistance = 90f;
+                pp.weight = 1f;
+                pp.priority = 99f;
+                SphereCollider collider = ppObj.AddComponent<SphereCollider>();
+                collider.isTrigger = true;
+                collider.radius = 1f;
+            });
+        }
+
+        private static void CreateAmbushLandingEffects() {
+            specialLandingExplosionEffect = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Brother.BrotherSlamImpact_prefab).WaitForCompletion().InstantiateClone("DragonAmbushLandEffect", false);
+            TryBuildAsset("Special Landing Explosion", () => {
+                specialLandingExplosionEffect.transform.localScale = Vector3.one * 6f;
+
+                ShakeEmitter[] shakes = specialLandingExplosionEffect.GetComponents<ShakeEmitter>();
+                foreach (ShakeEmitter shake in shakes) {
+                    Object.Destroy(shake);
+                }
+                //Object.Destroy(specialLandingExplosionEffect.GetComponent<DestroyOnTimer>());
+                ShakeEmitter newShake = specialLandingExplosionEffect.AddComponent<ShakeEmitter>();
+                newShake.startDelay = 0f;
+                newShake.radius = 150f;
+                newShake.duration = 0.8f;
+                newShake.amplitudeTimeDecay = true;
+                newShake.wave.frequency = 125f;
+                newShake.wave.amplitude = 4.4f;
+
+                Transform pp = specialLandingExplosionEffect.transform.Find("PP");
+                pp.GetComponent<PostProcessVolume>().sharedProfile = Addressables.LoadAssetAsync<PostProcessProfile>(RoR2_DLC1_Railgunner.ppLocalRailgunnerSuper_asset).WaitForCompletion();
+
+                Texture mageFire = Addressables.LoadAssetAsync<Texture>(RoR2_Base_Common_ColorRamps.texRampMageFire_png).WaitForCompletion();
+
+                ParticleSystemRenderer psr = specialLandingExplosionEffect.transform.Find("Fire").GetComponent<ParticleSystemRenderer>();
+                Material matFire = new Material(psr.sharedMaterial);
+                matFire.SetTexture("_RemapTex", mageFire);
+                matFire.SetFloat("_AlphaBoost", 3f);
+                psr.sharedMaterial = matFire;
+
+                psr = specialLandingExplosionEffect.transform.Find("Flash Lines, Fire").GetComponent<ParticleSystemRenderer>();
+                Material matFlashLinesFire = new Material(psr.sharedMaterial);
+                matFlashLinesFire.SetTexture("_RemapTex", mageFire);
+                psr.sharedMaterial = matFlashLinesFire;
+
+                ParticleSystem ps = specialLandingExplosionEffect.transform.Find("Flash Lines").GetComponent<ParticleSystem>();
+                ParticleSystem.MainModule main = ps.main;
+                main.startColor = new Color(0.37f, 0f, 0.04f);
+
+                var x = specialLandingExplosionEffect.transform.Find("Flash").gameObject;
+                specialLandingExplosionEffect.transform.Find("Flash").gameObject.name = "Flash, Small"; // same name
+                ps = specialLandingExplosionEffect.transform.Find("Flash").GetComponent<ParticleSystem>();
+                ParticleSystem.ColorOverLifetimeModule colorOverLifetime = ps.colorOverLifetime;
+                Gradient gradient = colorOverLifetime.color.gradient;
+                GradientColorKey[] colorKeys = gradient.colorKeys;
+                colorKeys[1] = new GradientColorKey(new Color(0.93f, 0.07f, 0.08f), colorKeys[1].time);
+                gradient.colorKeys = colorKeys;
+                colorOverLifetime.color = new ParticleSystem.MinMaxGradient(gradient);
+
+                Decal decal = specialLandingExplosionEffect.transform.Find("Decal").GetComponent<Decal>();
+                Material matDecal = new Material(decal.Material);
+                matDecal.SetColor("_Color", new Color(0.92f, 0.58f, 0.2f) * 2.5f);
+                matDecal.SetTexture("_RemapTex", mageFire);
+                decal.Material = matDecal;
+
+                ps = specialLandingExplosionEffect.transform.Find("Sparks").GetComponent<ParticleSystem>();
+                main = ps.main;
+                main.startColor = new ParticleSystem.MinMaxGradient(new Color(1f, 0.29f, 1f), new Color(1f, 0.11f, 0f));
+
+                Light light = specialLandingExplosionEffect.transform.Find("Point light").GetComponent<Light>();
+                light.color = new Color(1f, 0.31f, 0.25f);
+
+                Transform spikes = specialLandingExplosionEffect.transform.Find("Spikes, Small");
+                spikes.localPosition = Vector3.zero;
+                ps = spikes.GetComponent<ParticleSystem>();
+                main = ps.main;
+                main.startLifetime = new ParticleSystem.MinMaxCurve(0.2f, 0.6f);
+                ParticleSystem.ShapeModule shape = ps.shape;
+                shape.radiusThickness = 0.9f;
+                shape.radius = 20f;
+                ParticleSystem.EmissionModule emission = ps.emission;
+                emission.burstCount = 1;
+                ParticleSystem.Burst burst = emission.GetBurst(0);
+                burst.cycleCount = 1;
+                burst.count = 30;
+                emission.SetBurst(0, burst);
+
+                GameObject omniExplosion = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_LemurianBruiser.OmniExplosionVFXLemurianBruiserFireballImpact_prefab).WaitForCompletion(), specialLandingExplosionEffect.transform);
+                omniExplosion.gameObject.name = "OmniExplosionVFX";
+                omniExplosion.transform.localScale = Vector3.one * 5f;
+                foreach (Behaviour behaviour in omniExplosion.GetComponentsInChildren<Behaviour>()) {
+                    Object.Destroy(behaviour);
+                }
+                Object.Destroy(omniExplosion.transform.Find("ScaledSmoke, Billboard").gameObject);
+                Object.Destroy(omniExplosion.transform.Find("AreaIndicatorRing, Random Billboard").gameObject);
+                Object.Destroy(omniExplosion.transform.Find("Point Light").gameObject);
+                foreach (Transform child in omniExplosion.transform) {
+                    child.gameObject.SetActive(true);
+                }
+                GameObject distortionRing = Object.Instantiate(omniExplosion.transform.Find("AreaIndicatorRing, Billboard").gameObject, omniExplosion.transform);
+                distortionRing.name = "DistortionRing";
+                psr = distortionRing.GetComponent<ParticleSystemRenderer>();
+                Material matDistortionRing = new Material(Addressables.LoadAssetAsync<Shader>(RoR2_Base_Shaders.HGDistortion_shader).WaitForCompletion());
+                matDistortionRing.SetTexture("_BumpMap", Addressables.LoadAssetAsync<Texture>(RoR2_Base_TeamWarCry.texHeatwaveNormal_psd).WaitForCompletion());
+                matDistortionRing.SetFloat("_Magnitude", 3f);
+                psr.sharedMaterial = matDistortionRing;
+            });
+
+            Content.CreateAndAddEffectDef(specialLandingExplosionEffect);
         }
 
         private static void GetAmbushMotionData() {

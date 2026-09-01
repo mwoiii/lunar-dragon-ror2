@@ -4,15 +4,13 @@ using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
-    public class DracoAmbushLanding : BaseState {
+    public class DracoAmbushLand : BaseState {
 
         private float stopwatch;
 
         private float lifetime = 0.75f;
 
         public HurtBoxGroup hurtBoxGroup;
-
-        public Vector3 targetFootPosition;
 
         private LunarDragonController controller;
 
@@ -25,6 +23,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             PlayAnimation("FullBody, Override", "SpecialDiveEnd");
             if (TryGetComponent(out controller)) {
                 controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOff)));
+                controller.DisableFireAura();
+            }
+            if (characterBody) {
+                EffectManager.SpawnEffect(LunarDragonAssets.specialLandingExplosionEffect, new EffectData {
+                    origin = characterBody.footPosition,
+                    rotation = characterBody.transform.rotation
+                }, false);
             }
             if (isAuthority) {
                 if (TryGetComponent(out Interactor interactor)) {
@@ -34,6 +39,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
             if (modelLocator) {
                 modelLocator.autoUpdateModelTransform = true;
+                if (modelLocator.modelTransform) {
+                    Util.PlaySound("Stop_UI_podDescentLoop", modelLocator.modelTransform.gameObject);
+                    Util.PlaySound("Stop_lemurianBruiser_m1_fly_loop", modelLocator.modelTransform.gameObject);
+                    Util.PlaySound("Play_captain_R_impact", modelLocator.modelTransform.gameObject);
+                    Util.PlaySound("Play_falseson_skill1_impact_full", modelLocator.modelTransform.gameObject);
+                    Util.PlaySound("Play_LunarDragonAmbushImpact", modelLocator.modelTransform.gameObject);
+                }
             }
             if (hurtBoxGroup) {
                 hurtBoxGroup.hurtBoxesDeactivatorCounter--;
@@ -75,7 +87,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 inflictor = gameObject,
                 procChainMask = default(ProcChainMask),
                 procCoefficient = 1f,
-                radius = 50f,
+                radius = 40f,
                 teamIndex = characterBody.teamComponent.teamIndex,
             };
             blastAttack.damageType |= DamageType.IgniteOnHit;

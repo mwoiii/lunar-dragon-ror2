@@ -14,6 +14,17 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_LunarDragonAmbushImpact" ID="{F1F9C834-0087-43D0-9C4B-D845248AAE95}">
+					<ChildrenList>
+						<Action Name="" ID="{EF43C593-15CE-4B72-93E4-916888835EB5}" ShortID="1047543921">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="LunarDragonAmbushImpact" ID="{E2F50C0F-A4E2-42AD-A5C0-A88AD4FF4D19}" WorkUnitID="{B421DF28-52E3-4C19-8D84-0A6B362B6EF8}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

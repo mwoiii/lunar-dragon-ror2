@@ -30,9 +30,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public Vector3 right;
 
+        protected virtual bool doTeleport => true;
+
         public override void OnEnter() {
             cameraTargetParams.AddLerpRequest(0.5f);
-            TeleportHelper.TeleportBody(characterBody, targetFootPosition, true);
+            if (doTeleport) {
+                TeleportHelper.TeleportBody(characterBody, targetFootPosition, true);
+            }
             base.OnEnter();
             if (TryGetComponent(out LunarDragonController controller)) {
                 controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFrontTrailLight)));
@@ -44,8 +48,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             stopwatch += Time.deltaTime;
             if (isAuthority) {
                 if (stopwatch >= lifetime) {
-                    outer.SetNextState(new DracoAmbushLanding() {
-                        targetFootPosition = targetFootPosition,
+                    outer.SetNextState(new DracoAmbushLand() {
                         hurtBoxGroup = hurtBoxGroup,
                     });
                 }

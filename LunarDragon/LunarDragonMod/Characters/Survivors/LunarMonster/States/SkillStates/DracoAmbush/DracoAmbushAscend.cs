@@ -4,7 +4,7 @@ using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
-    public class DracoAmbushAscent : BaseState {
+    public class DracoAmbushAscend : BaseState {
 
         private float stopwatch;
 
@@ -16,8 +16,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private const float jetsTime = 0.4f; // air anim is just ground anim with first portion skipped
 
-        private float activateJetsTime;
-
         private bool jetsActive;
 
         private LunarDragonController controller;
@@ -26,6 +24,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public override void OnEnter() {
             base.OnEnter();
+            controller = GetComponent<LunarDragonController>();
             if (isAuthority) {
                 if (TryGetComponent(out controller)) {
                     controller.DisableAllSkillStateMachines();

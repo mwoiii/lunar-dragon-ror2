@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1711505974
+CRC: 2912965083
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b9d631a9f042e478cab7ad6741fecc3e
+    Hash: b84959e278f7d9920640a075792b2694
   TypeTreeHash:
     serializedVersion: 2
-    Hash: bcf71625297e182304ae99340af3adc3
+    Hash: 2c2ebf95f1fec10ab034fcbe76d58aac
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -99,6 +99,8 @@ ClassTypes:
   Script: {fileID: 816898038, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 971405550c5731c4c892f9194248f1c0, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 4bd9ad30136f18240a768d355d398a37, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 135
@@ -165,7 +167,9 @@ Assets:
 - Assets/LunarDragon/Icons/texMasterySkinIcon.png
 - Assets/LunarDragon/Skin2/matBodyMastery.mat
 - Assets/LunarDragon/Skills/SpecialAmbush/DescendingData.asset
+- Assets/LunarDragon/Skills/SpecialAmbush/AmbushGlow.prefab
 - Assets/LunarDragon/Skin1/matOrbLeft.mat
+- Assets/LunarDragon/Skills/SpecialAmbush/matAmbushGlow.mat
 - Assets/LunarDragon/Icons/texLunarDragonIcon.png
 - Assets/LunarDragon/Icons/texWIPIcon.png
 - Assets/LunarDragon/Skin1/matCannon.mat

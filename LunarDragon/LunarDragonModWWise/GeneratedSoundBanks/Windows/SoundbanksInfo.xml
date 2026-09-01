@@ -9,7 +9,7 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="535293614" Type="User" Language="SFX" Hash="{9EDFE19C-0554-D6E6-D6DD-9AF8F0C6B44E}">
+		<SoundBank Id="535293614" Type="User" Language="SFX" Hash="{D6A7EDC0-0795-5E77-801F-C9DEF18B9AE0}">
 			<ShortName>LunarDragonMod</ShortName>
 			<Path>LunarDragonMod.bnk</Path>
 			<Media>
@@ -17,8 +17,17 @@
 					<ShortName>LunarDragonCry.wav</ShortName>
 					<CachePath>SFX/LunarDragonCry_EDCD4836.wem</CachePath>
 				</File>
+				<File Id="725394170" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>LunarDragonAmbushImpact.wav</ShortName>
+					<CachePath>SFX/LunarDragonAmbushImpact_EDCD4836.wem</CachePath>
+				</File>
 			</Media>
 			<Events>
+				<Event Id="853378545" Name="Play_LunarDragonAmbushImpact">
+					<MediaRefs>
+						<MediaRef Id="725394170"/>
+					</MediaRefs>
+				</Event>
 				<Event Id="197834729" Name="Play_LunarDragonCry">
 					<MediaRefs>
 						<MediaRef Id="605624026"/>
@@ -46,5 +55,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{02A50B84-F849-1467-AFE0-F2A86D2359E2}</FileHash>
+	<FileHash>{60466923-C0D2-D2AF-0751-23EBCCEE279C}</FileHash>
 </SoundBanksInfo>

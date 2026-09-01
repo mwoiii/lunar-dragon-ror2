@@ -34,11 +34,14 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             base.OnEnter();
             OnTakeoff();
             if (TryGetComponent(out LunarDragonController controller)) {
+                controller.EnableFireAura();
                 controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFrontTrailHeavy)));
             }
         }
 
         private void OnTakeoff() {
+            Util.PlaySound("Play_UI_podDescentLoop", modelLocator.modelTransform.gameObject);
+            Util.PlaySound("Play_lemurianBruiser_m1_fly_loop", modelLocator.modelTransform.gameObject);
             if (modelLocator && modelLocator.modelTransform) {
                 modelLocator.autoUpdateModelTransform = false;
                 modelTransform = modelLocator.modelTransform;
@@ -46,7 +49,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 forward = modelTransform.forward;
                 right = modelTransform.right;
                 center = modelTransform.position;
-                if (modelLocator.modelTransform.TryGetComponent(out hurtBoxGroup)) {
+                if (isAuthority && modelLocator.modelTransform.TryGetComponent(out hurtBoxGroup)) {
                     hurtBoxGroup.hurtBoxesDeactivatorCounter++;
                 }
             }

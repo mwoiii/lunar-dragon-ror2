@@ -177,16 +177,17 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool ExceedsDPThreshold(Vector3 normal, float threshold = 0.8f) {
+        private bool ExceedsDPThreshold(Vector3 normal, float threshold = 0.6f) {
             return Vector3.Dot(normal, Vector3.up) >= threshold;
         }
 
         private void NextState() {
             if (controller) {
-                controller.bodyStateMachine.SetNextState(new DracoAmbushAscent() {
+                controller.bodyStateMachine.SetNextState(new DracoAmbushAscend() {
                     targetFootPosition = currentTrajectoryInfo.hitPoint
                 });
             }
+            skillLocator.special.DeductStock(1);
             outer.SetNextStateToMain();
 
             stateFinished = true;
