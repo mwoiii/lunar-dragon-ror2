@@ -2,6 +2,7 @@
 using RoR2;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
@@ -112,7 +113,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 attacker = gameObject,
                 inflictor = gameObject,
                 teamIndex = GetTeam(),
-                damage = damageCoefficient * damageStat,
+                damage = damageStat * damageCoefficient * GetDamageBoostFromSpeed(),
                 hitEffectPrefab = hitEffectPrefab,
                 forceVector = Vector3.up * upwardForceMagnitude,
                 pushAwayForce = knockbackForce,
@@ -122,6 +123,12 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 retriggerTimeout = 0.5f
             };
         }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private float GetDamageBoostFromSpeed() {
+            return Mathf.Max(1f, characterBody.moveSpeed / characterBody.baseMoveSpeed);
+        }
+
 
         private void ExitThrustersDash() {
             if (isAuthority) {
@@ -161,7 +168,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
 
             dashStopWatch += Time.deltaTime;
-            if (dashStopWatch >= duration) {
+            if (dashStopWatch >= duration || inputBank.skill3.justPressed) {
+                if (inputBank.skill3.justPressed) {
+                    inputBank.skill3.hasPressBeenClaimed = true;
+                }
                 outer.SetNextStateToMain();
             } else {
 

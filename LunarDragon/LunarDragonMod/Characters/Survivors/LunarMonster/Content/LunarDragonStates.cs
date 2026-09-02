@@ -29,6 +29,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             Modules.Content.AddEntityState(typeof(DracoAmbushLand));
 
+            Modules.Content.AddEntityState(typeof(DracoAmbushCancel));
+
             Modules.Content.AddEntityState(typeof(AmbushSpawn));
 
             Modules.Content.AddEntityState(typeof(DeathState));

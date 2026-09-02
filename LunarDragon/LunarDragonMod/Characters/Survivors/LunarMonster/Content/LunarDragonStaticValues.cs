@@ -1,8 +1,8 @@
 ﻿namespace LunarDragonMod.Survivors.LunarDragon {
     public static class LunarDragonStaticValues {
-        public const float primaryDamageCoefficient = 5f;
+        public const float primaryDamageCoefficient = 4f;
 
-        public const float primaryFinisherDamageCoefficient = 7f;
+        public const float primaryFinisherDamageCoefficient = 6f;
 
         public const float secondaryFireBlastDamageCoefficient = 8f;
 
@@ -14,7 +14,7 @@
 
         public const float utilityBurstThrustersLowerDamageCoefficient = 5f;
 
-        public const float utilityBurstThrustersUpperDamageCoefficient = 7f;
+        public const float utilityBurstThrustersUpperDamageCoefficient = 5f;
 
         public const float specialAmbushLandDamageCoefficient = 100f;
 

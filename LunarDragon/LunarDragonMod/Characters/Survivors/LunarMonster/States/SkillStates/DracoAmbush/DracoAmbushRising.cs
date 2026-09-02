@@ -1,12 +1,8 @@
-﻿using EntityStates;
-using LunarDragonMod.Survivors.LunarDragon.Components;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
-    public class DracoAmbushRising : BaseState {
-
-        private HurtBoxGroup hurtBoxGroup;
+    public class DracoAmbushRising : DracoAmbushBase {
 
         private float lifetime = 3f;
 
@@ -20,37 +16,25 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private AnimationCurve zCurve = LunarDragonAssets.specialAmbushRisingData.zCurve;
 
-        private Transform modelTransform;
-
-        private Vector3 center;
-
-        private Vector3 up;
-
-        private Vector3 forward;
-
-        private Vector3 right;
-
         public override void OnEnter() {
             base.OnEnter();
             OnTakeoff();
-            if (TryGetComponent(out LunarDragonController controller)) {
-                controller.EnableFireAura();
-                controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFrontTrailHeavy)));
-            }
         }
 
         private void OnTakeoff() {
-            Util.PlaySound("Play_UI_podDescentLoop", modelLocator.modelTransform.gameObject);
-            Util.PlaySound("Play_lemurianBruiser_m1_fly_loop", modelLocator.modelTransform.gameObject);
-            if (modelLocator && modelLocator.modelTransform) {
+            Util.PlaySound("Play_UI_podDescentLoop", modelTransform.gameObject);
+            Util.PlaySound("Play_lemurianBruiser_m1_fly_loop", modelTransform.gameObject);
+            if (modelLocator && modelTransform) {
                 modelLocator.autoUpdateModelTransform = false;
-                modelTransform = modelLocator.modelTransform;
-                up = Vector3.up;
-                forward = modelTransform.forward;
-                right = modelTransform.right;
-                center = modelTransform.position;
-                if (isAuthority && modelLocator.modelTransform.TryGetComponent(out hurtBoxGroup)) {
+                if (isAuthority && modelTransform.TryGetComponent(out hurtBoxGroup)) {
                     hurtBoxGroup.hurtBoxesDeactivatorCounter++;
+                }
+            }
+
+            if (controller) {
+                controller.EnableFireAura();
+                if (isAuthority) {
+                    controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFrontTrailHeavy)));
                 }
             }
 
@@ -67,7 +51,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 falloffModel = BlastAttack.FalloffModel.HalfLinear,
                 inflictor = characterBody.gameObject,
                 position = characterBody.transform.position,
-                procChainMask = default(ProcChainMask),
+                procChainMask = default,
                 baseForce = 1500f,
                 procCoefficient = 1f,
                 radius = 18f,
@@ -82,30 +66,23 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             stopwatch += Time.deltaTime;
             if (isAuthority) {
                 if (stopwatch >= lifetime) {
+                    authorityFinished = true;
                     outer.SetNextState(new DracoAmbushDescending() {
                         targetFootPosition = targetFootPosition,
                         hurtBoxGroup = hurtBoxGroup,
-                        modelTransform = modelTransform,
-                        forward = forward,
-                        up = up,
-                        right = right
                     });
                 }
             }
             if (modelTransform) {
                 float scaledTime = stopwatch / lifetime;
                 Vector3 offset = (
-                    forward * zCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationXMult +
-                    right * xCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationZMult +
-                    up * yCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationYMult
+                    characterBody.transform.forward * zCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationXMult +
+                    characterBody.transform.right * xCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationZMult +
+                    characterBody.transform.up * yCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationYMult
                 );
-                modelTransform.LookAt(center + offset);
-                modelTransform.position = center + offset;
+                modelTransform.LookAt(characterBody.footPosition + offset);
+                modelTransform.position = characterBody.footPosition + offset;
             }
-        }
-
-        public override InterruptPriority GetMinimumInterruptPriority() {
-            return InterruptPriority.Death;
         }
     }
 }

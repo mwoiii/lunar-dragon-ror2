@@ -18,11 +18,11 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public string originOverrideString => "";
 
-        public float maxDistance = 200f;
+        public const float maxDistance = 200f;
 
-        public float rayRadius = 2.3f;
+        public const float rayRadius = 2.5f;
 
-        public float endpointVisualizerRadiusScale = 4f;
+        public const float endpointVisualizerRadiusScale = 4f;
 
         public bool toggleActivate = true;
 
@@ -59,6 +59,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         protected AimThrowableBase.TrajectoryInfo currentTrajectoryInfo;
 
         private bool hasPosition;
+
+        private bool positionUnsafe;
 
         private LunarDragonController controller;
 
@@ -183,8 +185,11 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private void NextState() {
             if (controller) {
+                if (positionUnsafe) {
+                    currentTrajectoryInfo.hitPoint += currentTrajectoryInfo.hitNormal * rayRadius * 2f;
+                }
                 controller.bodyStateMachine.SetNextState(new DracoAmbushAscend() {
-                    targetFootPosition = currentTrajectoryInfo.hitPoint
+                    targetFootPosition = currentTrajectoryInfo.hitPoint,
                 });
             }
             skillLocator.special.DeductStock(1);
@@ -205,22 +210,28 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
             // (1) checking if aimray is valid as it is
             bool collided = Util.CharacterSpherecast(gameObject, aimRay, rayRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal);
-            if (collided && ExceedsDPThreshold(hitInfo.normal)) {
+            if (collided) { //&& ExceedsDPThreshold(hitInfo.normal)) { // feels bad to not be able to go wherever
+                if (!ExceedsDPThreshold(hitInfo.normal)) {
+                    positionUnsafe = true;
+                }
                 //Log.Info($"1b SUCCESS: {hitInfo.point}, {Vector3.Dot(hitInfo.normal, Vector3.up)}");
                 success = true;
+            } else {
+                positionUnsafe = false;
             }
 
-            // (2) if no collision or bad angle, trying to project straight down
+            // (2) if no collision, trying to project straight down
             Vector3 endPoint = collided ? hitInfo.point : aimRay.origin + aimRay.direction * maxDistance;
             if (!success) {
-                Ray projectionRay = new Ray(endPoint + hitInfo.normal * 5f, Vector3.down);
-                if (Util.CharacterSpherecast(gameObject, projectionRay, rayRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal) && ExceedsDPThreshold(hitInfo.normal) && hitInfo.point != endPoint) {
+                Ray projectionRay = new Ray(endPoint + hitInfo.normal * 1.5f, Vector3.down);
+                if (Util.CharacterSpherecast(gameObject, projectionRay, rayRadius, out hitInfo, maxDistance, layerMask, QueryTriggerInteraction.UseGlobal) && ExceedsDPThreshold(hitInfo.normal) && hitInfo.distance > 0) {
                     success = true;
                     //Log.Info($"2b SUCCESS: {hitInfo.point}, {Vector3.Dot(hitInfo.normal, Vector3.up)}, (({hitInfo.point}, {endPoint}))");
                 }
             }
 
-            // (3) if projection is also bad, trying optimized split method
+            // (3) if immediate projection is also bad, trying optimized (?) split method
+            // No I didn't profile anything
             if (!success) {
 
                 float distance = Vector2.Distance(new Vector2(endPoint.x, endPoint.z), new Vector2(aimRay.origin.x, aimRay.origin.z));

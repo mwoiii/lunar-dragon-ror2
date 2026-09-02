@@ -1,10 +1,13 @@
 ﻿using EntityStates;
 using RoR2;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class DeathState : GenericCharacterDeath {
 
     public override bool shouldAutoDestroy => false;
+
+    private const float lifetime = 4f;
 
     public override void OnEnter() {
         base.OnEnter();
@@ -23,11 +26,10 @@ public class DeathState : GenericCharacterDeath {
     public override void PlayDeathAnimation(float crossfadeDuration = 0.1f) {
     }
 
-    /*
     public override void FixedUpdate() {
         base.FixedUpdate();
-        if (NetworkServer.active && base.fixedAge > 4f) {
-            EntityState.Destroy(base.gameObject);
+        if (NetworkServer.active && fixedAge > lifetime) {
+            EntityState.Destroy(gameObject);
         }
     }
 
@@ -35,5 +37,5 @@ public class DeathState : GenericCharacterDeath {
     public override InterruptPriority GetMinimumInterruptPriority() {
         return InterruptPriority.Death;
     }
-    */
+
 }

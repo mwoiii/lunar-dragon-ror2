@@ -24,11 +24,11 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         public static void AddLunarDragonTokens() {
             string prefix = LunarDragonSurvivor.LUNAR_DRAGON_PREFIX;
 
-            string desc = "An almost perfect design. The Lunar Dragon is a monstrous survivor with a devastating arsenal.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
+            string desc = "An almost perfect design. The Lunar Dragon is a monstrous survivor that tears down foes from the skies.<color=#CCD3E0>" + Environment.NewLine + Environment.NewLine
              + "< ! > While strong, the Lunar Dragon is also an easy target. Prioritize enemies who can exploit this weakness." + Environment.NewLine + Environment.NewLine
              + "< ! > Elemental Blitz is slow, but fires unique, powerful blasts. Switch targets between attacks to maximize your advantage." + Environment.NewLine + Environment.NewLine
              + "< ! > Burst Thrusters can be charged on the ground to increase its duration and damage, additionally gaining a flaming trail at high charge. Use the skill while hovering in the air instead for a hasty, low-cooldown dash." + Environment.NewLine + Environment.NewLine
-             + "< ! > Draco Ambush is the Lunar Dragon's flagship attack. Keep it for the right moment to utterly devastate your targets of choice." + Environment.NewLine + Environment.NewLine;
+             + "< ! > Draco Ambush is the Lunar Dragon's flagship attack. Keep it for the right moment to utterly devastate a target of choice." + Environment.NewLine + Environment.NewLine;
 
             string outro = "..and so it left, with aspirations anew.";
             string outroFailure = "..and so it vanished, its purpose fulfilled.";
@@ -78,8 +78,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             #region Utility
             Language.Add(prefix + "UTILITY_BURST_THRUSTERS_NAME", "Burst Thrusters");
-            Language.Add(prefix + "UTILITY_BURST_THRUSTERS_DESCRIPTION", $"Overcharge the cannons to <style=cIsUtility>speed</style> forward, dealing up to <style=cIsDamage>{100f * LunarDragonStaticValues.utilityBurstThrustersUpperDamageCoefficient}% damage</style>, " +
-                $"and <style=cIsDamage>stunning</style> at maximum charge");
+            Language.Add(prefix + "UTILITY_BURST_THRUSTERS_DESCRIPTION", $"<style=cIsUtility>Heavy</style>. Overcharge the cannons to <style=cIsUtility>speed</style> forward, dealing up to <style=cIsDamage>{100f * LunarDragonStaticValues.utilityBurstThrustersUpperDamageCoefficient}% damage</style>, " +
+                $"and <style=cIsDamage>stunning</style> at maximum charge.");
 
             Language.Add(prefix + "UTILITY_FLOW_THRUSTERS_NAME", "Flow Thrusters");
             Language.Add(prefix + "UTILITY_FLOW_THRUSTERS_DESCRIPTION", $"Steadily discharge the cannons to <style=cIsUtility>take flight</style>. You can continue to attack for the duration.");//, dealing up to <style=cIsDamage>{100f * LunarDragonStaticValues.utilityBurstThrustersUpperDamageCoefficient}% damage</style>, " +
@@ -88,7 +88,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             #region Special
             Language.Add(prefix + "SPECIAL_AMBUSH_NAME", "Draco Ambush");
-            Language.Add(prefix + "SPECIAL_AMBUSH_DESCRIPTION", $"<style=cIsUtility>Take aim</style>, and confirm a target to <style=cIsUtility>soar into the sky</style>. Unleash a devastating strike on the target position for <style=cIsDamage>{100f * LunarDragonStaticValues.specialAmbushLandDamageCoefficient}% damage</style> in a large area.");
+            Language.Add(prefix + "SPECIAL_AMBUSH_DESCRIPTION", $"<style=cIsUtility>Take aim</style>, and confirm a target to <style=cIsUtility>soar into the sky</style>. Unleash a devastating strike on the target position for <style=cIsDamage>{100f * LunarDragonStaticValues.specialAmbushLandDamageCoefficient}% damage</style>.");
             #endregion
 
             #region Achievements

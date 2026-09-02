@@ -1014,7 +1014,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                 Object.Destroy(specialAscendingFireEffect.GetComponent<ProjectileGhostController>());
                 Object.Destroy(specialAscendingFireEffect.GetComponent<DetachParticleOnDestroyAndEndEmission>());
                 Object.Destroy(specialAscendingFireEffect.transform.Find("OrbCore").gameObject);
-                specialAscendingFireEffect.transform.localScale = Vector3.one * 5f;
+                specialAscendingFireEffect.transform.localScale = Vector3.one * 10f;
                 specialAscendingFireEffect.transform.localPosition = Vector3.zero;
                 Object.Instantiate(assetBundle.LoadAsset<GameObject>("AmbushGlow"), specialAscendingFireEffect.transform, false);
 

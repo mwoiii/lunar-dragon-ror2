@@ -1,4 +1,5 @@
 ﻿using BepInEx;
+using BepInEx.Configuration;
 using LunarDragonMod.Modules;
 using LunarDragonMod.Survivors.LunarDragon;
 using R2API.Utils;
@@ -25,15 +26,21 @@ namespace LunarDragonMod {
 
         public static LunarDragonPlugin instance;
 
+        public static ConfigFile config;
+
         void Awake() {
             instance = this;
 
             Log.Init(Logger);
 
+            config = Config;
+
             Modules.Language.Init();
 
             DamageTypeCollection.Init();
             new LunarDragonSurvivor().Init();
+
+            Options.Init();
 
             RoR2Application.onLoadFinished += OnLoadFinished;
 

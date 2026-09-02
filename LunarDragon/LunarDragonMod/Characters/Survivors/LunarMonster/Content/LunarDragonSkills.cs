@@ -168,6 +168,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarDragon.Content {
                 skillNameToken = LUNAR_DRAGON_PREFIX + "UTILITY_BURST_THRUSTERS_NAME",
                 skillDescriptionToken = LUNAR_DRAGON_PREFIX + "UTILITY_BURST_THRUSTERS_DESCRIPTION",
                 skillIcon = assetBundle.LoadAsset<Sprite>("texUtility1Icon"),
+                keywordTokens = new string[] { "KEYWORD_HEAVY" },
 
                 activationState = new SerializableEntityStateType(typeof(BurstThrustersCharge)),
                 activationStateMachineName = "Utility",
@@ -183,7 +184,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarDragon.Content {
                 resetCooldownTimerOnUse = false,
                 fullRestockOnAssign = true,
                 dontAllowPastMaxStocks = false,
-                mustKeyPress = false,
+                mustKeyPress = true,
                 beginSkillCooldownOnSkillEnd = true,
 
                 isCombatSkill = false,

@@ -121,7 +121,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             base.InitializeCharacter();
 
-            LunarDragonConfig.Init();
             LunarDragonStates.Init();
             LunarDragonBuffs.Init(assetBundle);
 

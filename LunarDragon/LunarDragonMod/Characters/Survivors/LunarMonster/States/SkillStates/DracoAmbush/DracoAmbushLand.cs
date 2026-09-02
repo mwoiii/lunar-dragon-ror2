@@ -1,18 +1,12 @@
-﻿using EntityStates;
-using LunarDragonMod.Survivors.LunarDragon.Components;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
-    public class DracoAmbushLand : BaseState {
+    public class DracoAmbushLand : DracoAmbushBase {
 
         private float stopwatch;
 
         private float lifetime = 0.75f;
-
-        public HurtBoxGroup hurtBoxGroup;
-
-        private LunarDragonController controller;
 
         public override void OnEnter() {
             base.OnEnter();
@@ -21,8 +15,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private void OnLand() {
             PlayAnimation("FullBody, Override", "SpecialDiveEnd");
-            if (TryGetComponent(out controller)) {
-                controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOff)));
+            if (controller) {
+                if (isAuthority) {
+                    controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOff)));
+                }
                 controller.DisableFireAura();
             }
             if (characterBody) {
@@ -32,14 +28,14 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 }, false);
             }
             if (isAuthority) {
-                if (TryGetComponent(out Interactor interactor)) {
+                if (interactor) {
                     interactor.isRemoteOp = false;
                 }
                 FireExplosion();
             }
             if (modelLocator) {
                 modelLocator.autoUpdateModelTransform = true;
-                if (modelLocator.modelTransform) {
+                if (modelTransform) {
                     Util.PlaySound("Stop_UI_podDescentLoop", modelLocator.modelTransform.gameObject);
                     Util.PlaySound("Stop_lemurianBruiser_m1_fly_loop", modelLocator.modelTransform.gameObject);
                     Util.PlaySound("Play_captain_R_impact", modelLocator.modelTransform.gameObject);
@@ -69,6 +65,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (stopwatch >= lifetime) {
                 PlayAnimation("OuterCannons, Override", "FlipCannons");
                 if (isAuthority) {
+                    authorityFinished = true;
                     if (controller) {
                         controller.ResetAllSkillStateMachines();
                     }
@@ -83,19 +80,15 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 baseDamage = characterBody.damage * LunarDragonStaticValues.specialAmbushLandDamageCoefficient,
                 crit = characterBody.RollCrit(),
                 position = characterBody.transform.position,
-                falloffModel = BlastAttack.FalloffModel.Linear,
+                falloffModel = BlastAttack.FalloffModel.HalfLinear,
                 inflictor = gameObject,
-                procChainMask = default(ProcChainMask),
+                procChainMask = default,
                 procCoefficient = 1f,
-                radius = 40f,
+                radius = 55f,
                 teamIndex = characterBody.teamComponent.teamIndex,
             };
             blastAttack.damageType |= DamageType.IgniteOnHit;
             blastAttack.Fire();
-        }
-
-        public override InterruptPriority GetMinimumInterruptPriority() {
-            return InterruptPriority.Death;
         }
     }
 }

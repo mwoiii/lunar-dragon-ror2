@@ -1,10 +1,8 @@
-﻿using EntityStates;
-using LunarDragonMod.Survivors.LunarDragon.Components;
-using RoR2;
+﻿using RoR2;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
-    public class DracoAmbushAscend : BaseState {
+    public class DracoAmbushAscend : DracoAmbushBase {
 
         private float stopwatch;
 
@@ -18,15 +16,12 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private bool jetsActive;
 
-        private LunarDragonController controller;
-
         public Vector3 targetFootPosition;
 
         public override void OnEnter() {
             base.OnEnter();
-            controller = GetComponent<LunarDragonController>();
             if (isAuthority) {
-                if (TryGetComponent(out controller)) {
+                if (controller) {
                     controller.DisableAllSkillStateMachines();
                 }
                 if (characterMotor) {
@@ -34,11 +29,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     characterMotor.useGravity = false;
                     characterMotor.Motor.ForceUnground();
                 }
-                if (TryGetComponent(out Interactor interactor)) {
+                if (interactor) {
                     interactor.isRemoteOp = true;
                 }
             }
-            Animator animator = GetModelAnimator();
             if (animator) {
                 animator.SetBool(LunarDragonAnimationParameters.isHovering, false);
                 animator.SetBool(LunarDragonAnimationParameters.forceIdle, true);
@@ -56,7 +50,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             base.Update();
             stopwatch += Time.deltaTime;
             if (!jetsActive && stopwatch > duration - jetsTime) {
-                if (controller) {
+                if (isAuthority && controller) {
                     controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFront)));
                 }
                 EffectManager.SpawnEffect(LunarDragonAssets.specialLiftoffSmokeEffect, new EffectData {
@@ -66,6 +60,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 jetsActive = true;
             }
             if (stopwatch >= duration && isAuthority) {
+                authorityFinished = true;
                 outer.SetNextState(new DracoAmbushRising() {
                     targetFootPosition = targetFootPosition,
                 });
@@ -78,10 +73,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 origin = characterBody.footPosition,
                 rotation = characterBody.transform.rotation
             }, false);
-        }
-
-        public override InterruptPriority GetMinimumInterruptPriority() {
-            return InterruptPriority.Death;
         }
     }
 }
