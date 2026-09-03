@@ -16,6 +16,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private AnimationCurve zCurve = LunarDragonAssets.specialAmbushRisingData.zCurve;
 
+        private Transform modelBaseTransform;
+
         public override void OnEnter() {
             base.OnEnter();
             OnTakeoff();
@@ -24,6 +26,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         private void OnTakeoff() {
             Util.PlaySound("Play_UI_podDescentLoop", modelTransform.gameObject);
             Util.PlaySound("Play_lemurianBruiser_m1_fly_loop", modelTransform.gameObject);
+            modelBaseTransform = GetModelBaseTransform();
             if (modelLocator && modelTransform) {
                 modelLocator.autoUpdateModelTransform = false;
                 if (isAuthority && modelTransform.TryGetComponent(out hurtBoxGroup)) {
@@ -76,9 +79,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (modelTransform) {
                 float scaledTime = stopwatch / lifetime;
                 Vector3 offset = (
-                    characterBody.transform.forward * zCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationXMult +
-                    characterBody.transform.right * xCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationZMult +
-                    characterBody.transform.up * yCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationYMult
+                    modelBaseTransform.forward * zCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationXMult +
+                    modelBaseTransform.right * xCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationZMult +
+                    modelBaseTransform.up * yCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationYMult
                 );
                 modelTransform.LookAt(characterBody.footPosition + offset);
                 modelTransform.position = characterBody.footPosition + offset;

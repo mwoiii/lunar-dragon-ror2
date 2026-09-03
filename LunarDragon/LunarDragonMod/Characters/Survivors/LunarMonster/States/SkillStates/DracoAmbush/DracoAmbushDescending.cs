@@ -16,10 +16,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private AnimationCurve zCurve = LunarDragonAssets.specialAmbushDescendingData.zCurve;
 
+        private Transform modelBaseTransform;
+
         protected virtual bool doTeleport => true;
 
         public override void OnEnter() {
             base.OnEnter();
+            modelBaseTransform = GetModelBaseTransform();
             if (isAuthority) {
                 if (doTeleport) {
                     cameraTargetParams.AddLerpRequest(0.5f);
@@ -45,9 +48,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (modelTransform && characterBody && stopwatch < lifetime) {
                 float scaledTime = stopwatch / lifetime;
                 Vector3 offset = (
-                    characterBody.transform.forward * zCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationXMult +
-                    characterBody.transform.right * xCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationZMult +
-                    characterBody.transform.up * yCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationYMult
+                    modelBaseTransform.forward * zCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationXMult +
+                    modelBaseTransform.right * xCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationZMult +
+                    modelBaseTransform.up * yCurve.Evaluate(scaledTime) * LunarDragonStaticValues.specialAmbushAnimationYMult
                 );
                 modelTransform.LookAt(characterBody.footPosition + offset);
                 modelTransform.position = characterBody.footPosition + offset;
