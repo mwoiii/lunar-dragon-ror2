@@ -119,9 +119,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 Ray ray = GetAimRay();
 
                 Vector3 direction = ray.direction;
-                if (Options.usePrimaryAimAssist.Value) {
-                    direction = TrajectoryAimAssist.ApplyTrajectoryAimAssist(direction, ray.origin, maxDistance, gameObject, gameObject, 1f);
-                }
+                direction = TrajectoryAimAssist.ApplyTrajectoryAimAssist(direction, ray.origin, maxDistance, gameObject, gameObject, 1f);
 
                 if (direction == ray.direction) {
                     GetMuzzleDirectionFromAimRay(ray, ref direction);

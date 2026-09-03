@@ -256,9 +256,9 @@ namespace LunarDragonMod.Modules {
         private static void SetupCapsuleCollider(GameObject prefab) {
             float radius = 1.8f;
             Vector3 center = Vector3.zero;
-            float height = 4.8f;
+            float height = 3f;
             int direction = 1;
-            float yOffset = 1.3f;
+            float yOffset = 0.6f;
             CapsuleCollider capsuleCollider = prefab.GetComponent<CapsuleCollider>();
             capsuleCollider.center = center;
             capsuleCollider.radius = radius;

@@ -784,7 +784,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     "BodyMesh",
                     new Vector3(0F, -1.704F, 4.411F),
                     new Vector3(0F, 0F, 0F),
-                    new Vector3(0.00399F, 0.00399F, 0.00399F)
+                    new Vector3(0.399F, 0.399F, 0.399F)
                     )
                 ));
             itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["PermanentDebuffOnHit"],
@@ -908,7 +908,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     "BodyMesh",
                     new Vector3(0F, -1.752F, 4.848F),
                     new Vector3(0F, 0F, 0F),
-                    new Vector3(0.00386F, 0.00386F, 0.00386F)
+                    new Vector3(0.386F, 0.386F, 0.386F)
                     )
                 ));
             itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["ShockNearby"],
@@ -1437,7 +1437,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     "BodyMesh",
                     new Vector3(2.174F, -2.857F, 3.993F),
                     new Vector3(0F, 0F, 0F),
-                    new Vector3(0.00303F, 0.00303F, 0.00303F)
+                    new Vector3(0.303F, 0.303F, 0.303F)
                     )
                 ));
             itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["Scanner"],

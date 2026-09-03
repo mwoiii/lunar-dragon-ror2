@@ -40,7 +40,7 @@ namespace LunarDragonMod {
             DamageTypeCollection.Init();
             new LunarDragonSurvivor().Init();
 
-            Options.Init();
+            //Options.Init();
 
             RoR2Application.onLoadFinished += OnLoadFinished;
 
