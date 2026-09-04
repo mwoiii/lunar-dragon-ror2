@@ -52,7 +52,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
                 foreach (CameraRigController cameraRigController in CameraRigController.readOnlyInstancesList) {
                     if (cameraRigController.target == gameObject) {
                         camera = cameraRigController;
-                        Log.Info("Assigned aim origin!");
                         yield break;
                     }
                 }
