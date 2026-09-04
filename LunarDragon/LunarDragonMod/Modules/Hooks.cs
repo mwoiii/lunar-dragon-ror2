@@ -32,6 +32,10 @@ namespace LunarDragonMod.Modules {
 
             // Oh man
             var displayClass = typeof(BrotherSpeechDriver).GetNestedType("<>c__DisplayClass18_0", allFlags);
+            if (displayClass == null) {
+                Log.Error("BrotherSpeechDriver NestedType name changed! Aborting AddSeeDragonDialogue hook...");
+                return;
+            }
             var responsePool = displayClass.GetField("responsePool", allFlags);
 
             bool foundDragon = false;
@@ -73,6 +77,10 @@ namespace LunarDragonMod.Modules {
 
             // Oh geez
             var displayClass = typeof(BrotherSpeechDriver).GetNestedType("<>c__DisplayClass19_0", allFlags);
+            if (displayClass == null) {
+                Log.Error("BrotherSpeechDriver NestedType name changed! Aborting AddKillDragonDialogue hook...");
+                return;
+            }
             var responsePool = displayClass.GetField("responsePool", allFlags);
 
             int displayClassLoc = 0;

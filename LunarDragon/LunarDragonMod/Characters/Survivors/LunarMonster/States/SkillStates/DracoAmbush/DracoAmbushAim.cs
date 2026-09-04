@@ -72,16 +72,18 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     controller.DisableWeaponStateMachine();
                 }
 
-                // I have never heard of splitscreen in my entire life
-                if (CameraRigController.readOnlyInstancesList.Count > 0) {
-                    mainCamera = CameraRigController.readOnlyInstancesList[0].transform;
-                }
-
                 aimRequest = cameraTargetParams.RequestAimWithData(new Vector3(0f, 16f, -20f), 0.2f, 0.2f);
 
                 _endpointVisualizerPrefab = endpointVisualizerPrefab;
 
                 if (characterBody) {
+                    foreach (CameraRigController cameraRigController in CameraRigController.readOnlyInstancesList) {
+                        if (cameraRigController.target == characterBody.gameObject) {
+                            mainCamera = cameraRigController.transform;
+                            break;
+                        }
+                    }
+
                     if (_endpointVisualizerPrefab && characterBody.isPlayerControlled) {
                         endpointVisualizerTransform = Object.Instantiate(_endpointVisualizerPrefab, transform.position, Quaternion.identity).transform;
                     }
@@ -213,6 +215,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (collided) { //&& ExceedsDPThreshold(hitInfo.normal)) { // feels bad to not be able to go wherever
                 if (!ExceedsDPThreshold(hitInfo.normal)) {
                     positionUnsafe = true;
+                } else {
+                    positionUnsafe = false;
                 }
                 //Log.Info($"1b SUCCESS: {hitInfo.point}, {Vector3.Dot(hitInfo.normal, Vector3.up)}");
                 success = true;

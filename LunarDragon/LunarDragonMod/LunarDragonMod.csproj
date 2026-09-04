@@ -58,7 +58,7 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="REM follow the Building Your Mod page on the henrytutorial wiki for more information on this&#xD;&#xA;REM change this to your username (or add yours if you're working in a team or somethin)&#xD;&#xA;if &quot;$(Username)&quot; == &quot;alex&quot; set build=true&#xD;&#xA;&#xD;&#xA;if defined build (&#xD;&#xA;&#xD;&#xA;REM copy the built mod to our Build folder&#xD;&#xA;copy &quot;$(TargetPath)&quot; &quot;C:\Users\alex\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Default\BepInEx\plugins\Unknown-LunarDragonMod.dll&quot;&#xD;&#xA;)&#xD;&#xA;" />
+	  <Exec Command="REM follow the Building Your Mod page on the henrytutorial wiki for more information on this&#xD;&#xA;REM change this to your username (or add yours if you're working in a team or somethin)&#xD;&#xA;if &quot;$(Username)&quot; == &quot;alex&quot; set build=true&#xD;&#xA;&#xD;&#xA;if defined build (&#xD;&#xA;&#xD;&#xA;REM copy the built mod to our Build folder&#xD;&#xA;copy &quot;$(TargetPath)&quot; &quot;C:\Users\mwoi\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Default\BepInEx\plugins\Unknown-LunarDragon&quot;&#xD;&#xA;)&#xD;&#xA;" />
 	</Target>
 
 </Project>

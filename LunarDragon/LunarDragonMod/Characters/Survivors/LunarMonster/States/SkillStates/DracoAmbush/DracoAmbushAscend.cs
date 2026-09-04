@@ -20,23 +20,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public override void OnEnter() {
             base.OnEnter();
-            if (isAuthority) {
-                if (controller) {
-                    controller.DisableAllSkillStateMachines();
-                }
-                if (characterMotor) {
-                    characterMotor.velocity = Vector3.zero;
-                    characterMotor.useGravity = false;
-                    characterMotor.Motor.ForceUnground();
-                }
-                if (interactor) {
-                    interactor.isRemoteOp = true;
-                }
-            }
-            if (animator) {
-                animator.SetBool(LunarDragonAnimationParameters.isHovering, false);
-                animator.SetBool(LunarDragonAnimationParameters.forceIdle, true);
-            }
+            ApplyAmbushStart();
             if (isGrounded) {
                 PlayCrossfade("FullBody, Override", "SpecialDiveStart", 0.005f);
                 duration = groundDuration;
@@ -63,6 +47,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 authorityFinished = true;
                 outer.SetNextState(new DracoAmbushRising() {
                     targetFootPosition = targetFootPosition,
+                    hurtBoxGroup = hurtBoxGroup
                 });
             }
         }

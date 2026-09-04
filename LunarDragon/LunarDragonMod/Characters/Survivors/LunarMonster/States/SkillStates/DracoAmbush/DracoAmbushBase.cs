@@ -1,19 +1,31 @@
 ﻿using EntityStates;
+using KinematicCharacterController;
 using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
+using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     public class DracoAmbushBase : BaseSkillState {
 
+        private static BuffDef immunityBuff = Addressables.LoadAssetAsync<BuffDef>(RoR2_DLC2.bdHiddenRejectAllDamage_asset).WaitForCompletion();
+
         protected LunarDragonController controller;
 
-        protected Interactor interactor;
+        protected InteractionDriver interactionDriver;
 
         protected Animator animator;
 
         protected Transform modelTransform;
+
+        protected KinematicCharacterMotor kinematicMotor;
+
+        protected Collider collider;
+
+        protected Inventory inventory;
 
         public HurtBoxGroup hurtBoxGroup;
 
@@ -22,31 +34,113 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         public override void OnEnter() {
             base.OnEnter();
             animator = GetModelAnimator();
-            interactor = GetComponent<Interactor>();
+            interactionDriver = GetComponent<InteractionDriver>();
             controller = GetComponent<LunarDragonController>();
+            kinematicMotor = GetComponent<KinematicCharacterMotor>();
+            collider = GetComponent<Collider>();
+            if (characterBody) {
+                inventory = characterBody.inventory;
+            }
             if (modelLocator) {
                 modelTransform = modelLocator.modelTransform;
             }
         }
-        protected void RevertStateChanges() {
+
+        protected void ApplyAmbushStart() {
+            if (isAuthority) {
+                if (controller) {
+                    controller.DisableAllSkillStateMachines();
+                }
+                if (characterMotor) {
+                    characterMotor.velocity = Vector3.zero;
+                    characterMotor.useGravity = false;
+                    characterMotor.Motor.ForceUnground();
+                }
+                if (interactionDriver) {
+                    interactionDriver.enabled = false;
+                    interactionDriver.currentInteractable = null;
+                }
+                if (modelTransform.TryGetComponent(out hurtBoxGroup)) {
+                    hurtBoxGroup.hurtBoxesDeactivatorCounter++;
+                }
+                if (kinematicMotor) {
+                    kinematicMotor.CollidableLayers = 0;
+                }
+                if (collider) {
+                    collider.isTrigger = true;
+                }
+            }
+            if (NetworkServer.active) {
+                if (inventory) {
+                    inventory.SetEquipmentDisabled(true);
+                }
+                if (characterBody) {
+                    characterBody.AddBuff(immunityBuff);
+                }
+            }
+            if (animator) {
+                animator.SetBool(LunarDragonAnimationParameters.isHovering, false);
+                animator.SetBool(LunarDragonAnimationParameters.forceIdle, true);
+            }
+        }
+
+        protected void ApplyAmbushAscend() {
+            if (controller) {
+                controller.EnableFireAura();
+                if (isAuthority) {
+                    controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFrontTrailHeavy)));
+                }
+            }
+            if (modelTransform) {
+                Util.PlaySound("Play_UI_podDescentLoop", modelTransform.gameObject);
+                Util.PlaySound("Play_lemurianBruiser_m1_fly_loop", modelTransform.gameObject);
+                modelLocator.autoUpdateModelTransform = false;
+            }
+        }
+
+        protected void ForceExitAmbush() {
+            ApplyAmbushLand();
+            ApplyAmbushEnd();
+        }
+
+        protected void ApplyAmbushEnd() {
+            if (animator) {
+                animator.SetBool(LunarDragonAnimationParameters.forceIdle, false);
+            }
+            if (isAuthority) {
+                if (characterMotor) {
+                    characterMotor.useGravity = characterMotor.gravityParameters.CheckShouldUseGravity();
+                }
+                if (kinematicMotor) {
+                    kinematicMotor.RebuildCollidableLayers();
+                }
+                if (collider) {
+                    collider.isTrigger = false;
+                }
+            }
+            if (NetworkServer.active) {
+                if (inventory) {
+                    inventory.SetEquipmentDisabled(false);
+                }
+                if (characterBody) {
+                    characterBody.RemoveBuff(immunityBuff);
+                }
+            }
+        }
+
+        protected void ApplyAmbushLand() {
             PlayAnimation("FullBody, Override", "SpecialDiveEnd");
             if (controller) {
                 controller.DisableFireAura();
             }
             if (modelLocator) {
                 modelLocator.autoUpdateModelTransform = true;
-                if (modelTransform) {
-                    Util.PlaySound("Stop_UI_podDescentLoop", modelTransform.gameObject);
-                    Util.PlaySound("Stop_lemurianBruiser_m1_fly_loop", modelTransform.gameObject);
-                }
             }
-            if (interactor) {
-                interactor.isRemoteOp = false;
+            if (modelTransform) {
+                Util.PlaySound("Stop_UI_podDescentLoop", modelTransform.gameObject);
+                Util.PlaySound("Stop_lemurianBruiser_m1_fly_loop", modelTransform.gameObject);
             }
             if (isAuthority) {
-                if (characterMotor) {
-                    characterMotor.useGravity = true;
-                }
                 if (controller) {
                     controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOff)));
                     controller.ResetAllSkillStateMachines();
@@ -54,9 +148,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 if (hurtBoxGroup) {
                     hurtBoxGroup.hurtBoxesDeactivatorCounter--;
                 }
-            }
-            if (animator) {
-                animator.SetBool(LunarDragonAnimationParameters.forceIdle, false);
+                if (interactionDriver) {
+                    interactionDriver.enabled = true;
+                }
             }
         }
 

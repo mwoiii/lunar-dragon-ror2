@@ -1,5 +1,6 @@
 ﻿using EntityStates;
 using HG;
+using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
 using RoR2.Projectile;
 using RoR2.Skills;
@@ -58,6 +59,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private GameObject muzzleflashEffectPrefab;
 
+        private LunarDragonController controller;
+
         private static Wave shakeWave = new Wave() {
             amplitude = 0.2f,
             frequency = 14f
@@ -72,8 +75,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         public override void OnEnter() {
             base.OnEnter();
 
+            controller = GetComponent<LunarDragonController>();
             duration = baseDuration / attackSpeedStat;
-
             characterBody.SetAimTimer(2f);
 
             switch (cannon) {
@@ -105,6 +108,14 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
         }
 
+        private Ray GetCameraAimRay() {
+            if (inputBank && controller && controller.camera) {
+                return new Ray(controller.camera.transform.position, (controller.camera.crosshairWorldPosition - controller.camera.transform.position).normalized);
+            } else {
+                return GetAimRay();
+            }
+        }
+
         private void FireBlitzProjectile() {
             if (!hasFiredBlitz) {
 
@@ -116,7 +127,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     return;
                 }
 
-                Ray ray = GetAimRay();
+                Ray ray = GetCameraAimRay();
 
                 Vector3 direction = ray.direction;
                 direction = TrajectoryAimAssist.ApplyTrajectoryAimAssist(direction, ray.origin, maxDistance, gameObject, gameObject, 1f);
@@ -159,7 +170,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     return;
                 }
 
-                Ray ray = GetAimRay();
+                Ray ray = GetCameraAimRay();
 
                 Vector3 direction = ray.direction;
 

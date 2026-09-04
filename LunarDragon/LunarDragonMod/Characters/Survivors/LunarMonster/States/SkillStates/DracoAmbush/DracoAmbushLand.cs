@@ -14,12 +14,14 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         }
 
         private void OnLand() {
-            PlayAnimation("FullBody, Override", "SpecialDiveEnd");
-            if (controller) {
-                if (isAuthority) {
-                    controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOff)));
-                }
-                controller.DisableFireAura();
+            ApplyAmbushLand();
+            if (isAuthority) {
+                FireExplosion();
+            }
+            if (modelTransform) {
+                Util.PlaySound("Play_captain_R_impact", modelLocator.modelTransform.gameObject);
+                Util.PlaySound("Play_falseson_skill1_impact_full", modelLocator.modelTransform.gameObject);
+                Util.PlaySound("Play_LunarDragonAmbushImpact", modelLocator.modelTransform.gameObject);
             }
             if (characterBody) {
                 EffectManager.SpawnEffect(LunarDragonAssets.specialLandingExplosionEffect, new EffectData {
@@ -27,36 +29,11 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     rotation = characterBody.transform.rotation
                 }, false);
             }
-            if (isAuthority) {
-                if (interactor) {
-                    interactor.isRemoteOp = false;
-                }
-                FireExplosion();
-            }
-            if (modelLocator) {
-                modelLocator.autoUpdateModelTransform = true;
-                if (modelTransform) {
-                    Util.PlaySound("Stop_UI_podDescentLoop", modelLocator.modelTransform.gameObject);
-                    Util.PlaySound("Stop_lemurianBruiser_m1_fly_loop", modelLocator.modelTransform.gameObject);
-                    Util.PlaySound("Play_captain_R_impact", modelLocator.modelTransform.gameObject);
-                    Util.PlaySound("Play_falseson_skill1_impact_full", modelLocator.modelTransform.gameObject);
-                    Util.PlaySound("Play_LunarDragonAmbushImpact", modelLocator.modelTransform.gameObject);
-                }
-            }
-            if (hurtBoxGroup) {
-                hurtBoxGroup.hurtBoxesDeactivatorCounter--;
-            }
         }
 
         public override void OnExit() {
             base.OnExit();
-            if (isAuthority && characterMotor) {
-                characterMotor.useGravity = true;
-            }
-            Animator animator = GetModelAnimator();
-            if (animator) {
-                animator.SetBool(LunarDragonAnimationParameters.forceIdle, false);
-            }
+            ApplyAmbushEnd();
         }
 
         public override void Update() {

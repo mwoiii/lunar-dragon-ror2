@@ -24,23 +24,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         }
 
         private void OnTakeoff() {
-            Util.PlaySound("Play_UI_podDescentLoop", modelTransform.gameObject);
-            Util.PlaySound("Play_lemurianBruiser_m1_fly_loop", modelTransform.gameObject);
             modelBaseTransform = GetModelBaseTransform();
-            if (modelLocator && modelTransform) {
-                modelLocator.autoUpdateModelTransform = false;
-                if (isAuthority && modelTransform.TryGetComponent(out hurtBoxGroup)) {
-                    hurtBoxGroup.hurtBoxesDeactivatorCounter++;
-                }
-            }
-
-            if (controller) {
-                controller.EnableFireAura();
-                if (isAuthority) {
-                    controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFrontTrailHeavy)));
-                }
-            }
-
+            ApplyAmbushAscend();
             if (isAuthority && characterBody && characterBody.teamComponent) {
                 FireExplosion();
             }

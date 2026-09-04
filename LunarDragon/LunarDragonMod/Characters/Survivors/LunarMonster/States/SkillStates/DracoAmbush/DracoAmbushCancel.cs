@@ -5,7 +5,7 @@
         public override void OnEnter() {
             base.OnEnter();
             authorityFinished = true;
-            RevertStateChanges();
+            ForceExitAmbush();
             outer.SetNextStateToMain();
         }
     }

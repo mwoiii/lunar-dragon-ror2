@@ -1,5 +1,6 @@
 ﻿using LunarDragonMod.Survivors.LunarDragon.States;
 using RoR2;
+using System.Collections;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.Components {
@@ -19,17 +20,45 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         public EntityStateMachine jetpackStateMachine;
 
+        public CameraRigController camera;
+
+        public CharacterBody characterBody;
+
         private ChildLocator childLocator;
 
         private GameObject fireAura;
 
+        private const int assignAimTimeout = 50;
+
         private void Awake() {
+            characterBody = GetComponent<CharacterBody>();
             bodyStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Body");
             weaponStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Weapon");
             utilityStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Utility");
             jetpackStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Jet");
             GetChildLocator();
             AddJets();
+        }
+
+        private void Start() {
+            if (characterBody && characterBody.hasAuthority && characterBody.isPlayerControlled) {
+                StartCoroutine(TryAssignAimOriginTransform());
+            }
+        }
+
+        private IEnumerator TryAssignAimOriginTransform() {
+            int attempt = 0;
+            while (attempt < assignAimTimeout) {
+                foreach (CameraRigController cameraRigController in CameraRigController.readOnlyInstancesList) {
+                    if (cameraRigController.target == gameObject) {
+                        camera = cameraRigController;
+                        Log.Info("Assigned aim origin!");
+                        yield break;
+                    }
+                }
+                attempt++;
+                yield return null;
+            }
         }
 
         public void EnableFireAura() {
