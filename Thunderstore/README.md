@@ -11,7 +11,7 @@ The Lunar Dragon is a bulky survivor with an arsenal particularly suited for air
 | --- |
 | The Lunar Dragon can hover. |
 | <img src="https://i.postimg.cc/3wFnv8Tn/lunardragonpassive.gif" width="300"> |
-| The Lunar Dragon hovers in the exact same manner as Artificer. Combined with the strong recoil from their primary and secondary, attaining high air-time is an easy feat. |
+| The Lunar Dragon hovers in the exact same manner as Artificer. Combined with the strong recoil from their primary and secondary, attaining high air time is an easy feat. |
 
 | Primary: Elemental Blitz |
 | --- |
