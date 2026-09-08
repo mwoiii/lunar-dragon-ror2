@@ -47,6 +47,8 @@ The Lunar Dragon is a bulky survivor with an arsenal particularly suited for air
 
 **Miyowi**: Coding/VFX/SFX/Icons/Logbook/Testing
 
+**Hopoo/Gearbox**: VFX/SFX
+
 # Contact
 
 **Discord**: miyowi

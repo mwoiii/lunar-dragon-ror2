@@ -82,6 +82,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static AnimationCurveData specialAmbushDescendingData;
 
+        public static AnimationCurveData specialAmbushSpawnDescendingData;
+
         public static CharacterSpeechController.SpeechInfo[] seeDragonResponses;
 
         public static CharacterSpeechController.SpeechInfo[] killDragonResponses;
@@ -1139,6 +1141,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         private static void GetAmbushMotionData() {
             specialAmbushRisingData = assetBundle.LoadAsset<AnimationCurveData>("RisingData");
             specialAmbushDescendingData = assetBundle.LoadAsset<AnimationCurveData>("DescendingData");
+            specialAmbushSpawnDescendingData = assetBundle.LoadAsset<AnimationCurveData>("SpawnDescendingData");
         }
 
         private static void CreateMithrixDialogue() {

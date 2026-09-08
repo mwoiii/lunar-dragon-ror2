@@ -4,7 +4,7 @@ using UnityEngine;
 namespace LunarDragonMod.Survivors.LunarDragon.States {
     public class DracoAmbushRising : DracoAmbushBase {
 
-        private float lifetime = 3f;
+        private float lifetime = 2.5f;
 
         private float stopwatch;
 

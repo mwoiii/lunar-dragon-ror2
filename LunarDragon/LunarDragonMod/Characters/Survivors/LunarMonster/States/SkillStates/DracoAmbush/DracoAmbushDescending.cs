@@ -6,15 +6,15 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private float stopwatch;
 
-        private float lifetime = 3f;
+        protected float lifetime = 1f;
 
         public Vector3 targetFootPosition;
 
-        private AnimationCurve xCurve = LunarDragonAssets.specialAmbushDescendingData.xCurve;
+        protected AnimationCurve xCurve = LunarDragonAssets.specialAmbushDescendingData.xCurve;
 
-        private AnimationCurve yCurve = LunarDragonAssets.specialAmbushDescendingData.yCurve;
+        protected AnimationCurve yCurve = LunarDragonAssets.specialAmbushDescendingData.yCurve;
 
-        private AnimationCurve zCurve = LunarDragonAssets.specialAmbushDescendingData.zCurve;
+        protected AnimationCurve zCurve = LunarDragonAssets.specialAmbushDescendingData.zCurve;
 
         private Transform modelBaseTransform;
 

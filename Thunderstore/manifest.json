@@ -1,6 +1,6 @@
 ﻿{
 	"name": "LunarDragon",
-	"version_number": "1.0.0",
+	"version_number": "1.1.0",
 	"website_url": "https://github.com/mwoiii/lunar-dragon-ror2",
 	"description": "Adds the Lunar Dragon, a tremendous survivor who rules the skies.",
 	"dependencies": [

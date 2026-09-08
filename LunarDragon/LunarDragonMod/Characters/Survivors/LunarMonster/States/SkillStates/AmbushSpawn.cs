@@ -18,6 +18,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (isAuthority) {
                 cameraController = gameObject.AddComponent<DragonSpawnCameraController>();
             }
+            xCurve = LunarDragonAssets.specialAmbushSpawnDescendingData.xCurve;
+            yCurve = LunarDragonAssets.specialAmbushSpawnDescendingData.yCurve;
+            zCurve = LunarDragonAssets.specialAmbushSpawnDescendingData.zCurve;
+            lifetime = 3f;
             base.OnEnter();
             SetupSpawnState();
         }
