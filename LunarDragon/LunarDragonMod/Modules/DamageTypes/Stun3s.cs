@@ -7,7 +7,6 @@ namespace LunarDragonMod.Modules.DamageTypes {
 
         public static void Init() {
             damageType = DamageAPI.ReserveDamageType();
-            DamageTypeCollection.damageTypes.Add(damageType);
             Hooks.Handle_HealthComponentTakeDamageProcess_Actions += AddStun3sBuff;
         }
 

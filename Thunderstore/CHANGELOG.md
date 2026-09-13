@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Fixed an issue where the special skill would be unable to fire at low framerates
+
 ## 1.1.0
 
 - Reduced Draco Ambush flying time from 6s to 3.5s

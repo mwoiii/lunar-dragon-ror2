@@ -126,8 +126,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             return InterruptPriority.Stun;
         }
 
-        public override void Update() {
-            base.Update();
+        public override void FixedUpdate() {
+            base.FixedUpdate();
 
             if (stateFinished) {
                 return;
