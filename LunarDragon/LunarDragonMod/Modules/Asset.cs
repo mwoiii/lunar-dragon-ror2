@@ -1,17 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Reflection;
+using UnityEngine;
 
 namespace LunarDragonMod.Modules {
     internal static class Asset {
 
-        internal static GameObject LoadCrosshair(string crosshairName) {
-            GameObject loadedCrosshair = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/" + crosshairName + "Crosshair");
-            if (loadedCrosshair == null) {
-                Log.Error($"could not load crosshair with the name {crosshairName}. defaulting to Standard");
-
-                return RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/Crosshair/StandardCrosshair");
+        internal static AssetBundle LoadAssetBundle(string bundleName) {
+            AssetBundle assetBundle = null;
+            try {
+                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"LunarDragonMod.{bundleName}")) {
+                    if (assetStream != null) {
+                        assetBundle = AssetBundle.LoadFromStream(assetStream);
+                    }
+                }
+                if (assetBundle == null) {
+                    Log.Error("Couldn't find asset bundle!");
+                }
+            } catch (System.Exception e) {
+                Log.Error($"Error loading asset bundle '{bundleName}'.\n{e}");
             }
 
-            return loadedCrosshair;
+            return assetBundle;
         }
     }
 }

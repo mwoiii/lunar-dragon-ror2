@@ -1,7 +1,9 @@
 ﻿using RoR2;
 using RoR2.Skills;
+using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace LunarDragonMod.Modules.Characters {
     public abstract class SurvivorBase<T> : CharacterBase<T> where T : SurvivorBase<T>, new() {
@@ -9,26 +11,58 @@ namespace LunarDragonMod.Modules.Characters {
 
         public abstract string displayPrefabName { get; }
 
+        public abstract string survivorDefName { get; }
+
         public abstract string survivorTokenPrefix { get; }
 
-        public abstract UnlockableDef characterUnlockableDef { get; }
+        public virtual GameObject displayPrefab { get; protected set; }
 
-        public abstract GameObject displayPrefab { get; protected set; }
+        public virtual GameObject masterPrefab { get; protected set; }
 
-        public override void InitializeCharacter() {
-            base.InitializeCharacter();
+        public virtual GameObject footstepDustPrefab => Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Common_VFX.GenericLargeFootstepDust_prefab).WaitForCompletion();
 
-            InitializeDisplayPrefab();
+        public override void InitCharacter() {
+            base.InitCharacter();
 
-            InitializeSurvivor();
+            Prefabs.SetupRagdoll(characterModelObject);
+
+            if (prefabCharacterBody) {
+                if (characterModelObject && characterModelObject.TryGetComponent(out FootstepHandler footstepHandler)) {
+                    footstepHandler.footstepDustPrefab = footstepDustPrefab;
+                } else {
+                    Log.Error($"No valid FootstepHandler component found for {characterModelObject.name}!");
+                }
+            } else {
+                Log.Error($"No valid CharacterBody component found for {bodyPrefab.name}!");
+            }
+
+            InitDisplayPrefab();
+
+            InitSurvivor();
+
+            InitMaster();
         }
 
-        protected virtual void InitializeDisplayPrefab() {
-            displayPrefab = Prefabs.CreateDisplayPrefab(assetBundle, displayPrefabName, bodyPrefab);
+        protected virtual void InitMaster() {
+            masterPrefab = assetBundle.LoadAsset<GameObject>(masterName);
+            if (masterPrefab) {
+                Content.AddMasterPrefab(masterPrefab);
+            } else {
+                Log.Error($"Master prefab \"{masterName}\" not found!");
+            }
         }
 
-        protected virtual void InitializeSurvivor() {
-            Content.CreateSurvivor(bodyPrefab, displayPrefab, bodyInfo.bodyColor, survivorTokenPrefix, characterUnlockableDef, bodyInfo.sortPosition);
+        protected virtual void InitDisplayPrefab() {
+            displayPrefab = Prefabs.LoadDisplayPrefab(assetBundle, displayPrefabName);
+        }
+
+        protected virtual void InitSurvivor() {
+            SurvivorDef survivorDef = assetBundle.LoadAsset<SurvivorDef>(survivorDefName);
+            if (survivorDef != null) {
+                Content.AddSurvivorDef(survivorDef);
+            } else {
+                Log.Error($"SurvivorDef \"{survivorDefName}\" not found!");
+            }
         }
 
         #region CharacterSelectSurvivorPreviewDisplayController

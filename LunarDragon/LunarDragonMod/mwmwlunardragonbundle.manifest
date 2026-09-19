@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 459867962
+CRC: 3009538509
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b542969b0e1a88be2637970fba7cae39
+    Hash: 7920545008585c95ff3e3320807eedf3
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 5fc043228c16e5912de8a8324ce27a17
+    Hash: b97e51f3a931317e49d7250eb54f4291
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -44,45 +44,101 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1044368294, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 1783796254, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+  Script: {fileID: 488236779, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+  Script: {fileID: 678291247, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: c1e2a22f32bafb546bddfa52bbe43710, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: d4e5e91ac06332048833b95d1504f74a, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 261c50d8a80898e4ebf2e8e415ea6766, type: 3}
+  Script: {fileID: 816898038, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1395413934, guid: da77c7bbf69f66ab2145560542327715, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: c40eb7c7c1062d444b687aab0a267bed, type: 3}
-- Class: 114
-  Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: b30b94fefae831546a379350b7802b48, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 04d670bece4790f4182ab1d00765b091, type: 3}
-- Class: 114
-  Script: {fileID: -132178706, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 802132372, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: -875252823, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: -146705984, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
   Script: {fileID: 463222144, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 488236779, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: -1848696948, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+  Script: {fileID: 1783796254, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1790887305, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 678291247, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+  Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
+- Class: 114
+  Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1392865457, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1512185436, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 161585894, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1918207524, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 306635731, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 952828898, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
+- Class: 114
+  Script: {fileID: 1144835783, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1480773730, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1530905962, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1533710874, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
+  Script: {fileID: -1811796171, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -46258121, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -132178706, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1357070253, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1067940895, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -197296741, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 953270592, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1277448904, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1077198318, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -2096938146, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -226763392, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 802132372, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -875252823, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 298587437, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -365436499, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1294804675, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -146705984, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -202159943, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1792105662, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1549848242, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -359660931, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 682687671, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1578512655, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1699741063, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1864444436, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1848696948, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -317677761, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -92,15 +148,45 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -517518216, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: -789927658, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -565067572, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1391837873, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1627637702, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1255927399, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -11224053, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1348642413, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1881990681, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -315171339, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1895344032, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 816898038, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+  Script: {fileID: -1746479147, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 4bd9ad30136f18240a768d355d398a37, type: 3}
+  Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 971405550c5731c4c892f9194248f1c0, type: 3}
+  Script: {fileID: -671018608, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
+- Class: 114
+  Script: {fileID: -835014940, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
+- Class: 114
+  Script: {fileID: 1351617430, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
+- Class: 114
+  Script: {fileID: -1051324407, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
+- Class: 114
+  Script: {fileID: -49251586, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
+- Class: 114
+  Script: {fileID: 2014105726, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
+- Class: 114
+  Script: {fileID: 1126307132, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
+- Class: 114
+  Script: {fileID: -744921097, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 135
@@ -122,16 +208,56 @@ ClassTypes:
 - Class: 224
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers:
-- AssemblyName: Assembly-CSharp
+- AssemblyName: AK.Wwise.Unity.API.WwiseTypes
+  ClassName: AK.Wwise.Event
+- AssemblyName: HGUnityUtils
+  ClassName: HG.BlendableTypes.BlendableBool
+- AssemblyName: HGUnityUtils
+  ClassName: HG.BlendableTypes.BlendableFloat
+- AssemblyName: HGUnityUtils
+  ClassName: HG.BlendableTypes.BlendableVector3
+- AssemblyName: RoR2
   ClassName: ChildLocator/NameTransformPair
 - AssemblyName: RoR2
+  ClassName: EntityStates.SerializableEntityStateType
+- AssemblyName: RoR2
+  ClassName: RoR2.CharacterAI.BaseAI/FollowPattern
+- AssemblyName: RoR2
+  ClassName: RoR2.CharacterCameraParamsData
+- AssemblyName: RoR2
+  ClassName: RoR2.CharacterFlightParameters
+- AssemblyName: RoR2
+  ClassName: RoR2.CharacterGravityParameters
+- AssemblyName: RoR2
+  ClassName: RoR2.CharacterModel/LightInfo
+- AssemblyName: RoR2
+  ClassName: RoR2.CharacterModel/RendererInfo
+- AssemblyName: RoR2
   ClassName: RoR2.DamageTypeCombo
+- AssemblyName: RoR2
+  ClassName: RoR2.Run/FixedTimeStamp
+- AssemblyName: RoR2
+  ClassName: RoR2.SkillLocator/PassiveSkill
+- AssemblyName: RoR2
+  ClassName: RoR2.Skills.SkillFamily/Variant
+- AssemblyName: RoR2
+  ClassName: RoR2.SkinDefParams/MeshReplacement
 - AssemblyName: RoR2
   ClassName: RoR2.UI.CrosshairController/SpritePosition
 - AssemblyName: RoR2
   ClassName: Wave
 - AssemblyName: Unity.Addressables
+  ClassName: UnityEngine.AddressableAssets.AssetReferenceT`1[RoR2.SkinDefParams]
+- AssemblyName: Unity.Addressables
+  ClassName: UnityEngine.AddressableAssets.AssetReferenceT`1[UnityEngine.Avatar]
+- AssemblyName: Unity.Addressables
   ClassName: UnityEngine.AddressableAssets.AssetReferenceT`1[UnityEngine.GameObject]
+- AssemblyName: Unity.Addressables
+  ClassName: UnityEngine.AddressableAssets.AssetReferenceT`1[UnityEngine.Material]
+- AssemblyName: Unity.Addressables
+  ClassName: UnityEngine.AddressableAssets.AssetReferenceT`1[UnityEngine.Mesh]
+- AssemblyName: Unity.Addressables
+  ClassName: UnityEngine.AddressableAssets.AssetReferenceT`1[UnityEngine.RuntimeAnimatorController]
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.Events.PersistentCallGroup
 - AssemblyName: UnityEngine.CoreModule
@@ -143,43 +269,50 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
   ClassName: UnityEngine.Networking.NetworkSceneId
 Assets:
+- Assets/LunarDragon/Skins/Mastery/matOrbLeftMastery.mat
+- Assets/LunarDragon/Skins/Default/skinLunarDragonDefault_params.asset
+- Assets/LunarDragon/JetTrail/JetTrail.prefab
+- Assets/LunarDragon/Skills/SkillAssets/SecondaryFireball/FireballEruption.prefab
+- Assets/LunarDragon/lunardragon.fbx
+- Assets/LunarDragon/Icons/texSpecial1Icon.png
+- Assets/LunarDragon/Skills/SkillAssets/SecondaryIceball/IceballGlacier.prefab
+- Assets/LunarDragon/LunarDragonMonsterMaster.prefab
+- Assets/LunarDragon/Skins/Default/matOrbRight.mat
+- Assets/LunarDragon/Skins/Mastery/matCannonMastery.mat
+- Assets/LunarDragon/Skills/SkillAssets/PrimaryFireball/FireballProjectile.prefab
+- Assets/LunarDragon/Skills/SkillAssets/SecondaryFireball/HeavyFireballProjectile.prefab
+- Assets/LunarDragon/LunarDragon.asset
+- Assets/LunarDragon/Skins/Mastery/matOrbRightMastery.mat
+- Assets/LunarDragon/Icons/texMasterySkinIcon.png
+- Assets/LunarDragon/Skins/Default/matOrbLeft.mat
+- Assets/LunarDragon/Skills/SkillAssets/SpecialAmbush/matAmbushGlow.mat
+- Assets/LunarDragon/Icons/texLunarDragonIcon.png
+- Assets/LunarDragon/LunarDragonBody.prefab
+- Assets/LunarDragon/Icons/texWIPIcon.png
+- Assets/LunarDragon/Skins/Default/matCannon.mat
+- Assets/LunarDragon/Skins/Default/matBody.mat
+- Assets/LunarDragon/Skins/Mastery/matLimbsMastery.mat
+- Assets/LunarDragon/Icons/texPassive1Icon.png
+- Assets/LunarDragon/Skills/SkillAssets/SecondaryIceball/HeavyIceballProjectile.prefab
 - Assets/LunarDragon/LunarDragonDisplay.prefab
 - Assets/LunarDragon/Icons/texPrimary1Icon.png
-- Assets/LunarDragon/Skin2/matOrbLeftMastery.mat
-- Assets/LunarDragon/Skills/SecondaryPlasmaball/HeavyPlasmaballProjectile.prefab
-- Assets/LunarDragon/Skills/SecondaryIceball/HeavyIceballProjectile.prefab
-- Assets/LunarDragon/JetTrail/JetTrail.prefab
-- Assets/LunarDragon/Skills/SpecialAmbush/SpawnDescendingData.asset
-- Assets/LunarDragon/Skills/SecondaryFireball/FireballEruption.prefab
-- Assets/LunarDragon/lunardragon.fbx
+- Assets/LunarDragon/Skills/SkillAssets/SecondaryPlasmaball/HeavyPlasmaballProjectile.prefab
+- Assets/LunarDragon/Skins/Mastery/skinLunarDragonMastery.asset
+- Assets/LunarDragon/Skills/SkillAssets/SpecialAmbush/SpawnDescendingData.asset
 - Assets/LunarDragon/Icons/texUtility1Icon.png
 - Assets/LunarDragon/Crosshair/LunarDragonCrosshair.prefab
-- Assets/LunarDragon/Skills/SecondaryIceball/IceballGlacier.prefab
+- Assets/LunarDragon/Unlockables/MIYOWI_LUNAR_DRAGON_MASTERY_UNLOCKABLE.asset
+- Assets/LunarDragon/Skins/Mastery/skinLunarDragonMastery_params.asset
 - Assets/LunarDragon/JetTrail/matTrail.mat
-- Assets/LunarDragon/Skin1/matOrbRight.mat
 - Assets/LunarDragon/Icons/texSecondary1Icon.png
-- Assets/LunarDragon/Skills/PrimaryFireball/FireballProjectile.prefab
-- Assets/LunarDragon/Skills/SecondaryFireball/HeavyFireballProjectile.prefab
-- Assets/LunarDragon/Icons/texSpecial1Icon.png
-- Assets/LunarDragon/mdlLunarDragon.prefab
-- Assets/LunarDragon/Skin2/matCannonMastery.mat
-- Assets/LunarDragon/Skin1/matOrbCenter.mat
-- Assets/LunarDragon/Skin2/matOrbRightMastery.mat
-- Assets/LunarDragon/Icons/texMasterySkinIcon.png
-- Assets/LunarDragon/Skin2/matBodyMastery.mat
-- Assets/LunarDragon/Skills/SpecialAmbush/DescendingData.asset
-- Assets/LunarDragon/Skills/SpecialAmbush/AmbushGlow.prefab
-- Assets/LunarDragon/Skin1/matOrbLeft.mat
-- Assets/LunarDragon/Skills/SpecialAmbush/matAmbushGlow.mat
-- Assets/LunarDragon/Icons/texLunarDragonIcon.png
-- Assets/LunarDragon/Icons/texWIPIcon.png
-- Assets/LunarDragon/Skin1/matCannon.mat
-- Assets/LunarDragon/Skills/SpecialAmbush/RisingData.asset
-- Assets/LunarDragon/Skin1/matBody.mat
-- Assets/LunarDragon/Skin2/matLimbsMastery.mat
-- Assets/LunarDragon/Skin2/matOrbCenterMastery.mat
-- Assets/LunarDragon/Skills/PrimaryIceball/IceballProjectile.prefab
-- Assets/LunarDragon/Skin1/matLimbs.mat
-- Assets/LunarDragon/Icons/texPassive1Icon.png
+- Assets/LunarDragon/Skins/Default/matOrbCenter.mat
+- Assets/LunarDragon/Skins/Mastery/matBodyMastery.mat
+- Assets/LunarDragon/Skills/SkillAssets/SpecialAmbush/DescendingData.asset
+- Assets/LunarDragon/Skills/SkillAssets/SpecialAmbush/AmbushGlow.prefab
+- Assets/LunarDragon/Skills/SkillAssets/SpecialAmbush/RisingData.asset
+- Assets/LunarDragon/Skins/Mastery/matOrbCenterMastery.mat
+- Assets/LunarDragon/Skins/Default/skinLunarDragonDefault.asset
+- Assets/LunarDragon/Skills/SkillAssets/PrimaryIceball/IceballProjectile.prefab
+- Assets/LunarDragon/Skins/Default/matLimbs.mat
 - Assets/LunarDragon/Icons/texDefaultSkinIcon.png
 Dependencies: []

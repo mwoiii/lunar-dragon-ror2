@@ -38,7 +38,7 @@ namespace LunarDragonMod {
 
             Modules.Language.Init();
 
-            DamageTypeCollection.Init();
+            LunarDragonDamageTypes.Init();
             new LunarDragonSurvivor().Init();
 
             //Options.Init();

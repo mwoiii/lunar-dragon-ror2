@@ -7,7 +7,6 @@ using RoR2;
 using RoR2.CharacterSpeech;
 using RoR2.Projectile;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
-using System.Reflection;
 using ThreeEyedGames;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -90,23 +89,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static CharacterSpeechController.SpeechInfo[] killHurtDragonResponses;
 
-        internal static void LoadAssetBundle(string bundleName) {
-            try {
-                using (var assetStream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"LunarDragonMod.{bundleName}")) {
-                    if (assetStream != null) {
-                        assetBundle = AssetBundle.LoadFromStream(assetStream);
-                    }
-                }
-                if (assetBundle == null) {
-                    Log.Error("Couldn't find asset bundle!");
-                }
-            } catch (System.Exception e) {
-                Log.Error($"Error loading asset bundle '{bundleName}'.\n{e}");
-            }
-        }
-
-        public static void Init() {
-            LoadAssetBundle("mwmwlunardragonbundle");
+        public static void Init(AssetBundle assetBundle) {
+            LunarDragonAssets.assetBundle = assetBundle;
 
             LunarDragonPlugin.instance.StartCoroutine(ShaderSwapper.ShaderSwapper.UpgradeStubbedShadersAsync(assetBundle));
 

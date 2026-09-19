@@ -2,15 +2,13 @@
 using RoR2;
 
 namespace LunarDragonMod.Survivors.LunarDragon.Achievements {
-    //automatically creates language tokens "ACHIEVEMENT_{identifier.ToUpper()}_NAME" and "ACHIEVMENT_{identifier.ToUpper()}_DESCRIPTION" 
     [RegisterAchievement(identifier, unlockableIdentifier, null, 10, null)]
     public class LunarDragonMasteryAchievement : BaseMasteryAchievement {
-        public const string identifier = LunarDragonSurvivor.LUNAR_DRAGON_PREFIX + "masteryAchievement";
-        public const string unlockableIdentifier = LunarDragonSurvivor.LUNAR_DRAGON_PREFIX + "masteryUnlockable";
+        public const string identifier = LunarDragonSurvivor.LUNAR_DRAGON_PREFIX + "MASTERY_ACHIEVEMENT";
+        public const string unlockableIdentifier = LunarDragonSurvivor.LUNAR_DRAGON_PREFIX + "MASTERY_UNLOCKABLE";
 
         public override string RequiredCharacterBody => LunarDragonSurvivor.instance.bodyName;
 
-        //difficulty coeff 3 is monsoon. 3.5 is typhoon for grandmastery skins
         public override float RequiredDifficultyCoefficient => 3;
     }
 }

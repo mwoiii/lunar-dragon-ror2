@@ -94,9 +94,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             #region Achievements
             Language.Add(Tokens.GetAchievementNameToken(LunarDragonMasteryAchievement.identifier), "Lunar Dragon: Mastery");
             Language.Add(Tokens.GetAchievementDescriptionToken(LunarDragonMasteryAchievement.identifier), "As Lunar Dragon, beat the game or obliterate on Monsoon.");
-
-            Language.Add(Tokens.GetAchievementNameToken(LunarDragonWIPAchievement.identifier), "Patience");
-            Language.Add(Tokens.GetAchievementDescriptionToken(LunarDragonWIPAchievement.identifier), "This content is still being developed!");
             #endregion
 
             #region Mithrix Dialogue

@@ -1,13 +1,16 @@
 ﻿using LunarDragonMod.Survivors.LunarDragon.States;
 using RoR2;
+using System;
 using System.Collections;
 using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon.Components {
     public class LunarDragonController : MonoBehaviour {
 
+        [NonSerialized]
         public ElecSecondaryController elecSecondaryController;
 
+        [NonSerialized]
         public bool canJump = true;
 
         public LunarDragonMain bodyState;
@@ -20,10 +23,12 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         public EntityStateMachine jetpackStateMachine;
 
+        [NonSerialized]
         public CameraRigController camera;
 
         public CharacterBody characterBody;
 
+        [SerializeField]
         private ChildLocator childLocator;
 
         private GameObject fireAura;
@@ -31,12 +36,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
         private const int assignAimTimeout = 50;
 
         private void Awake() {
-            characterBody = GetComponent<CharacterBody>();
-            bodyStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Body");
-            weaponStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Weapon");
-            utilityStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Utility");
-            jetpackStateMachine = EntityStateMachine.FindByCustomName(gameObject, "Jet");
-            GetChildLocator();
             AddJets();
         }
 
@@ -96,15 +95,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
         public void ResetAllSkillStateMachines() {
             ResetWeaponStateMachine();
             ResetUtilityStateMachine();
-        }
-
-        private void GetChildLocator() {
-            ModelLocator modelLocator = GetComponent<ModelLocator>();
-            if (!modelLocator) {
-                Log.Error("Couldn't find ModelLocator!");
-                return;
-            }
-            childLocator = modelLocator.modelChildLocator;
         }
 
         private void AddJets() {

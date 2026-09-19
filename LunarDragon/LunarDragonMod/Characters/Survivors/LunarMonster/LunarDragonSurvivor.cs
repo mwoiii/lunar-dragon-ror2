@@ -1,145 +1,59 @@
-﻿using EntityStates;
-using LunarDragonMod.Characters.Survivors.LunarDragon.Content;
-using LunarDragonMod.Modules;
-using LunarDragonMod.Modules.Characters;
-using LunarDragonMod.Survivors.LunarDragon.Components;
-using LunarDragonMod.Survivors.LunarDragon.States;
+﻿using LunarDragonMod.Modules.Characters;
 using RoR2;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
 namespace LunarDragonMod.Survivors.LunarDragon {
     public class LunarDragonSurvivor : SurvivorBase<LunarDragonSurvivor> {
+        public override string assetBundleName => "mwmwlunardragonbundle";
 
         public override string bodyName => "LunarDragonBody";
-
-        public static BodyIndex bodyIndex;
 
         private static string _bodyName;
 
         public override string masterName => "LunarDragonMonsterMaster";
 
-        public override string modelPrefabName => "mdlLunarDragon";
-
         public override string displayPrefabName => "LunarDragonDisplay";
 
-        public const string LUNAR_DRAGON_PREFIX = LunarDragonPlugin.DEVELOPER_PREFIX + "_LunarDragon_";
+        public const string LUNAR_DRAGON_PREFIX = LunarDragonPlugin.DEVELOPER_PREFIX + "_LUNAR_DRAGON_";
 
         public override string survivorTokenPrefix => LUNAR_DRAGON_PREFIX;
+
+        public override ItemDisplaysBase itemDisplays => new LunarDragonItemDisplays();
+
+        public override string survivorDefName => "LunarDragon";
+
+        public static BodyIndex bodyIndex;
 
         [SystemInitializer(new Type[] { typeof(BodyCatalog) })]
         private static void GetBodyIndex() {
             bodyIndex = BodyCatalog.FindBodyIndex(_bodyName);
         }
 
-        public override BodyInfo bodyInfo => new BodyInfo {
-            bodyName = bodyName,
-            bodyNameToken = LUNAR_DRAGON_PREFIX + "NAME",
-            subtitleNameToken = LUNAR_DRAGON_PREFIX + "SUBTITLE",
-
-            characterPortrait = assetBundle.LoadAsset<Texture>("texLunarDragonIcon"),
-            bodyColor = new Color(0.67f, 0.65f, 0.74f),
-            sortPosition = 100,
-
-            crosshair = assetBundle.LoadAsset<GameObject>("LunarDragonCrosshair"),
-            //podPrefab = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/SurvivorPod"),
-            initialState = new SerializableEntityStateType(typeof(AmbushSpawn)),
-
-            maxHealth = 180f,
-            healthRegen = 1f,
-            armor = 20f,
-
-            jumpCount = 1,
-        };
-
-        public override CustomRendererInfo[] customRendererInfos => new CustomRendererInfo[]
-        {
-                new CustomRendererInfo
-                {
-                    childName = "BodyMesh",
-                    material = assetBundle.LoadMaterial("matBody")
-                },
-                new CustomRendererInfo
-                {
-                    childName = "LimbsMesh",
-                    material = assetBundle.LoadMaterial("matLimbs"),
-                },
-                new CustomRendererInfo
-                {
-                    childName = "LeftOrbMesh",
-                    material = assetBundle.LoadMaterial("matOrbLeft"),
-                },
-                new CustomRendererInfo
-                {
-                    childName = "RightOrbMesh",
-                    material = assetBundle.LoadMaterial("matOrbRight"),
-                },
-                new CustomRendererInfo
-                {
-                    childName = "CenterOrbMesh",
-                    material = assetBundle.LoadMaterial("matOrbCenter"),
-                },
-                new CustomRendererInfo
-                {
-                    childName = "RocksMesh",
-                    material = assetBundle.LoadMaterial("matCannon"),
-                }
-        };
-
-        public override UnlockableDef characterUnlockableDef => LunarDragonUnlockables.characterUnlockableDef;
-
-        public override ItemDisplaysBase itemDisplays => new LunarDragonItemDisplays();
-
-        //set in base classes
-        public override AssetBundle assetBundle { get; protected set; }
-
-        public override GameObject bodyPrefab { get; protected set; }
-        public override CharacterBody prefabCharacterBody { get; protected set; }
-        public override GameObject characterModelObject { get; protected set; }
-        public override CharacterModel prefabCharacterModel { get; protected set; }
-        public override GameObject displayPrefab { get; protected set; }
-
         public override void Init() {
-            //uncomment if you have multiple characters
-            //ConfigEntry<bool> characterEnabled = Config.CharacterEnableConfig("Survivors", "LunarDragon");
-
-            //if (!characterEnabled.Value)
-            //    return;
-
             base.Init();
+            _bodyName = bodyName;
         }
 
-        public override void InitializeCharacter() {
-            LunarDragonTokens.Init();
-            LunarDragonAssets.Init();
-            assetBundle = LunarDragonAssets.assetBundle;
+        public override void InitCharacter() {
+            LunarDragonUnlockables.Init(assetBundle);
 
-            LunarDragonUnlockables.Init();
-
-            base.InitializeCharacter();
+            base.InitCharacter();
 
             LunarDragonStates.Init();
-            LunarDragonBuffs.Init(assetBundle);
+            LunarDragonTokens.Init();
 
-            SetDeathBehaviour();
-            InitializeEntityStateMachines();
-            InitializeSkills();
-            InitializeSkins();
-            InitializeCharacterMaster();
+            LunarDragonAssets.Init(assetBundle);
+            LunarDragonBuffs.Init(assetBundle);
 
             AdditionalBodySetup();
         }
 
         private void AdditionalBodySetup() {
-            AddHitboxes();
             SetupAkBanks();
-            bodyPrefab.AddComponent<LunarDragonController>();
-            bodyPrefab.GetComponent<Interactor>().maxInteractionDistance = 8f;
             displayPrefab.GetComponent<InstantiatePrefabBehavior>().prefab = LunarDragonAssets.displayEffectPrefab;
-            _bodyName = bodyName;
         }
 
         private void SetupAkBanks() {
@@ -157,92 +71,6 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     akBank.unloadTriggerList = bank.unloadTriggerList;
                 }
             }
-        }
-
-        private void SetDeathBehaviour() {
-            CharacterDeathBehavior deathBehavior = bodyPrefab.GetComponent<CharacterDeathBehavior>();
-            if (deathBehavior == null) {
-                deathBehavior = bodyPrefab.AddComponent<CharacterDeathBehavior>();
-            }
-
-            deathBehavior.deathState = new EntityStates.SerializableEntityStateType(typeof(DeathState));
-        }
-
-        public void AddHitboxes() {
-            Prefabs.SetupHitBoxGroup(characterModelObject, "Charge", "BodyHitbox");
-        }
-
-        public override void InitializeEntityStateMachines() {
-            Prefabs.ClearEntityStateMachines(bodyPrefab);
-
-            Prefabs.AddMainEntityStateMachine(bodyPrefab, "Body", typeof(FloorNormalizedMain), typeof(SpawnState));
-
-            Prefabs.AddEntityStateMachine(bodyPrefab, "Weapon");
-            Prefabs.AddEntityStateMachine(bodyPrefab, "Weapon2"); // unused, intended for electric secondary (surge)
-            Prefabs.AddEntityStateMachine(bodyPrefab, "Utility");
-            Prefabs.AddEntityStateMachine(bodyPrefab, "Aim");
-            Prefabs.AddEntityStateMachine(bodyPrefab, "Jet");
-        }
-
-        #region skills
-        public override void InitializeSkills() {
-            Skills.ClearGenericSkills(bodyPrefab);
-            LunarDragonSkills.Init(bodyPrefab);
-        }
-
-        #endregion skills
-
-        #region skins
-        public override void InitializeSkins() {
-            ModelSkinController skinController = prefabCharacterModel.gameObject.AddComponent<ModelSkinController>();
-            ChildLocator childLocator = prefabCharacterModel.GetComponent<ChildLocator>();
-
-            CharacterModel.RendererInfo[] defaultRendererinfos = prefabCharacterModel.baseRendererInfos;
-
-            List<SkinDef> skins = new List<SkinDef>();
-
-            #region DefaultSkin
-            SkinDef defaultSkin = Skins.CreateSkinDef("DEFAULT_SKIN",
-                assetBundle.LoadAsset<Sprite>("texDefaultSkinIcon"),
-                defaultRendererinfos,
-                prefabCharacterModel.gameObject);
-
-            skins.Add(defaultSkin);
-            #endregion
-
-            #region MasterySkin
-
-            SkinDef masterySkin = Skins.CreateSkinDef(LUNAR_DRAGON_PREFIX + "MASTERY_SKIN_NAME",
-                assetBundle.LoadAsset<Sprite>("texMasterySkinIcon"),
-                defaultRendererinfos,
-                prefabCharacterModel.gameObject,
-                LunarDragonUnlockables.masterySkinUnlockableDef);
-
-            masterySkin.skinDefParams.rendererInfos[0].defaultMaterial = assetBundle.LoadMaterial("matBodyMastery");
-            masterySkin.skinDefParams.rendererInfos[1].defaultMaterial = assetBundle.LoadMaterial("matLimbsMastery");
-            masterySkin.skinDefParams.rendererInfos[2].defaultMaterial = assetBundle.LoadMaterial("matOrbLeftMastery");
-            masterySkin.skinDefParams.rendererInfos[3].defaultMaterial = assetBundle.LoadMaterial("matOrbRightMastery");
-            masterySkin.skinDefParams.rendererInfos[4].defaultMaterial = assetBundle.LoadMaterial("matOrbCenterMastery");
-            masterySkin.skinDefParams.rendererInfos[5].defaultMaterial = assetBundle.LoadMaterial("matCannonMastery");
-
-            skins.Add(masterySkin);
-            #endregion
-
-            skinController.skins = skins.ToArray();
-        }
-        #endregion skins
-
-        public override void InitializeCharacterMaster() {
-            //you must only do one of these. adding duplicate masters breaks the game.
-
-            //if you're lazy or prototyping you can simply copy the AI of a different character to be used
-            //Modules.Prefabs.CloneDopplegangerMaster(bodyPrefab, masterName, "Merc");
-
-            //how to set up AI in code
-            LunarDragonAI.Init(bodyPrefab, masterName);
-
-            //how to load a master set up in unity, can be an empty gameobject with just AISkillDriver components
-            //assetBundle.LoadMaster(bodyPrefab, masterName);
         }
     }
 }
