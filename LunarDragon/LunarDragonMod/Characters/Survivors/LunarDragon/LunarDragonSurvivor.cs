@@ -54,6 +54,13 @@ namespace LunarDragonMod.Survivors.LunarDragon {
         private void AdditionalBodySetup() {
             SetupAkBanks();
             displayPrefab.GetComponent<InstantiatePrefabBehavior>().prefab = LunarDragonAssets.displayEffectPrefab;
+
+            // height radius is normally capped at 1/2 height but also affects certain vfx
+            // call it the cuck cap
+            const float effectRadius = 1.2f;
+            CapsuleCollider capsuleCollider = bodyPrefab.GetComponent<CapsuleCollider>();
+            capsuleCollider.radius = effectRadius;
+            bodyPrefab.GetComponent<KinematicCharacterController.KinematicCharacterMotor>().CapsuleRadius = effectRadius;
         }
 
         private void SetupAkBanks() {
