@@ -69,6 +69,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 if (collider) {
                     collider.isTrigger = true;
                 }
+                if (characterBody) {
+                    characterBody.isSprinting = false;
+                }
             }
             if (NetworkServer.active) {
                 if (inventory) {
@@ -124,6 +127,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 }
                 if (characterBody) {
                     characterBody.RemoveBuff(immunityBuff);
+                    characterBody.hideCrosshair = false;
                 }
             }
         }
@@ -132,6 +136,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             PlayAnimation("FullBody, Override", "SpecialDiveEnd");
             if (controller) {
                 controller.DisableFireAura();
+                controller.EnsureMinigameEnded();
             }
             if (modelLocator) {
                 modelLocator.autoUpdateModelTransform = true;

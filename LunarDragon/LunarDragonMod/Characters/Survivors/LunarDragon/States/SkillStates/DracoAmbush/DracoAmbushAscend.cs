@@ -36,6 +36,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             if (!jetsActive && stopwatch > duration - jetsTime) {
                 if (isAuthority && controller) {
                     controller.jetpackStateMachine.SetNextState(EntityStateCatalog.InstantiateState(typeof(JetsOnFront)));
+                    if (characterBody.isPlayerControlled) {
+                        controller.StartSpecialMinigame();
+                    }
+                    characterBody.hideCrosshair = true;
                 }
                 EffectManager.SpawnEffect(LunarDragonAssets.specialLiftoffSmokeEffect, new EffectData {
                     origin = characterBody.footPosition,

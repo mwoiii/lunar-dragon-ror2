@@ -1,5 +1,6 @@
 ﻿using LunarDragonMod.Survivors.LunarDragon.States;
 using RoR2;
+using RoR2.UI;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -23,6 +24,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         public EntityStateMachine jetpackStateMachine;
 
+        private GameObject minigameInstance;
+
         [NonSerialized]
         public CameraRigController camera;
 
@@ -35,6 +38,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         private const int assignAimTimeout = 50;
 
+        private HUD localHUD;
+
         private void Awake() {
             AddJets();
         }
@@ -42,6 +47,42 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
         private void Start() {
             if (characterBody && characterBody.hasAuthority && characterBody.isPlayerControlled) {
                 StartCoroutine(TryAssignAimOriginTransform());
+            }
+        }
+
+        private void TryEnsureHUD() {
+            if (!localHUD) {
+                foreach (HUD hud in HUD.instancesList) {
+                    if (hud.targetBodyObject == gameObject) {
+                        localHUD = hud;
+                        break;
+                    }
+                }
+            }
+        }
+
+        public void StartSpecialMinigame() {
+            TryEnsureHUD();
+            if (!localHUD) {
+                Log.Error("Couldn't find HUD for local player! Skipping minigame...");
+                return;
+            }
+
+            if (localHUD.TryGetComponent(out ChildLocator childLocator)) {
+                Transform crosshairExtras = childLocator.FindChild("CrosshairExtras");
+                if (crosshairExtras) {
+                    minigameInstance = Instantiate(LunarDragonAssets.specialMinigamePrefab, crosshairExtras);
+                    RectTransform rectTransform = minigameInstance.GetComponent<RectTransform>();
+                    rectTransform.anchorMin = Vector3.one * 0.5f;
+                    rectTransform.anchorMax = Vector3.one * 0.5f;
+                    minigameInstance.transform.localPosition = Vector3.zero;
+                }
+            }
+        }
+
+        public void EnsureMinigameEnded() {
+            if (minigameInstance) {
+                Destroy(minigameInstance);
             }
         }
 

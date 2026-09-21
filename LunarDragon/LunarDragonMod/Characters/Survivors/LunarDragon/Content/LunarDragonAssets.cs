@@ -89,6 +89,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static CharacterSpeechController.SpeechInfo[] killHurtDragonResponses;
 
+        public static GameObject specialMinigamePrefab;
+
         public static void Init(AssetBundle assetBundle) {
             LunarDragonAssets.assetBundle = assetBundle;
 
@@ -116,7 +118,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Special Liftoff Effects", CreateAmbushLiftoffEffects);
             TryBuildAsset("Special Ascending Effects", CreateAmbushAscendingEffects);
             TryBuildAsset("Special Landing Effects", CreateAmbushLandingEffects);
-            TryBuildAsset("Special Motion Data", GetAmbushMotionData);
+            TryBuildAsset("Special Extra Data", GetAmbushExtraData);
 
             TryBuildAsset("Mithrix Dialogue", CreateMithrixDialogue);
         }
@@ -1122,10 +1124,11 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             Content.CreateAndAddEffectDef(specialLandingExplosionEffect);
         }
 
-        private static void GetAmbushMotionData() {
+        private static void GetAmbushExtraData() {
             specialAmbushRisingData = assetBundle.LoadAsset<AnimationCurveData>("RisingData");
             specialAmbushDescendingData = assetBundle.LoadAsset<AnimationCurveData>("DescendingData");
             specialAmbushSpawnDescendingData = assetBundle.LoadAsset<AnimationCurveData>("SpawnDescendingData");
+            specialMinigamePrefab = assetBundle.LoadAsset<GameObject>("MinigamePrefab");
         }
 
         private static void CreateMithrixDialogue() {
