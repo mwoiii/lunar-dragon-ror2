@@ -51,7 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: -972431475, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1.2
+  element: 0
+  speed: 1.1
 --- !u!222 &2291046249634389082
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using LunarDragonMod.Survivors.LunarDragon.States;
+﻿using LunarDragonMod.Characters.LunarDragon;
+using LunarDragonMod.Survivors.LunarDragon.States;
 using RoR2;
 using RoR2.UI;
 using System;
@@ -24,7 +25,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         public EntityStateMachine jetpackStateMachine;
 
-        private GameObject minigameInstance;
+        public EntityStateMachine aimStateMachine;
+
+        [NonSerialized]
+        public MinigameController minigameInstance;
 
         [NonSerialized]
         public CameraRigController camera;
@@ -71,7 +75,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
             if (localHUD.TryGetComponent(out ChildLocator childLocator)) {
                 Transform crosshairExtras = childLocator.FindChild("CrosshairExtras");
                 if (crosshairExtras) {
-                    minigameInstance = Instantiate(LunarDragonAssets.specialMinigamePrefab, crosshairExtras);
+                    minigameInstance = Instantiate(LunarDragonAssets.specialMinigamePrefab, crosshairExtras).GetComponent<MinigameController>();
+                    minigameInstance.characterBody = characterBody;
                     RectTransform rectTransform = minigameInstance.GetComponent<RectTransform>();
                     rectTransform.anchorMin = Vector3.one * 0.5f;
                     rectTransform.anchorMax = Vector3.one * 0.5f;
@@ -82,7 +87,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
 
         public void EnsureMinigameEnded() {
             if (minigameInstance) {
-                Destroy(minigameInstance);
+                Destroy(minigameInstance.gameObject);
             }
         }
 

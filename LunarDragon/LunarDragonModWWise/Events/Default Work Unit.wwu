@@ -25,6 +25,39 @@
 						</Action>
 					</ChildrenList>
 				</Event>
+				<Event Name="Play_LunarDragonMinigameSmallHit" ID="{23E300CC-B438-43DC-BABF-2856D6A146B2}">
+					<ChildrenList>
+						<Action Name="" ID="{3013560F-F2A3-494F-9BB7-ED2294591233}" ShortID="1008992804">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="LunarDragonMinigameSmallHit" ID="{7368EE03-2C8E-4476-9DFE-0AB4FA0B14A1}" WorkUnitID="{B421DF28-52E3-4C19-8D84-0A6B362B6EF8}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_LunarDragonMinigameBigHit" ID="{02DC072F-08ED-4902-B336-D05E20770438}">
+					<ChildrenList>
+						<Action Name="" ID="{8E7978E0-4DC9-40DD-A0D6-F0ED43E25BB0}" ShortID="722413188">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="LunarDragonMinigameBigHit" ID="{30DDF589-7F07-4CB9-9015-75A5C485D5C2}" WorkUnitID="{B421DF28-52E3-4C19-8D84-0A6B362B6EF8}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+				<Event Name="Play_LunarDragonMinigameMiss" ID="{99E67F4A-0045-4334-9466-C7DBECDDD0C5}">
+					<ChildrenList>
+						<Action Name="" ID="{D299524C-CA67-4B52-9BA0-9613A2CAC2E5}" ShortID="569272561">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="LunarDragonMinigameMiss" ID="{57CB74B0-043E-4494-9CE0-09B569963E15}" WorkUnitID="{B421DF28-52E3-4C19-8D84-0A6B362B6EF8}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
 			</ChildrenList>
 		</WorkUnit>
 	</Events>

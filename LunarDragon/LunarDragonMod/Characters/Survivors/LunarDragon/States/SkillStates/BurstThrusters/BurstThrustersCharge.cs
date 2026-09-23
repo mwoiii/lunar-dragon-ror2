@@ -1,5 +1,6 @@
 ﻿using EntityStates;
 using LunarDragonMod.Survivors.LunarDragon.Components;
+using LunarDragonMod.Survivors.LunarDragon.SkillDefs;
 using RoR2;
 using System;
 using UnityEngine;
@@ -100,7 +101,11 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     break;
             }
 
-            skillLocator.utility.temporaryCooldownPenalty = currentCharge * 5f * skillLocator.utilityBonusStockSkill.cooldownScale; // 2, 7, 10
+            //skillLocator.utility.overriddenRechargeInterval = currentCharge * 5f * skillLocator.utilityBonusStockSkill.cooldownScale; 
+            if (skillLocator.utility.skillDef is BurstThrustersSkillDef skillDef) {
+                skillDef.cooldownQueue.Enqueue(skillLocator.utility.skillDef.baseRechargeInterval + Mathf.Clamp(currentCharge, 0f, 2f) * 5f); // 2, 7, 10
+            }
+            skillLocator.utility.DeductStock(1);
             EntityStateMachine bodyStateMachine = FindSiblingStateMachine("Body");
             if (bodyStateMachine) {
                 bodyStateMachine.SetNextState(nextState);

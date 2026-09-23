@@ -15,7 +15,8 @@ MonoBehaviour:
   skillName: LunarDragonAmbush
   skillNameToken: MIYOWI_LUNAR_DRAGON_SPECIAL_AMBUSH_NAME
   skillDescriptionToken: MIYOWI_LUNAR_DRAGON_SPECIAL_AMBUSH_DESCRIPTION
-  keywordTokens: []
+  keywordTokens:
+  - MIYOWI_LUNAR_DRAGON_KEYWORD_ATTUNEMENT
   icon: {fileID: 21300000, guid: c3b7712dee0945140a7ab3c458534f7c, type: 3}
   activationStateMachineName: Aim
   activationState:

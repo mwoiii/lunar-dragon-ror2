@@ -2,6 +2,7 @@
 using RoR2;
 using RoR2.Projectile;
 using UnityEngine;
+using static LunarDragonMod.Survivors.LunarDragon.LunarDragonUtils;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
 
@@ -95,18 +96,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 fireProjectileInfo.crit = Util.CheckRoll(critStat, characterBody.master);
                 fireProjectileInfo.damageColorIndex = DamageColorIndex.Default;
                 ProjectileManager.instance.FireProjectile(fireProjectileInfo);
-                ApplyAirborneKnockback(ray.direction, 1800f);
+                ApplyAirborneKnockback(characterMotor, ray.direction, 1800f);
                 AddRecoil(-1f * recoilAmplitude.y, -1.5f * recoilAmplitude.y, -1f * recoilAmplitude.x, 1f * recoilAmplitude.x);
                 characterBody.AddSpreadBloom(bloom);
             }
-        }
-
-        private void ApplyAirborneKnockback(Vector3 aimDirection, float maxForce) {
-            if (isGrounded) {
-                return;
-            }
-
-            characterBody.characterMotor.ApplyForce(aimDirection * -maxForce);
         }
 
 

@@ -19,7 +19,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Components {
         }
 
         void ICameraStateProvider.GetCameraState(CameraRigController cameraRigController, ref CameraState cameraState) {
-            Vector3 position = transform.position - transform.forward * 20f + transform.up * 5f;
+            Vector3 position = transform.position + transform.forward * 20f + transform.up * 5f;
             Vector3 target = new Vector3(transform.position.x, modelTransform.position.y, transform.position.z);
             cameraState = new CameraState {
                 position = position,

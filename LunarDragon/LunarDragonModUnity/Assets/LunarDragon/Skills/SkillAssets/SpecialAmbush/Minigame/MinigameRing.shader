@@ -1,11 +1,16 @@
 Shader "MinigameRing"
 {
+    // this is not the same as the shadergraph - vertex color multiplication killing the material rgb ingame so that is gone in here
+    // selectionring is using shadergraph to flash as it has no texture in the material
     Properties
     {
         _BorderWidth("BorderWidth", Range(0, 0.33)) = 0
         [NoScaleOffset]_MainTex("MainTex", 2D) = "white" {}
         _AlphaOffset("AlphaOffset", Range(0, 1)) = 0
+        _OutlineWidth("OutlineWidth", Range(0, 1)) = 0
+        _OutlineColor("OutlineColor", Color) = (0, 0, 0, 0)
         [HideInInspector]_BUILTIN_QueueOffset("Float", Float) = 0
+        [HideInInspector]_BUILTIN_QueueControl("Float", Float) = -1
         [HideInInspector]_BUILTIN_QueueControl("Float", Float) = -1_Stencil("Stencil ID", Float) = 0
         _StencilComp("StencilComp", Float) = 8
         _StencilOp("StencilOp", Float) = 0
@@ -225,6 +230,8 @@ Shader "MinigameRing"
         float _BorderWidth;
         float4 _MainTex_TexelSize;
         float _AlphaOffset;
+        float _OutlineWidth;
+        float4 _OutlineColor;
         CBUFFER_END
         
         // Object and Global properties
@@ -266,6 +273,31 @@ Shader "MinigameRing"
         void Unity_Subtract_float(float A, float B, out float Out)
         {
             Out = A - B;
+        }
+        
+        void Unity_Add_float(float A, float B, out float Out)
+        {
+            Out = A + B;
+        }
+        
+        void Unity_Subtract_float4(float4 A, float4 B, out float4 Out)
+        {
+            Out = A - B;
+        }
+        
+        void Unity_Clamp_float4(float4 In, float4 Min, float4 Max, out float4 Out)
+        {
+            Out = clamp(In, Min, Max);
+        }
+        
+        void Unity_Multiply_float4_float4(float4 A, float4 B, out float4 Out)
+        {
+            Out = A * B;
+        }
+        
+        void Unity_Add_float4(float4 A, float4 B, out float4 Out)
+        {
+            Out = A + B;
         }
         
         void Unity_InvertColors_float(float In, float InvertColors, out float Out)
@@ -333,11 +365,35 @@ Shader "MinigameRing"
             float _Split_72e18ffc983846f6b3173c085c9318f4_A_4 = IN.VertexColor[3];
             float _Step_6c0d8b016f294d3aa0ca6bb535ec6e66_Out_2;
             Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Split_72e18ffc983846f6b3173c085c9318f4_A_4, _Step_6c0d8b016f294d3aa0ca6bb535ec6e66_Out_2);
+            float _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0 = _OutlineWidth;
+            float _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2;
+            Unity_Subtract_float(_Split_72e18ffc983846f6b3173c085c9318f4_A_4, _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0, _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2);
+            float _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2;
+            Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2, _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2);
+            float _Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2;
+            Unity_Subtract_float(_Step_6c0d8b016f294d3aa0ca6bb535ec6e66_Out_2, _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2, _Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2);
             float _Property_008208fe448e4d879ba9db95284f48b6_Out_0 = _BorderWidth;
             float _Subtract_128a3946beac4d4fa8084bfc3699acaf_Out_2;
             Unity_Subtract_float(_Split_72e18ffc983846f6b3173c085c9318f4_A_4, _Property_008208fe448e4d879ba9db95284f48b6_Out_0, _Subtract_128a3946beac4d4fa8084bfc3699acaf_Out_2);
+            float _Add_af3c2b73b26749a39384b60f8b00144a_Out_2;
+            Unity_Add_float(_Subtract_128a3946beac4d4fa8084bfc3699acaf_Out_2, _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0, _Add_af3c2b73b26749a39384b60f8b00144a_Out_2);
+            float _Step_30500afbcab542928b2e5b9e2550b98c_Out_2;
+            Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Add_af3c2b73b26749a39384b60f8b00144a_Out_2, _Step_30500afbcab542928b2e5b9e2550b98c_Out_2);
             float _Step_d44b370db6a24527a83140f571b836dd_Out_2;
             Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Subtract_128a3946beac4d4fa8084bfc3699acaf_Out_2, _Step_d44b370db6a24527a83140f571b836dd_Out_2);
+            float _Subtract_82ad6c4eef694db8803502099b39d647_Out_2;
+            Unity_Subtract_float(_Step_30500afbcab542928b2e5b9e2550b98c_Out_2, _Step_d44b370db6a24527a83140f571b836dd_Out_2, _Subtract_82ad6c4eef694db8803502099b39d647_Out_2);
+            float _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2;
+            Unity_Add_float(_Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2, _Subtract_82ad6c4eef694db8803502099b39d647_Out_2, _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2);
+            float4 _Subtract_0688ed720bac4f4c90e0974b77693e62_Out_2;
+            Unity_Subtract_float4(_SampleTexture2D_8057b4b84f3a45a6af3d60818bc7802b_RGBA_0, (_Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2.xxxx), _Subtract_0688ed720bac4f4c90e0974b77693e62_Out_2);
+            float4 _Clamp_98f51cef831443439da789ed54b4f83f_Out_3;
+            Unity_Clamp_float4(_Subtract_0688ed720bac4f4c90e0974b77693e62_Out_2, float4(0, 0, 0, 0), float4(1, 1, 1, 1), _Clamp_98f51cef831443439da789ed54b4f83f_Out_3);
+            float4 _Property_69e5eb267ffa4ec68199bc04bb86f4da_Out_0 = _OutlineColor;
+            float4 _Multiply_168beea5f59344c190b0ddd3a68ee490_Out_2;
+            Unity_Multiply_float4_float4((_Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2.xxxx), _Property_69e5eb267ffa4ec68199bc04bb86f4da_Out_0, _Multiply_168beea5f59344c190b0ddd3a68ee490_Out_2);
+            float4 _Add_84231e9224ce4ba89284efb27364c00b_Out_2;
+            Unity_Add_float4(_Clamp_98f51cef831443439da789ed54b4f83f_Out_3, _Multiply_168beea5f59344c190b0ddd3a68ee490_Out_2, _Add_84231e9224ce4ba89284efb27364c00b_Out_2);
             float _Subtract_a3545003acdc49c28497999f69606e49_Out_2;
             Unity_Subtract_float(_Step_6c0d8b016f294d3aa0ca6bb535ec6e66_Out_2, _Step_d44b370db6a24527a83140f571b836dd_Out_2, _Subtract_a3545003acdc49c28497999f69606e49_Out_2);
             float _InvertColors_1714c15aa5b440639cccf06b21f14c74_Out_1;
@@ -348,9 +404,11 @@ Shader "MinigameRing"
             float _Property_a3aecc616b0c45dcbf9b9ec0fae9dfa0_Out_0 = _AlphaOffset;
             float _Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2;
             Unity_Subtract_float(_Subtract_9b193cf36485486bb4109322fe6ed8ba_Out_2, _Property_a3aecc616b0c45dcbf9b9ec0fae9dfa0_Out_0, _Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2);
+            float _Add_79bfdd00da91499abfef159028202f06_Out_2;
+            Unity_Add_float(_Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2, _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2, _Add_79bfdd00da91499abfef159028202f06_Out_2);
             float _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3;
-            Unity_Clamp_float(_Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2, 0, 1, _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3);
-            surface.BaseColor = (_SampleTexture2D_8057b4b84f3a45a6af3d60818bc7802b_RGBA_0.xyz);
+            Unity_Clamp_float(_Add_79bfdd00da91499abfef159028202f06_Out_2, 0, 1, _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3);
+            surface.BaseColor = (_Add_84231e9224ce4ba89284efb27364c00b_Out_2.xyz);
             surface.Alpha = _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3;
             return surface;
         }
@@ -651,6 +709,8 @@ Shader "MinigameRing"
         float _BorderWidth;
         float4 _MainTex_TexelSize;
         float _AlphaOffset;
+        float _OutlineWidth;
+        float4 _OutlineColor;
         CBUFFER_END
         
         // Object and Global properties
@@ -697,6 +757,11 @@ Shader "MinigameRing"
         void Unity_InvertColors_float(float In, float InvertColors, out float Out)
         {
             Out = abs(InvertColors - In);
+        }
+        
+        void Unity_Add_float(float A, float B, out float Out)
+        {
+            Out = A + B;
         }
         
         void Unity_Clamp_float(float In, float Min, float Max, out float Out)
@@ -773,8 +838,25 @@ Shader "MinigameRing"
             float _Property_a3aecc616b0c45dcbf9b9ec0fae9dfa0_Out_0 = _AlphaOffset;
             float _Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2;
             Unity_Subtract_float(_Subtract_9b193cf36485486bb4109322fe6ed8ba_Out_2, _Property_a3aecc616b0c45dcbf9b9ec0fae9dfa0_Out_0, _Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2);
+            float _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0 = _OutlineWidth;
+            float _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2;
+            Unity_Subtract_float(_Split_72e18ffc983846f6b3173c085c9318f4_A_4, _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0, _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2);
+            float _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2;
+            Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2, _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2);
+            float _Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2;
+            Unity_Subtract_float(_Step_6c0d8b016f294d3aa0ca6bb535ec6e66_Out_2, _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2, _Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2);
+            float _Add_af3c2b73b26749a39384b60f8b00144a_Out_2;
+            Unity_Add_float(_Subtract_128a3946beac4d4fa8084bfc3699acaf_Out_2, _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0, _Add_af3c2b73b26749a39384b60f8b00144a_Out_2);
+            float _Step_30500afbcab542928b2e5b9e2550b98c_Out_2;
+            Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Add_af3c2b73b26749a39384b60f8b00144a_Out_2, _Step_30500afbcab542928b2e5b9e2550b98c_Out_2);
+            float _Subtract_82ad6c4eef694db8803502099b39d647_Out_2;
+            Unity_Subtract_float(_Step_30500afbcab542928b2e5b9e2550b98c_Out_2, _Step_d44b370db6a24527a83140f571b836dd_Out_2, _Subtract_82ad6c4eef694db8803502099b39d647_Out_2);
+            float _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2;
+            Unity_Add_float(_Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2, _Subtract_82ad6c4eef694db8803502099b39d647_Out_2, _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2);
+            float _Add_79bfdd00da91499abfef159028202f06_Out_2;
+            Unity_Add_float(_Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2, _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2, _Add_79bfdd00da91499abfef159028202f06_Out_2);
             float _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3;
-            Unity_Clamp_float(_Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2, 0, 1, _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3);
+            Unity_Clamp_float(_Add_79bfdd00da91499abfef159028202f06_Out_2, 0, 1, _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3);
             surface.Alpha = _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3;
             return surface;
         }
@@ -1072,6 +1154,8 @@ Shader "MinigameRing"
         float _BorderWidth;
         float4 _MainTex_TexelSize;
         float _AlphaOffset;
+        float _OutlineWidth;
+        float4 _OutlineColor;
         CBUFFER_END
         
         // Object and Global properties
@@ -1118,6 +1202,11 @@ Shader "MinigameRing"
         void Unity_InvertColors_float(float In, float InvertColors, out float Out)
         {
             Out = abs(InvertColors - In);
+        }
+        
+        void Unity_Add_float(float A, float B, out float Out)
+        {
+            Out = A + B;
         }
         
         void Unity_Clamp_float(float In, float Min, float Max, out float Out)
@@ -1194,8 +1283,25 @@ Shader "MinigameRing"
             float _Property_a3aecc616b0c45dcbf9b9ec0fae9dfa0_Out_0 = _AlphaOffset;
             float _Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2;
             Unity_Subtract_float(_Subtract_9b193cf36485486bb4109322fe6ed8ba_Out_2, _Property_a3aecc616b0c45dcbf9b9ec0fae9dfa0_Out_0, _Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2);
+            float _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0 = _OutlineWidth;
+            float _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2;
+            Unity_Subtract_float(_Split_72e18ffc983846f6b3173c085c9318f4_A_4, _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0, _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2);
+            float _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2;
+            Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2, _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2);
+            float _Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2;
+            Unity_Subtract_float(_Step_6c0d8b016f294d3aa0ca6bb535ec6e66_Out_2, _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2, _Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2);
+            float _Add_af3c2b73b26749a39384b60f8b00144a_Out_2;
+            Unity_Add_float(_Subtract_128a3946beac4d4fa8084bfc3699acaf_Out_2, _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0, _Add_af3c2b73b26749a39384b60f8b00144a_Out_2);
+            float _Step_30500afbcab542928b2e5b9e2550b98c_Out_2;
+            Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Add_af3c2b73b26749a39384b60f8b00144a_Out_2, _Step_30500afbcab542928b2e5b9e2550b98c_Out_2);
+            float _Subtract_82ad6c4eef694db8803502099b39d647_Out_2;
+            Unity_Subtract_float(_Step_30500afbcab542928b2e5b9e2550b98c_Out_2, _Step_d44b370db6a24527a83140f571b836dd_Out_2, _Subtract_82ad6c4eef694db8803502099b39d647_Out_2);
+            float _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2;
+            Unity_Add_float(_Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2, _Subtract_82ad6c4eef694db8803502099b39d647_Out_2, _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2);
+            float _Add_79bfdd00da91499abfef159028202f06_Out_2;
+            Unity_Add_float(_Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2, _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2, _Add_79bfdd00da91499abfef159028202f06_Out_2);
             float _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3;
-            Unity_Clamp_float(_Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2, 0, 1, _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3);
+            Unity_Clamp_float(_Add_79bfdd00da91499abfef159028202f06_Out_2, 0, 1, _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3);
             surface.Alpha = _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3;
             return surface;
         }
@@ -1493,6 +1599,8 @@ Shader "MinigameRing"
         float _BorderWidth;
         float4 _MainTex_TexelSize;
         float _AlphaOffset;
+        float _OutlineWidth;
+        float4 _OutlineColor;
         CBUFFER_END
         
         // Object and Global properties
@@ -1539,6 +1647,11 @@ Shader "MinigameRing"
         void Unity_InvertColors_float(float In, float InvertColors, out float Out)
         {
             Out = abs(InvertColors - In);
+        }
+        
+        void Unity_Add_float(float A, float B, out float Out)
+        {
+            Out = A + B;
         }
         
         void Unity_Clamp_float(float In, float Min, float Max, out float Out)
@@ -1615,8 +1728,25 @@ Shader "MinigameRing"
             float _Property_a3aecc616b0c45dcbf9b9ec0fae9dfa0_Out_0 = _AlphaOffset;
             float _Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2;
             Unity_Subtract_float(_Subtract_9b193cf36485486bb4109322fe6ed8ba_Out_2, _Property_a3aecc616b0c45dcbf9b9ec0fae9dfa0_Out_0, _Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2);
+            float _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0 = _OutlineWidth;
+            float _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2;
+            Unity_Subtract_float(_Split_72e18ffc983846f6b3173c085c9318f4_A_4, _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0, _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2);
+            float _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2;
+            Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Subtract_7afd352b0b7d48da8a9197102eae8e4f_Out_2, _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2);
+            float _Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2;
+            Unity_Subtract_float(_Step_6c0d8b016f294d3aa0ca6bb535ec6e66_Out_2, _Step_c2e989ea5207438da452bfaaf7cc8e76_Out_2, _Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2);
+            float _Add_af3c2b73b26749a39384b60f8b00144a_Out_2;
+            Unity_Add_float(_Subtract_128a3946beac4d4fa8084bfc3699acaf_Out_2, _Property_a9d80494149f4e6e84e0c5b6c8855ca6_Out_0, _Add_af3c2b73b26749a39384b60f8b00144a_Out_2);
+            float _Step_30500afbcab542928b2e5b9e2550b98c_Out_2;
+            Unity_Step_float(_Distance_c2e083963919498a8948f9fa2249bbcd_Out_2, _Add_af3c2b73b26749a39384b60f8b00144a_Out_2, _Step_30500afbcab542928b2e5b9e2550b98c_Out_2);
+            float _Subtract_82ad6c4eef694db8803502099b39d647_Out_2;
+            Unity_Subtract_float(_Step_30500afbcab542928b2e5b9e2550b98c_Out_2, _Step_d44b370db6a24527a83140f571b836dd_Out_2, _Subtract_82ad6c4eef694db8803502099b39d647_Out_2);
+            float _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2;
+            Unity_Add_float(_Subtract_d93f08e316fd4e03868cac34ac9d4d4f_Out_2, _Subtract_82ad6c4eef694db8803502099b39d647_Out_2, _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2);
+            float _Add_79bfdd00da91499abfef159028202f06_Out_2;
+            Unity_Add_float(_Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2, _Add_ca104270fae544aaa6d9d1e877eac8d8_Out_2, _Add_79bfdd00da91499abfef159028202f06_Out_2);
             float _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3;
-            Unity_Clamp_float(_Subtract_399a7886a94e42b3ba2b5bb80edb8c50_Out_2, 0, 1, _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3);
+            Unity_Clamp_float(_Add_79bfdd00da91499abfef159028202f06_Out_2, 0, 1, _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3);
             surface.Alpha = _Clamp_30cd06ebb1d8421a8ddb37a2340236d3_Out_3;
             return surface;
         }

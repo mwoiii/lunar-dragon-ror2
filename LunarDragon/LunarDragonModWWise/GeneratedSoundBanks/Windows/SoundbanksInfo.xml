@@ -9,17 +9,45 @@
 	</RootPaths>
 	<DialogueEvents/>
 	<SoundBanks>
-		<SoundBank Id="535293614" Type="User" Language="SFX" Hash="{D6A7EDC0-0795-5E77-801F-C9DEF18B9AE0}">
+		<SoundBank Id="535293614" Type="User" Language="SFX" Hash="{0BC7D931-4BD3-309A-2FDB-867E7892291E}">
 			<ShortName>LunarDragonMod</ShortName>
 			<Path>LunarDragonMod.bnk</Path>
 			<Media>
+				<File Id="77324381" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Miss2.wav</ShortName>
+					<CachePath>SFX/Miss2_EDCD4836.wem</CachePath>
+				</File>
+				<File Id="304857835" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Miss3.wav</ShortName>
+					<CachePath>SFX/Miss3_EDCD4836.wem</CachePath>
+				</File>
+				<File Id="404647062" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>LunarDragon_Minigame_BigHit.wav</ShortName>
+					<CachePath>SFX/LunarDragon_Minigame_BigHit_EDCD4836.wem</CachePath>
+				</File>
+				<File Id="427329377" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>Miss1.wav</ShortName>
+					<CachePath>SFX/Miss1_EDCD4836.wem</CachePath>
+				</File>
 				<File Id="605624026" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>LunarDragonCry.wav</ShortName>
 					<CachePath>SFX/LunarDragonCry_EDCD4836.wem</CachePath>
 				</File>
+				<File Id="622368341" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>LunarDragon_Minigame_SmallHit3.wav</ShortName>
+					<CachePath>SFX/LunarDragon_Minigame_SmallHit3_EDCD4836.wem</CachePath>
+				</File>
+				<File Id="699901743" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>LunarDragon_Minigame_SmallHit1.wav</ShortName>
+					<CachePath>SFX/LunarDragon_Minigame_SmallHit1_EDCD4836.wem</CachePath>
+				</File>
 				<File Id="725394170" Language="SFX" Streaming="false" Location="Memory">
 					<ShortName>LunarDragonAmbushImpact.wav</ShortName>
 					<CachePath>SFX/LunarDragonAmbushImpact_EDCD4836.wem</CachePath>
+				</File>
+				<File Id="879403388" Language="SFX" Streaming="false" Location="Memory">
+					<ShortName>LunarDragon_Minigame_SmallHit2.wav</ShortName>
+					<CachePath>SFX/LunarDragon_Minigame_SmallHit2_EDCD4836.wem</CachePath>
 				</File>
 			</Media>
 			<Events>
@@ -31,6 +59,25 @@
 				<Event Id="197834729" Name="Play_LunarDragonCry">
 					<MediaRefs>
 						<MediaRef Id="605624026"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="647032509" Name="Play_LunarDragonMinigameBigHit">
+					<MediaRefs>
+						<MediaRef Id="404647062"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="2901150160" Name="Play_LunarDragonMinigameMiss">
+					<MediaRefs>
+						<MediaRef Id="77324381"/>
+						<MediaRef Id="304857835"/>
+						<MediaRef Id="427329377"/>
+					</MediaRefs>
+				</Event>
+				<Event Id="1954916992" Name="Play_LunarDragonMinigameSmallHit">
+					<MediaRefs>
+						<MediaRef Id="622368341"/>
+						<MediaRef Id="699901743"/>
+						<MediaRef Id="879403388"/>
 					</MediaRefs>
 				</Event>
 			</Events>
@@ -55,5 +102,5 @@
 			</GameParameters>
 		</SoundBank>
 	</SoundBanks>
-	<FileHash>{60466923-C0D2-D2AF-0751-23EBCCEE279C}</FileHash>
+	<FileHash>{79EA49F7-1815-5302-AC6F-7A9FC0D32DAC}</FileHash>
 </SoundBanksInfo>

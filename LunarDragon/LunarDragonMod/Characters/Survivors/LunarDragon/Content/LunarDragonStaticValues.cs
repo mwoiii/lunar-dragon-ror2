@@ -16,7 +16,7 @@
 
         public const float utilityBurstThrustersUpperDamageCoefficient = 5f;
 
-        public const float specialAmbushLandDamageCoefficient = 100f;
+        public const float specialAmbushLandDamageCoefficient = 80f;
 
         public const float specialAmbushTakeoffDamageCoefficient = 10f;
 

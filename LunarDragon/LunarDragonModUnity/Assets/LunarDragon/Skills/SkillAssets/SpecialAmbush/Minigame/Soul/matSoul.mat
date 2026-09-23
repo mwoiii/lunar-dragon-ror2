@@ -69,7 +69,7 @@ Material:
     - _AlphaOffset: 0
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _BorderWidth: 0.08
+    - _BorderWidth: 0.09
     - _BumpScale: 1
     - _ColorMask: 15
     - _Cutoff: 0.5
@@ -83,6 +83,7 @@ Material:
     - _OcclusionStrength: 1
     - _OutlineOffset: 0.24
     - _OutlineThickness: 0.3
+    - _OutlineWidth: 0.007
     - _Parallax: 0.02
     - _RingRadius: 0.193
     - _SmoothnessTextureChannel: 0
@@ -98,6 +99,7 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _OutlineColor: {r: 1, g: 0.9889335, b: 0.8160377, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3755792002290673689
 MonoBehaviour:

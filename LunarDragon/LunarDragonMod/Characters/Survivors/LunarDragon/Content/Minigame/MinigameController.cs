@@ -1,7 +1,12 @@
 ﻿using LunarDragonMod.Survivors.LunarDragon;
 using LunarDragonMod.Survivors.LunarDragon.Components;
+using LunarDragonMod.Survivors.LunarDragon.NetMessages;
+using R2API.Networking;
+using R2API.Networking.Interfaces;
+using RoR2;
 using System.Collections.Generic;
 using UnityEngine;
+using static LunarDragonMod.Survivors.LunarDragon.ElementRingController;
 
 namespace LunarDragonMod.Characters.LunarDragon {
     public class MinigameController : MonoBehaviour {
@@ -10,7 +15,17 @@ namespace LunarDragonMod.Characters.LunarDragon {
 
         private const float duration = 2f;
 
-        private const float graceWindow = 0.2f;
+        private const float graceWindow = 0.18f;
+
+        private const float exitAnimAt = duration + 1.3f;
+
+        public const float bloodDamageIncrease = 10f;
+
+        public const float designCooldownReduction = 5f;
+
+        public const float massRadiusIncrease = 10f;
+
+        public const float soulHealIncrease = 0.25f / ringCount;
 
         [SerializeField]
         private GameObject bloodRingPrefab;
@@ -25,12 +40,21 @@ namespace LunarDragonMod.Characters.LunarDragon {
         private GameObject soulRingPrefab;
 
         [SerializeField]
-        private Transform ringParent;
+        private Transform activeParent;
+
+        [SerializeField]
+        private Transform effectParent;
 
         [SerializeField]
         private AnimateScale endingAnimation;
 
-        private float stopwatch;
+        [SerializeField]
+        private SelectionRingController selectionRing;
+
+        [HideInInspector]
+        public CharacterBody characterBody;
+
+        private float gameStopwatch;
 
         private Queue<ElementRingController> activeRings = new Queue<ElementRingController>(ringCount);
 
@@ -40,7 +64,19 @@ namespace LunarDragonMod.Characters.LunarDragon {
 
         private int currentTiming;
 
-        private bool active = true;
+        [HideInInspector]
+        public float bonusDamage;
+
+        [HideInInspector]
+        public float bonusRadius;
+
+        [HideInInspector]
+        public float bonusHealing;
+
+        [HideInInspector]
+        public float bonusCDReduction;
+
+        private float animStopwatch = 0f;
 
         private void Start() {
             PopulateRandomTimings();
@@ -99,7 +135,7 @@ namespace LunarDragonMod.Characters.LunarDragon {
         }
 
         private void SpawnRing(GameObject ringPrefab) {
-            GameObject ringInstance = Instantiate(ringPrefab, ringParent);
+            GameObject ringInstance = Instantiate(ringPrefab, activeParent);
             if (ringInstance.TryGetComponent(out ElementRingController controller)) {
                 activeRings.Enqueue(controller);
             } else {
@@ -108,31 +144,98 @@ namespace LunarDragonMod.Characters.LunarDragon {
             }
         }
 
+        private void Update() {
+            animStopwatch += Time.deltaTime;
+            if (animStopwatch > exitAnimAt && endingAnimation && !endingAnimation.enabled) {
+                endingAnimation.enabled = true;
+            }
+        }
+
         private void FixedUpdate() {
-            if (!active) {
+            gameStopwatch += Time.deltaTime;
+
+            HandleMinigameInputs();
+
+            if (currentTiming >= ringTimings.Count) {
                 return;
             }
 
-            stopwatch += Time.deltaTime;
-            if (stopwatch >= ringTimings[currentTiming]) {
+            if (gameStopwatch >= ringTimings[currentTiming]) {
                 if (currentTiming + 1 < ringCount) {
                     SpawnRandomRing();
-                    currentTiming++;
                 } else {
                     SpawnRing(soulRingPrefab);
-                    active = false;
+                }
+                currentTiming++;
+            }
+        }
+
+        private void HandleMinigameInputs() {
+            if (characterBody && characterBody.inputBank && characterBody.inputBank.skill1.justPressed) {
+                bool cleanedQueue = false;
+                while (!cleanedQueue) {
+                    if (activeRings.Count > 0 && activeRings.Peek().HasPassed(selectionRing.ringRadiusLower)) {
+                        activeRings.Dequeue();
+                    } else {
+                        cleanedQueue = true;
+                    }
+                }
+
+                if (activeRings.Count > 0) {
+                    ElementRingController currentRing = activeRings.Peek();
+                    if (currentRing.TryHit(selectionRing.ringRadiusUpper, selectionRing.ringRadiusLower)) {
+                        activeRings.Dequeue();
+                        currentRing.transform.SetParent(effectParent, true);
+                        ApplyRingEffect(currentRing.element);
+                        if (currentRing.element == Element.Soul) {
+                            Util.PlaySound("Play_LunarDragonMinigameBigHit", characterBody.gameObject);
+                        } else {
+                            Util.PlaySound("Play_LunarDragonMinigameSmallHit", characterBody.gameObject);
+                        }
+                        selectionRing.FlashSuccess();
+                    } else {
+                        ApplyMissPunishment();
+                        Util.PlaySound("Play_LunarDragonMinigameMiss", characterBody.gameObject);
+                        selectionRing.FlashFailure();
+                    }
                 }
             }
         }
 
-        private float kill = 0f;
-        private void Update() {
-            kill += Time.deltaTime;
-            if (kill > 3.3f && !endingAnimation.enabled) {
-                endingAnimation.enabled = true;
+        private void ApplyRingEffect(Element element) {
+            switch (element) {
+                case Element.Blood:
+                    bonusDamage += bloodDamageIncrease;
+                    bonusHealing += soulHealIncrease;
+                    break;
+                case Element.Design:
+                    bonusCDReduction += designCooldownReduction;
+                    bonusHealing += soulHealIncrease;
+                    break;
+                case Element.Mass:
+                    bonusRadius += massRadiusIncrease;
+                    bonusHealing += soulHealIncrease;
+                    break;
+                case Element.Soul:
+                    bonusDamage += bloodDamageIncrease;
+                    bonusRadius += massRadiusIncrease;
+                    bonusCDReduction += designCooldownReduction;
+                    bonusHealing += soulHealIncrease;
+                    ApplySoulHeal();
+                    break;
             }
-            if (kill > 3.8f) {
-                Object.Destroy(gameObject);
+        }
+
+        private void ApplyMissPunishment() {
+            bonusDamage = Mathf.Clamp(bonusDamage - bloodDamageIncrease, 0f, Mathf.Infinity);
+            bonusRadius = Mathf.Clamp(bonusRadius - massRadiusIncrease, 0f, Mathf.Infinity);
+            bonusHealing = Mathf.Clamp(bonusHealing - soulHealIncrease, 0f, Mathf.Infinity);
+            bonusCDReduction = Mathf.Clamp(bonusCDReduction - designCooldownReduction, 0f, Mathf.Infinity);
+        }
+
+        private void ApplySoulHeal() {
+            if (characterBody && characterBody.healthComponent) {
+                new SyncSpecialHeal(characterBody.networkIdentity.netId, characterBody.healthComponent.fullHealth * bonusHealing).Send(NetworkDestination.Server);
             }
         }
     }

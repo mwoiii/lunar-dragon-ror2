@@ -1029,6 +1029,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Special Landing Explosion", () => {
                 specialLandingExplosionEffect.transform.localScale = Vector3.one * 6f;
 
+                specialLandingExplosionEffect.GetComponent<EffectComponent>().applyScale = true;
+
                 ShakeEmitter[] shakes = specialLandingExplosionEffect.GetComponents<ShakeEmitter>();
                 foreach (ShakeEmitter shake in shakes) {
                     Object.Destroy(shake);

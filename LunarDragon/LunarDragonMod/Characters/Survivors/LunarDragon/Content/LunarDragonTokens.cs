@@ -88,7 +88,13 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
             #region Special
             Language.Add(prefix + "SPECIAL_AMBUSH_NAME", "Draco Ambush");
-            Language.Add(prefix + "SPECIAL_AMBUSH_DESCRIPTION", $"<style=cIsUtility>Take aim</style>, and confirm a target to <style=cIsUtility>soar into the sky</style>. Unleash a devastating strike on the target position for <style=cIsDamage>{100f * LunarDragonStaticValues.specialAmbushLandDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "SPECIAL_AMBUSH_DESCRIPTION", $"<style=cIsUtility>Take aim</style>, and confirm a target to <style=cIsUtility>soar into the sky</style>. <style=cIsUtility>Attune elements</style> to unleash a devastating strike for upwards of <style=cIsDamage>{100f * LunarDragonStaticValues.specialAmbushLandDamageCoefficient}% damage</style>.");
+            Language.Add(prefix + "SPECIAL_AMBUSH_AIM_NAME", "Confirm");
+            Language.Add(prefix + "SPECIAL_AMBUSH_AIM_DESCRIPTION", $"<style=cIsUtility>Take flight</style>, and start <style=cIsUtility>elemental attunement</style>.");
+            Language.Add(prefix + "SPECIAL_AMBUSH_CANCEL_NAME", "Cancel");
+            Language.Add(prefix + "SPECIAL_AMBUSH_CANCEL_DESCRIPTION", $"Cancel aiming. No stocks are consumed.");
+            Language.Add(prefix + "KEYWORD_ATTUNEMENT",
+                $"<style=cKeywordName>Elemental Attunement</style><style=cSub>Complete the minigame to enhance the skill. Tap the primary button when the elemental rings shrink to overlap with the center ring. Different elements provide different effects. Failing to hit a ring detracts from all current bonuses.</style>\n\n<b><color=#FF4949>Blood</color></b>\n<style=cSub>Increases <style=cIsDamage>explosion damage</style> by <style=cIsDamage>1000%</style>.</style>\n\n<b><color=#78B2DB>Des</color><color=#4187E2>ign</color></b>\n<style=cSub>Reduces <style=cIsUtility>skill cooldown</style> by <style=cIsUtility>5s</style>.</style>\n\n<b><color=#4E88E2>Mass</color></b>\n<style=cSub>Increases <style=cIsDamage>explosion radius</style> by <style=cIsDamage>10m</style>.</style>\n\n<b><color=#CABA52>Soul</color></b>\n<style=cSub><style=cIsUtility>All previous effects</style>, plus health recovery proportional to how many rings were hit, up to <style=cIsHealing>25% max health</style>.</style>");
             #endregion
 
             #region Achievements

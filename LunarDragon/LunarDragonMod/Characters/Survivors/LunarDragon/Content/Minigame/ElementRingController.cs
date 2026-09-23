@@ -1,57 +1,74 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 namespace LunarDragonMod.Survivors.LunarDragon {
-    public class ElementRingController : MonoBehaviour {
-        private float cyclePosition = 1f;
+    public class ElementRingController : RingController {
 
-        private Image image;
+        private const float hitRingSpeed = 2.5f;
+
+        private const float cycleStartPosition = 1f;
+
+        private const float cycleEndPosition = 0f;
+
+        private static Material hitWhiteRing = LunarDragonAssets.assetBundle.LoadAsset<Material>("matWhiteRing");
+
+        public enum Element {
+            Blood,
+            Design,
+            Mass,
+            Soul
+        }
+
+        [SerializeField]
+        public Element element;
+
+        private float cyclePosition = 1f;
 
         [SerializeField]
         private float speed = 1f;
 
-        private float borderWidth;
+        private bool hit;
 
-        private RectTransform rectTransform;
-
-        private float ringRadiusUpper => (rectTransform.rect.yMax - rectTransform.rect.yMin) * image.color.a;
-
-        private float ringRadiusLower => (rectTransform.rect.yMax - rectTransform.rect.yMin) * (image.color.a - borderWidth);
-
-        private void Start() {
-            // yes I am using the colours to store animation position don't talk to me
-            image = GetComponent<Image>();
+        protected override void Start() {
+            base.Start();
             image.color = new Color(0f, 0f, 0f, cyclePosition);
-            rectTransform = GetComponent<RectTransform>();
-            borderWidth = image.material.GetFloat("_BorderWidth");
         }
 
-        private void OnDrawGizmos() {
-            if (!image) {
-                image = GetComponent<Image>();
-            }
-            if (!rectTransform) {
-                rectTransform = GetComponent<RectTransform>();
-            }
-            borderWidth = image.material.GetFloat("_BorderWidth");
-            Gizmos.DrawWireSphere(transform.position, ((rectTransform.rect.yMax - rectTransform.rect.yMin)) * image.color.a);
-            Gizmos.DrawWireSphere(transform.position, ((rectTransform.rect.yMax - rectTransform.rect.yMin)) * (image.color.a - borderWidth));
+        public bool HasPassed(float latestPosition) {
+            return ringRadiusUpper < latestPosition;
         }
 
-        //public bool TryHit() { 
-        //    if (image.color.r > 2f) {
-
-        //    }
-        //    Destroy(gameObject); 
-        //} 
+        public bool TryHit(float earliestPosition, float latestPosition) {
+            if (ringRadiusLower < earliestPosition && ringRadiusUpper > latestPosition) {
+                image.material = hitWhiteRing;
+                hit = true;
+                return true;
+            } else {
+                return false;
+            }
+        }
 
         private void FixedUpdate() {
-            UpdatePosition();
+            if (!hit) {
+                UpdatePositionActive();
+            } else {
+                UpdatePositionHit();
+            }
         }
 
-        private void UpdatePosition() {
+        private void UpdatePositionActive() {
             cyclePosition -= speed * Time.deltaTime * 0.8f;
             image.color = new Color(0f, 0f, 0f, cyclePosition);
+            if (cyclePosition <= cycleEndPosition) {
+                gameObject.SetActive(false);
+            }
+        }
+
+        private void UpdatePositionHit() {
+            cyclePosition += hitRingSpeed * Time.deltaTime;
+            image.color = new Color(0f, 0f, 0f, cyclePosition);
+            if (cyclePosition >= cycleStartPosition) {
+                gameObject.SetActive(false);
+            }
         }
     }
 }

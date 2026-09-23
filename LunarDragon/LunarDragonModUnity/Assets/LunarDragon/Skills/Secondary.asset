@@ -15,8 +15,7 @@ MonoBehaviour:
   skillName: LunarDragonEruption
   skillNameToken: MIYOWI_LUNAR_DRAGON_SECONDARY_ERUPTION_NAME
   skillDescriptionToken: MIYOWI_LUNAR_DRAGON_SECONDARY_ERUPTION_DESCRIPTION
-  keywordTokens:
-  - KEYWORD_AGILE
+  keywordTokens: []
   icon: {fileID: 21300000, guid: c1916a3dd6ea7db4b9e85b69a35832f7, type: 3}
   activationStateMachineName: Weapon
   activationState:

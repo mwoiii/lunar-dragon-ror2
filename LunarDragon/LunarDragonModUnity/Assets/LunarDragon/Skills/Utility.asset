@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1391837873, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+  m_Script: {fileID: -312287671, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
   m_Name: Utility
   m_EditorClassIdentifier: 
   skillName: LunarDragonBurstThrusters
   skillNameToken: MIYOWI_LUNAR_DRAGON_UTILITY_BURST_THRUSTERS_NAME
   skillDescriptionToken: MIYOWI_LUNAR_DRAGON_UTILITY_BURST_THRUSTERS_DESCRIPTION
-  keywordTokens: []
+  keywordTokens:
+  - KEYWORD_HEAVY
   icon: {fileID: 21300000, guid: 60b0bb2e153ae324e9bc8f4f22bff197, type: 3}
   activationStateMachineName: Utility
   activationState:
@@ -26,7 +27,7 @@ MonoBehaviour:
   baseMaxStock: 1
   rechargeStock: 1
   requiredStock: 1
-  stockToConsume: 1
+  stockToConsume: 0
   attackSpeedBuffsRestockSpeed: 0
   attackSpeedBuffsRestockSpeed_Multiplier: 1
   resetCooldownTimerOnUse: 0

@@ -1,11 +1,21 @@
 Event	ID	Name			Wwise Object Path	Notes
 	197834729	Play_LunarDragonCry			\Default Work Unit\Play_LunarDragonCry	
+	647032509	Play_LunarDragonMinigameBigHit			\Default Work Unit\Play_LunarDragonMinigameBigHit	
 	853378545	Play_LunarDragonAmbushImpact			\Default Work Unit\Play_LunarDragonAmbushImpact	
+	1954916992	Play_LunarDragonMinigameSmallHit			\Default Work Unit\Play_LunarDragonMinigameSmallHit	
+	2901150160	Play_LunarDragonMinigameMiss			\Default Work Unit\Play_LunarDragonMinigameMiss	
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	3673881719	Volume_SFX			\Default Work Unit\Volume_SFX	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	77324381	LunarDragonMinigameMiss2	C:\Users\alex\Documents\GitHub\lunar-dragon-ror2\LunarDragon\LunarDragonModWWise\.cache\Windows\SFX\Miss2_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\LunarDragonMinigameMiss\LunarDragonMinigameMiss2		6003
+	304857835	LunarDragonMinigameMiss3	C:\Users\alex\Documents\GitHub\lunar-dragon-ror2\LunarDragon\LunarDragonModWWise\.cache\Windows\SFX\Miss3_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\LunarDragonMinigameMiss\LunarDragonMinigameMiss3		5340
+	404647062	LunarDragonMinigameBigHit	C:\Users\alex\Documents\GitHub\lunar-dragon-ror2\LunarDragon\LunarDragonModWWise\.cache\Windows\SFX\LunarDragon_Minigame_BigHit_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\LunarDragonMinigameBigHit		19601
+	427329377	LunarDragonMinigameMiss1	C:\Users\alex\Documents\GitHub\lunar-dragon-ror2\LunarDragon\LunarDragonModWWise\.cache\Windows\SFX\Miss1_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\LunarDragonMinigameMiss\LunarDragonMinigameMiss1		4929
 	605624026	LunarDragonCry	C:\Users\alex\Documents\GitHub\lunar-dragon-ror2\LunarDragon\LunarDragonModWWise\.cache\Windows\SFX\LunarDragonCry_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\LunarDragonCry		52187
+	622368341	LunarDragonMinigameSmallHit3	C:\Users\alex\Documents\GitHub\lunar-dragon-ror2\LunarDragon\LunarDragonModWWise\.cache\Windows\SFX\LunarDragon_Minigame_SmallHit3_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\LunarDragonMinigameSmallHit\LunarDragonMinigameSmallHit3		11425
+	699901743	LunarDragonMinigameSmallHit1	C:\Users\alex\Documents\GitHub\lunar-dragon-ror2\LunarDragon\LunarDragonModWWise\.cache\Windows\SFX\LunarDragon_Minigame_SmallHit1_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\LunarDragonMinigameSmallHit\LunarDragonMinigameSmallHit1		12188
 	725394170	LunarDragonAmbushImpact	C:\Users\alex\Documents\GitHub\lunar-dragon-ror2\LunarDragon\LunarDragonModWWise\.cache\Windows\SFX\LunarDragonAmbushImpact_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\LunarDragonAmbushImpact		37427
+	879403388	LunarDragonMinigameSmallHit2	C:\Users\alex\Documents\GitHub\lunar-dragon-ror2\LunarDragon\LunarDragonModWWise\.cache\Windows\SFX\LunarDragon_Minigame_SmallHit2_EDCD4836.wem		\Actor-Mixer Hierarchy\Default Work Unit\SFX_Mixer\LunarDragonMinigameSmallHit\LunarDragonMinigameSmallHit2		10787
 

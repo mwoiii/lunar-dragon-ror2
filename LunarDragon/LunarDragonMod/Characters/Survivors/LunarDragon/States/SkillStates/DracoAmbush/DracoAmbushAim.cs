@@ -1,6 +1,7 @@
 ﻿using EntityStates;
 using LunarDragonMod.Survivors.LunarDragon.Components;
 using RoR2;
+using RoR2.Skills;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Runtime.CompilerServices;
 using UnityEngine;
@@ -10,13 +11,15 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
     public class DracoAmbushAim : BaseSkillState {
 
-        public GameObject endpointVisualizerPrefab => Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Huntress.HuntressArrowRainIndicator_prefab).WaitForCompletion();
+        private static SkillDef primaryOverride = LunarDragonAssets.assetBundle.LoadAsset<SkillDef>("SpecialAimConfirmSkillDef");
 
-        public GameObject dotCrosshair = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_UI.SimpleDotCrosshair_prefab).WaitForCompletion();
+        private static SkillDef specialOverride = LunarDragonAssets.assetBundle.LoadAsset<SkillDef>("SpecialAimCancelSkillDef");
 
-        public float baseMinimumDuration => 0.15f;
+        public static GameObject endpointVisualizerPrefab = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Huntress.HuntressArrowRainIndicator_prefab).WaitForCompletion();
 
-        public string originOverrideString => "";
+        public static GameObject dotCrosshair = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_UI.SimpleDotCrosshair_prefab).WaitForCompletion();
+
+        public const float baseMinimumDuration = 0.15f;
 
         public const float maxDistance = 200f;
 
@@ -24,25 +27,15 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public const float endpointVisualizerRadiusScale = 4f;
 
-        public bool toggleActivate = true;
+        private const int coarseSplit = 10;
+
+        private const int fineSplit = 100; // this divides a coarse segment (max possible raycasts in absolute worst case is coarseSplit * fineSplit) ((super omega unlikely))
 
         public LayerMask layerMask = LayerIndex.CommonMasks.bullet;
 
         private GameObject heldCrosshair;
 
-        private bool holdingActivationKey = true;
-
-        private bool holdingCancelKey = false;
-
-        private bool stateFinished = false;
-
-        private const int coarseSplit = 10;
-
-        private const int fineSplit = 100; // this divides a coarse segment (max possible raycasts in absolute worst case is coarseSplit * fineSplit) ((super omega unlikely))
-
-        private bool IsNewKeyDownAuthority => IsKeyDownAuthority() && !holdingActivationKey;
-
-        protected GameObject _endpointVisualizerPrefab; // overcooked
+        private bool isFiring = false;
 
         protected Transform endpointVisualizerTransform;
 
@@ -68,13 +61,12 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             base.OnEnter();
 
             if (isAuthority) {
-                if (TryGetComponent(out controller)) {
-                    controller.DisableWeaponStateMachine();
-                }
+                skillLocator.primary.SetSkillOverride(this, primaryOverride, GenericSkill.SkillOverridePriority.Upgrade);
+                skillLocator.special.SetSkillOverride(this, specialOverride, GenericSkill.SkillOverridePriority.Upgrade);
+
+                controller = GetComponent<LunarDragonController>();
 
                 aimRequest = cameraTargetParams.RequestAimWithData(new Vector3(0f, 16f, -20f), 0.2f, 0.2f);
-
-                _endpointVisualizerPrefab = endpointVisualizerPrefab;
 
                 if (characterBody) {
                     foreach (CameraRigController cameraRigController in CameraRigController.readOnlyInstancesList) {
@@ -84,8 +76,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                         }
                     }
 
-                    if (_endpointVisualizerPrefab && characterBody.isPlayerControlled) {
-                        endpointVisualizerTransform = Object.Instantiate(_endpointVisualizerPrefab, transform.position, Quaternion.identity).transform;
+                    if (endpointVisualizerPrefab && characterBody.isPlayerControlled) {
+                        endpointVisualizerTransform = Object.Instantiate(endpointVisualizerPrefab, transform.position, Quaternion.identity).transform;
                     }
                     heldCrosshair = characterBody._defaultCrosshairPrefab;
                     characterBody._defaultCrosshairPrefab = dotCrosshair;
@@ -93,7 +85,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
                 UpdateVisualizers(currentTrajectoryInfo);
 
-                originOverride = FindModelChild(originOverrideString);
                 minimumDuration = baseMinimumDuration / attackSpeedStat;
                 SceneCamera.onSceneCameraPreRender += OnPreRenderSceneCam;
             }
@@ -101,6 +92,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public override void OnExit() {
             if (isAuthority) {
+                skillLocator.primary.UnsetSkillOverride(this, primaryOverride, GenericSkill.SkillOverridePriority.Upgrade);
+                skillLocator.special.UnsetSkillOverride(this, specialOverride, GenericSkill.SkillOverridePriority.Upgrade);
+
+                if (isFiring) {
+                    skillLocator.special.DeductStock(1);
+                }
+
                 aimRequest?.Dispose();
 
                 SceneCamera.onSceneCameraPreRender -= OnPreRenderSceneCam;
@@ -129,54 +127,13 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         public override void FixedUpdate() {
             base.FixedUpdate();
 
-            if (stateFinished) {
+            if (isFiring) {
                 return;
             }
 
             if (isAuthority) {
-
                 UpdateTrajectoryInfo();
                 UpdateVisualizers(currentTrajectoryInfo);
-
-                if (!IsKeyDownAuthority()) {
-
-                    if (!toggleActivate && age >= minimumDuration) {
-
-                        // hold - activation by releasing
-                        NextState();
-
-                    } else if (toggleActivate) {
-                        if (holdingActivationKey) {
-
-                            // toggle - released from activation press
-                            holdingActivationKey = false;
-
-                        } else if (holdingCancelKey) {
-
-                            // toggle - released from cancel press (confirmed cancel)
-                            outer.SetNextStateToMain();
-                            stateFinished = true;
-                            return;
-
-                        }
-                    }
-
-
-                } else if (toggleActivate) {
-                    if (IsNewKeyDownAuthority && !holdingCancelKey) {
-
-                        // toggle - second press of skill button (step before cancel)
-                        holdingCancelKey = true;
-
-                    }
-                }
-
-                if (toggleActivate && inputBank.skill1.justPressed && age >= minimumDuration && hasPosition) {
-
-                    // toggle - activation with primary
-                    NextState();
-
-                }
             }
         }
 
@@ -185,8 +142,15 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             return Vector3.Dot(normal, Vector3.up) >= threshold;
         }
 
+        public void TryActivateNextState() {
+            if (inputBank.skill1.justPressed && age >= minimumDuration && hasPosition) {
+                NextState();
+            }
+        }
+
         private void NextState() {
             if (controller) {
+                //controller.DisableWeaponStateMachine();
                 if (positionUnsafe) {
                     currentTrajectoryInfo.hitPoint += currentTrajectoryInfo.hitNormal * rayRadius * 2f;
                 }
@@ -194,10 +158,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     targetFootPosition = currentTrajectoryInfo.hitPoint,
                 });
             }
-            skillLocator.special.DeductStock(1);
             outer.SetNextStateToMain();
-
-            stateFinished = true;
+            isFiring = true;
         }
 
         protected void UpdateTrajectoryInfo() {

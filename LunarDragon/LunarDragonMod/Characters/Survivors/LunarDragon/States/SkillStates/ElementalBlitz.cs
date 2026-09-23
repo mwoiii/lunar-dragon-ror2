@@ -10,6 +10,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
+using static LunarDragonMod.Survivors.LunarDragon.LunarDragonUtils;
 
 namespace LunarDragonMod.Survivors.LunarDragon.States {
 
@@ -149,7 +150,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 };
                 ProjectileManager.instance.FireProjectile(fireProjectileInfo);
 
-                ApplyAirborneKnockback(ray.direction, 900f);
+                ApplyAirborneKnockback(characterMotor, ray.direction, 900f);
                 AddRecoil(-1f * projectileRecoilAmp.y, -1.5f * projectileRecoilAmp.y, -1f * projectileRecoilAmp.x, 1f * projectileRecoilAmp.x);
                 characterBody.AddSpreadBloom(projectileBloom);
             }
@@ -204,7 +205,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     hitEffectPrefab = LunarDragonAssets.laserHitEffectPrefab,
                 };
                 bullet.Fire();
-                ApplyAirborneKnockback(ray.direction, 1500f);
+                ApplyAirborneKnockback(characterMotor, ray.direction, 1500f);
                 AddRecoil(-1f * finisherRecoilAmp.y, -1.5f * finisherRecoilAmp.y, -1f * finisherRecoilAmp.x, 1f * finisherRecoilAmp.x);
                 characterBody.AddSpreadBloom(finisherBloom);
             }
@@ -238,14 +239,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         protected virtual bool OnBulletImpact(BulletAttack bulletAttack, ref BulletAttack.BulletHit hitInfo) {
             return BulletAttack.defaultHitCallback(bulletAttack, ref hitInfo);
-        }
-
-        private void ApplyAirborneKnockback(Vector3 aimDirection, float maxForce) {
-            if (isGrounded) {
-                return;
-            }
-
-            characterBody.characterMotor.ApplyForce(aimDirection * -maxForce);
         }
 
 

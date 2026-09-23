@@ -6,7 +6,10 @@
 				<SoundBank Name="LunarDragonMod" ID="{E61C0E57-4D87-446E-86B3-FDD4544177D0}">
 					<ObjectInclusionList>
 						<ObjectRef Name="Play_LunarDragonCry" ID="{9D63FF45-6FC5-4289-A738-334D8B61FF71}" WorkUnitID="{3AA64F0F-A5DB-41D4-BA66-24056BC3D9DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_LunarDragonMinigameMiss" ID="{99E67F4A-0045-4334-9466-C7DBECDDD0C5}" WorkUnitID="{3AA64F0F-A5DB-41D4-BA66-24056BC3D9DD}" Origin="Manual" Filter="7"/>
 						<ObjectRef Name="Play_LunarDragonAmbushImpact" ID="{F1F9C834-0087-43D0-9C4B-D845248AAE95}" WorkUnitID="{3AA64F0F-A5DB-41D4-BA66-24056BC3D9DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_LunarDragonMinigameSmallHit" ID="{23E300CC-B438-43DC-BABF-2856D6A146B2}" WorkUnitID="{3AA64F0F-A5DB-41D4-BA66-24056BC3D9DD}" Origin="Manual" Filter="7"/>
+						<ObjectRef Name="Play_LunarDragonMinigameBigHit" ID="{02DC072F-08ED-4902-B336-D05E20770438}" WorkUnitID="{3AA64F0F-A5DB-41D4-BA66-24056BC3D9DD}" Origin="Manual" Filter="7"/>
 					</ObjectInclusionList>
 					<ObjectExclusionList/>
 					<GameSyncExclusionList/>

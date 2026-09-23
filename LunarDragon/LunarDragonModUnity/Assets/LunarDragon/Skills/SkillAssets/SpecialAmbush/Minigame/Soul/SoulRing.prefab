@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8622189998268890743}
   - component: {fileID: 2291046249634389082}
   - component: {fileID: 6613414369949994382}
+  - component: {fileID: 807882960057553189}
   m_Layer: 5
   m_Name: SoulRing
   m_TagString: Untagged
@@ -51,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: -972431475, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  element: 3
   speed: 0.8
 --- !u!222 &2291046249634389082
 CanvasRenderer:
@@ -90,3 +92,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &807882960057553189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8008043963557558738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -274603886, guid: 60b218c0fb3bc574d82158b6de1ce1e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  randomizeStartRotation: 1
+  rotateDuringLifetime: 0
+  randomizeDirection: 0
+  speed: 0

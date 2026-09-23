@@ -21,7 +21,7 @@ namespace LunarDragonMod {
     public class LunarDragonPlugin : BaseUnityPlugin {
         public const string MODUID = "com.miyowi.LunarDragonMod";
         public const string MODNAME = "LunarDragon";
-        public const string MODVERSION = "1.1.1";
+        public const string MODVERSION = "1.2.0";
 
         public const string DEVELOPER_PREFIX = "MIYOWI";
 
@@ -38,7 +38,10 @@ namespace LunarDragonMod {
 
             Modules.Language.Init();
 
+            LunarDragonNetworking.Init();
+
             LunarDragonDamageTypes.Init();
+
             new LunarDragonSurvivor().Init();
 
             //Options.Init();

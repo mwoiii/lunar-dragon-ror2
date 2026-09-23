@@ -15,8 +15,7 @@ MonoBehaviour:
   skillName: LunarDragonElementalBlitz
   skillNameToken: MIYOWI_LUNAR_DRAGON_PRIMARY_ELEMENTAL_BLITZ_NAME
   skillDescriptionToken: MIYOWI_LUNAR_DRAGON_PRIMARY_ELEMENTAL_BLITZ_DESCRIPTION
-  keywordTokens:
-  - KEYWORD_AGILE
+  keywordTokens: []
   icon: {fileID: 21300000, guid: 56a301307f52fc44ab1dc98da10ead35, type: 3}
   activationStateMachineName: Weapon
   activationState:

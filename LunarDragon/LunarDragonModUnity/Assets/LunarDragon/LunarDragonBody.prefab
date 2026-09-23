@@ -977,6 +977,7 @@ MonoBehaviour:
   weaponStateMachine: {fileID: 1341665551041638845}
   utilityStateMachine: {fileID: 6330546975465592929}
   jetpackStateMachine: {fileID: 1056985165531490696}
+  aimStateMachine: {fileID: 2739893378995871898}
   characterBody: {fileID: 650017511616087406}
   childLocator: {fileID: 3986338258826541802}
 --- !u!1 &5890477183342380433
