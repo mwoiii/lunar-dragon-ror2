@@ -31,6 +31,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
         public MinigameController minigameInstance;
 
         [NonSerialized]
+        public GameObject controlsUIInstance;
+
+        [NonSerialized]
         public CameraRigController camera;
 
         public CharacterBody characterBody;
@@ -82,6 +85,27 @@ namespace LunarDragonMod.Survivors.LunarDragon.Components {
                     rectTransform.anchorMax = Vector3.one * 0.5f;
                     minigameInstance.transform.localPosition = Vector3.zero;
                 }
+            }
+        }
+
+        public void OpenControlsUI() {
+            TryEnsureHUD();
+            if (!localHUD || controlsUIInstance || !Options.displaySpecialControls.Value) {
+                return;
+            }
+
+            if (localHUD.TryGetComponent(out ChildLocator childLocator)) {
+                Transform crosshairExtras = childLocator.FindChild("CrosshairExtras");
+                if (crosshairExtras) {
+                    controlsUIInstance = Instantiate(LunarDragonAssets.specialControlsUIPrefab, crosshairExtras);
+                    controlsUIInstance.transform.localPosition = Vector3.down * 20f;
+                }
+            }
+        }
+
+        public void CloseControlsUI() {
+            if (controlsUIInstance) {
+                Destroy(controlsUIInstance);
             }
         }
 

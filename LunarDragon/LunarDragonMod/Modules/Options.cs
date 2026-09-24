@@ -20,10 +20,10 @@ namespace LunarDragonMod {
             }
         }
 
-        public static ConfigEntry<bool> usePrimaryAimAssist { get; set; }
+        public static ConfigEntry<bool> displaySpecialControls { get; set; }
 
         public static void Init() {
-            usePrimaryAimAssist = LunarDragonPlugin.config.Bind("Primary", "Aim Assist", true, "Whether or not the primary skill should automatically shift projectile trajectory toward enemies near the crosshair.");
+            displaySpecialControls = LunarDragonPlugin.config.Bind("Special", "Show Controls UI", true, "Whether or not the keys for 'Confirm' and 'Cancel' are prominently displayed when aiming with Draco Ascent.");
 
             if (rooEnabled) {
                 RoOInit();
@@ -31,7 +31,7 @@ namespace LunarDragonMod {
         }
 
         private static void RoOInit() {
-            ModSettingsManager.AddOption(new CheckBoxOption(usePrimaryAimAssist, new CheckBoxConfig()));
+            ModSettingsManager.AddOption(new CheckBoxOption(displaySpecialControls, new CheckBoxConfig()));
 
             ModSettingsManager.SetModDescription("Config options relating to the Lunar Dragon survivor mod.");
             ModSettingsManager.SetModIcon(LunarDragonAssets.assetBundle.LoadAsset<Sprite>("texLunarDragonIcon"));

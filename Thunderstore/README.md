@@ -3,7 +3,7 @@
 
 The Lunar Dragon is a bulky survivor with an arsenal particularly suited for airborne battle. With well-timed use of their special skill **Draco Ambush**, they can turn any situation in their favour.
 
-<img src="https://i.postimg.cc/ZqxVdbSs/lunardragonsample.gif" width="300">
+<img src="https://i.postimg.cc/bYRbsrDm/lunardragonsample2.gif" width="300">
 
 ## Skills
 
@@ -35,7 +35,7 @@ The Lunar Dragon is a bulky survivor with an arsenal particularly suited for air
 | --- | --- |
 | Take aim, and confirm a target to soar into the sky. Unleash a devastating strike on the target position for 10000% damage. | WIP |
 | <img src="https://i.postimg.cc/SKfDMShV/lunardragonspecial.gif" width="300"> |
-| Draco Ambush is an immensely powerful attack, providing both devastating damage and a large immunity window - however, it has a particularly long cooldown, so use it wisely!<br/><br/>Upon pressing the special button, a sphere will be cast over the position targeted by the crosshair. Confirm the position with the primary button, or cancel the skill with the special button. |
+| Draco Ambush is an immensely powerful attack, providing both devastating damage and a large immunity window - however, it has a particularly long cooldown, so use it wisely!<br/><br/>Upon pressing the special button, a sphere will be cast over the position targeted by the crosshair. Confirm the position with the primary button, or cancel the skill with the special button. Perform well in the minigame for a mixture of bonus damage, range, cooldown reduction, and healing! |
 
 # Credits
 

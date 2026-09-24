@@ -179,9 +179,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     characterBody.isSprinting = true;
                 }
 
-                if (skillLocator.special && inputBank.skill4.down) {
-                    skillLocator.special.ExecuteIfReady();
-                }
+                HandleInputs();
 
                 if (!inHitPause) {
                     if (characterDirection && characterMotor && !characterMotor.disableAirControlUntilCollision) {
@@ -205,6 +203,17 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                         inHitPause = false;
                     }
                 }
+            }
+        }
+
+        private void HandleInputs() {
+            if (skillLocator.primary && inputBank.skill1.justPressed) {
+                inputBank.skill1.hasPressBeenClaimed = true;
+                skillLocator.primary.ExecuteIfReady();
+            }
+            if (skillLocator.special && inputBank.skill4.justPressed) {
+                inputBank.skill4.hasPressBeenClaimed = true;
+                skillLocator.special.ExecuteIfReady();
             }
         }
 

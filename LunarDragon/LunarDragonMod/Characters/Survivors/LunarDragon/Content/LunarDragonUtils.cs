@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace LunarDragonMod.Survivors.LunarDragon {
     public static class LunarDragonUtils {
-        public static void ApplyAirborneKnockback(CharacterMotor motor, Vector3 aimDirection, float force, float bonusDownMult = 1.5f) {
+        public static void ApplyAirborneKnockback(CharacterMotor motor, Vector3 aimDirection, float force, float bonusDownMult = 1.25f) {
             if (!motor || motor.isGrounded) {
                 return;
             }

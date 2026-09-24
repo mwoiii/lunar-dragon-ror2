@@ -28,11 +28,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         private void Update() {
             flashStopwatch += Time.deltaTime;
-            if (flashStopwatch > flashDuration) {
-                return;
-            }
 
-            float t = flashStopwatch / flashDuration;
+            float t = Mathf.Clamp01(flashStopwatch / flashDuration);
             Color newColor = Color.white;
             switch (flashMode) {
                 case FlashMode.Hit:

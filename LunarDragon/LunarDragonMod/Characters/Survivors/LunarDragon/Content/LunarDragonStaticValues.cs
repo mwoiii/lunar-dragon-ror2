@@ -12,11 +12,15 @@
 
         public const float secondaryPlasmaBlastDamageCoefficient = 12f;
 
-        public const float utilityBurstThrustersLowerDamageCoefficient = 5f;
+        public const float utilityBurstThrustersChargeBonusDamageCoefficient = 10f;
+
+        public const float utilityBurstThrustersLowerDamageCoefficient = 3f;
 
         public const float utilityBurstThrustersUpperDamageCoefficient = 5f;
 
-        public const float specialAmbushLandDamageCoefficient = 80f;
+        public const float utilityBurstThrustersExtraCooldownBase = 7f;
+
+        public const float specialAmbushLandDamageCoefficient = 70f;
 
         public const float specialAmbushTakeoffDamageCoefficient = 10f;
 

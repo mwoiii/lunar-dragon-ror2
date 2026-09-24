@@ -101,9 +101,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                     break;
             }
 
-            //skillLocator.utility.overriddenRechargeInterval = currentCharge * 5f * skillLocator.utilityBonusStockSkill.cooldownScale; 
             if (skillLocator.utility.skillDef is BurstThrustersSkillDef skillDef) {
-                skillDef.cooldownQueue.Enqueue(skillLocator.utility.skillDef.baseRechargeInterval + Mathf.Clamp(currentCharge, 0f, 2f) * 5f); // 2, 7, 10
+                skillDef.cooldownQueue.Enqueue(skillLocator.utility.skillDef.baseRechargeInterval + Mathf.Clamp(currentCharge, 0f, 2f) * LunarDragonStaticValues.utilityBurstThrustersExtraCooldownBase);
             }
             skillLocator.utility.DeductStock(1);
             EntityStateMachine bodyStateMachine = FindSiblingStateMachine("Body");
@@ -158,40 +157,44 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         }
 
         private void ExitChargeThrusters() {
-            if (gearCharge < chargeThresholds[0]) {
-                PlayAnimation("FullBody, Override", "UtilityLoop");
-            } else if (gearCharge < chargeThresholds[^1]) {
-                PlayCrossfade("FullBody, Override", "UtilityFire", 0.005f);
+            if (hasFinishedCharging) {
+                if (gearCharge < chargeThresholds[0]) {
+                    PlayAnimation("FullBody, Override", "UtilityLoop");
+                } else if (gearCharge < chargeThresholds[^1]) {
+                    PlayCrossfade("FullBody, Override", "UtilityFire", 0.005f);
+                }
+                GetModelAnimator().SetBool(LunarDragonAnimationParameters.forceIdle, true);
+
+                if (isAuthority) {
+                    if (controller) {
+                        controller.DisableWeaponStateMachine();
+                    }
+                    if (characterBody && characterBody.teamComponent) {
+                        BlastAttack blastAttack = new BlastAttack {
+                            attacker = characterBody.gameObject,
+                            baseDamage = characterBody.damage * (2f + LunarDragonStaticValues.utilityBurstThrustersChargeBonusDamageCoefficient * gearCharge),
+                            crit = characterBody.RollCrit(),
+                            falloffModel = BlastAttack.FalloffModel.None,
+                            inflictor = characterBody.gameObject,
+                            position = characterBody.transform.position,
+                            procChainMask = default(ProcChainMask),
+                            baseForce = 200f + 1200f * gearCharge,
+                            procCoefficient = 1f,
+                            radius = 4f + 10f * gearCharge,
+                            teamIndex = characterBody.teamComponent.teamIndex,
+                            damageType = DamageType.IgniteOnHit
+                        };
+                        blastAttack.Fire();
+                    }
+                }
             }
 
-            GetModelAnimator().SetBool(LunarDragonAnimationParameters.forceIdle, true);
-
-            if (isAuthority) {
-                if (controller) {
-                    controller.DisableWeaponStateMachine();
-                }
-                if (characterBody && characterBody.teamComponent) {
-                    BlastAttack blastAttack = new BlastAttack {
-                        attacker = characterBody.gameObject,
-                        baseDamage = characterBody.damage * (2f + 12f * gearCharge),
-                        crit = characterBody.RollCrit(),
-                        falloffModel = BlastAttack.FalloffModel.None,
-                        inflictor = characterBody.gameObject,
-                        position = characterBody.transform.position,
-                        procChainMask = default(ProcChainMask),
-                        baseForce = 200f + 1200f * gearCharge,
-                        procCoefficient = 1f,
-                        radius = 4f + 10f * gearCharge,
-                        teamIndex = characterBody.teamComponent.teamIndex,
-                        damageType = DamageType.IgniteOnHit
-                    };
-                    blastAttack.Fire();
-                }
-
-                characterMotor.walkSpeedPenaltyCoefficient = 1f;
-                if (controller) {
-                    controller.canJump = true;
-                }
+            characterMotor.walkSpeedPenaltyCoefficient = 1f;
+            if (controller) {
+                controller.canJump = true;
+            }
+            if (!hasFinishedCharging && characterDirection) {
+                characterDirection.turnSpeed = previousTurnSpeed; // set it here also in case state is interrupted
             }
         }
 

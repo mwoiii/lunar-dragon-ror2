@@ -6,6 +6,7 @@ using R2API;
 using RoR2;
 using RoR2.CharacterSpeech;
 using RoR2.Projectile;
+using RoR2.UI;
 using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using ThreeEyedGames;
 using UnityEngine;
@@ -91,6 +92,8 @@ namespace LunarDragonMod.Survivors.LunarDragon {
 
         public static GameObject specialMinigamePrefab;
 
+        public static GameObject specialControlsUIPrefab;
+
         public static void Init(AssetBundle assetBundle) {
             LunarDragonAssets.assetBundle = assetBundle;
 
@@ -119,6 +122,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Special Ascending Effects", CreateAmbushAscendingEffects);
             TryBuildAsset("Special Landing Effects", CreateAmbushLandingEffects);
             TryBuildAsset("Special Extra Data", GetAmbushExtraData);
+            TryBuildAsset("Special UI Elements", CreateAmbushUIElements);
 
             TryBuildAsset("Mithrix Dialogue", CreateMithrixDialogue);
         }
@@ -1131,6 +1135,38 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             specialAmbushDescendingData = assetBundle.LoadAsset<AnimationCurveData>("DescendingData");
             specialAmbushSpawnDescendingData = assetBundle.LoadAsset<AnimationCurveData>("SpawnDescendingData");
             specialMinigamePrefab = assetBundle.LoadAsset<GameObject>("MinigamePrefab");
+        }
+
+        private static void CreateAmbushUIElements() {
+            TryBuildAsset("Special Controls UI", () => {
+                GameObject hud = Addressables.LoadAssetAsync<GameObject>(RoR2_Base_UI.HUDSimple_prefab).WaitForCompletion();
+                GameObject buttonTemplate = hud.GetComponent<HUD>().skillIcons[0].transform.Find("SkillBackgroundPanel").gameObject;
+
+                specialControlsUIPrefab = PrefabAPI.CreateEmptyPrefab("LunarDragonSpecialUI", false);
+
+                const float containerSeparation = 40f;
+                const float textOffset = 50f;
+                GameObject confirmContainer = new GameObject("ConfirmContainer");
+                confirmContainer.transform.SetParent(specialControlsUIPrefab.transform, false);
+                confirmContainer.transform.localPosition = Vector3.left * containerSeparation;
+                GameObject confirmKeyPanel = Object.Instantiate(buttonTemplate, confirmContainer.transform);
+                confirmKeyPanel.name = "KeyPanel";
+                confirmKeyPanel.transform.localPosition = Vector3.down * textOffset;
+                GameObject confirmTextPanel = Object.Instantiate(buttonTemplate, confirmContainer.transform);
+                confirmTextPanel.name = "TextPanel";
+                GameObject confirmText = confirmTextPanel.transform.GetChild(0).gameObject;
+                confirmText.name = "Text";
+                Object.Destroy(confirmText.GetComponent<InputBindingDisplayController>());
+                confirmText.GetComponent<HGTextMeshProUGUI>().text = "Confirm";
+
+                GameObject cancelContainer = Object.Instantiate(confirmContainer, specialControlsUIPrefab.transform);
+                cancelContainer.name = "CancelContainer";
+                cancelContainer.transform.localPosition = Vector3.right * containerSeparation;
+                Transform cancelKeyPanel = cancelContainer.transform.Find("KeyPanel");
+                cancelKeyPanel.transform.localPosition = Vector3.down * textOffset;
+                cancelKeyPanel.GetChild(0).GetComponent<InputBindingDisplayController>().actionName = "SpecialSkill";
+                cancelContainer.transform.Find("TextPanel").GetChild(0).GetComponent<HGTextMeshProUGUI>().text = "Cancel";
+            });
         }
 
         private static void CreateMithrixDialogue() {

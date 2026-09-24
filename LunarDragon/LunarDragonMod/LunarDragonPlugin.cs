@@ -12,7 +12,7 @@ using System.Security.Permissions;
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
 namespace LunarDragonMod {
-    //[BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.rune580.riskofoptions", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     [BepInDependency(R2API.DamageAPI.PluginGUID, BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency(R2API.LanguageAPI.PluginGUID, BepInDependency.DependencyFlags.HardDependency)]
@@ -44,7 +44,7 @@ namespace LunarDragonMod {
 
             new LunarDragonSurvivor().Init();
 
-            //Options.Init();
+            Options.Init();
 
             RoR2Application.onLoadFinished += OnLoadFinished;
 

@@ -22,7 +22,7 @@ MonoBehaviour:
   activationState:
     _typeName: LunarDragonMod.Survivors.LunarDragon.States.DracoAmbushAim, LunarDragonMod,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  interruptPriority: 1
+  interruptPriority: 2
   baseRechargeInterval: 60
   baseMaxStock: 1
   rechargeStock: 1
@@ -38,7 +38,7 @@ MonoBehaviour:
   cancelSprintingOnActivation: 0
   forceSprintDuringState: 0
   canceledFromSprinting: 0
-  isCombatSkill: 1
+  isCombatSkill: 0
   mustKeyPress: 1
   triggeredByPressRelease: 0
   autoHandleLuminousShot: 1

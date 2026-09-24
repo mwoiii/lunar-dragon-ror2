@@ -8,9 +8,12 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Components {
 
         public CharacterBody characterBody;
 
+        public CharacterDirection characterDirection;
+
         public void Start() {
             modelTransform = GetComponent<ModelLocator>().modelTransform;
             characterBody = GetComponent<CharacterBody>();
+            characterDirection = GetComponent<CharacterDirection>();
             UpdateCamera();
         }
 
@@ -19,7 +22,7 @@ namespace LunarDragonMod.Characters.Survivors.LunarMonster.Components {
         }
 
         void ICameraStateProvider.GetCameraState(CameraRigController cameraRigController, ref CameraState cameraState) {
-            Vector3 position = transform.position + transform.forward * 20f + transform.up * 5f;
+            Vector3 position = transform.position - characterDirection.forward * 20f + transform.up * 5f;
             Vector3 target = new Vector3(transform.position.x, modelTransform.position.y, transform.position.z);
             cameraState = new CameraState {
                 position = position,

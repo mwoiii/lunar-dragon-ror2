@@ -61,10 +61,12 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             base.OnEnter();
 
             if (isAuthority) {
-                skillLocator.primary.SetSkillOverride(this, primaryOverride, GenericSkill.SkillOverridePriority.Upgrade);
-                skillLocator.special.SetSkillOverride(this, specialOverride, GenericSkill.SkillOverridePriority.Upgrade);
+                skillLocator.primary.SetSkillOverride(this, primaryOverride, GenericSkill.SkillOverridePriority.Replacement);
+                skillLocator.special.SetSkillOverride(this, specialOverride, GenericSkill.SkillOverridePriority.Replacement);
 
-                controller = GetComponent<LunarDragonController>();
+                if (TryGetComponent(out controller)) {
+                    controller.OpenControlsUI();
+                }
 
                 aimRequest = cameraTargetParams.RequestAimWithData(new Vector3(0f, 16f, -20f), 0.2f, 0.2f);
 
@@ -92,8 +94,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         public override void OnExit() {
             if (isAuthority) {
-                skillLocator.primary.UnsetSkillOverride(this, primaryOverride, GenericSkill.SkillOverridePriority.Upgrade);
-                skillLocator.special.UnsetSkillOverride(this, specialOverride, GenericSkill.SkillOverridePriority.Upgrade);
+                skillLocator.primary.UnsetSkillOverride(this, primaryOverride, GenericSkill.SkillOverridePriority.Replacement);
+                skillLocator.special.UnsetSkillOverride(this, specialOverride, GenericSkill.SkillOverridePriority.Replacement);
 
                 if (isFiring) {
                     skillLocator.special.DeductStock(1);
@@ -114,6 +116,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
                 if (controller) {
                     controller.ResetWeaponStateMachine();
+                    controller.CloseControlsUI();
                 }
             }
 
@@ -150,7 +153,6 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private void NextState() {
             if (controller) {
-                //controller.DisableWeaponStateMachine();
                 if (positionUnsafe) {
                     currentTrajectoryInfo.hitPoint += currentTrajectoryInfo.hitNormal * rayRadius * 2f;
                 }
