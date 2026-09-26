@@ -19,13 +19,15 @@ namespace LunarDragonMod.Characters.LunarDragon {
 
         private const float exitAnimAt = duration + 1.3f;
 
-        public const float bloodDamageIncrease = 10f;
+        public const float damageIncrease = 10f;
 
-        public const float designCooldownReduction = 5f;
+        public const float cooldownReduction = 5f;
 
-        public const float massRadiusIncrease = 10f;
+        public const float radiusIncrease = 10f;
 
-        public const float soulHealIncrease = 0.25f / ringCount;
+        public const float healIncrease = 0.25f / ringCount;
+
+        public const float missMult = 0.75f;
 
         [SerializeField]
         private GameObject bloodRingPrefab;
@@ -205,32 +207,33 @@ namespace LunarDragonMod.Characters.LunarDragon {
         private void ApplyRingEffect(Element element) {
             switch (element) {
                 case Element.Blood:
-                    bonusDamage += bloodDamageIncrease;
-                    bonusHealing += soulHealIncrease;
-                    break;
-                case Element.Design:
-                    bonusCDReduction += designCooldownReduction;
-                    bonusHealing += soulHealIncrease;
+                    ApplyHitReward(1f, 0.25f, 0.25f, 1f);
                     break;
                 case Element.Mass:
-                    bonusRadius += massRadiusIncrease;
-                    bonusHealing += soulHealIncrease;
+                    ApplyHitReward(0.25f, 1f, 0.25f, 1f);
+                    break;
+                case Element.Design:
+                    ApplyHitReward(0.25f, 0.25f, 1f, 1f);
                     break;
                 case Element.Soul:
-                    bonusDamage += bloodDamageIncrease;
-                    bonusRadius += massRadiusIncrease;
-                    bonusCDReduction += designCooldownReduction;
-                    bonusHealing += soulHealIncrease;
+                    ApplyHitReward(1f, 1f, 1f, 1f);
                     ApplySoulHeal();
                     break;
             }
         }
 
+        private void ApplyHitReward(float damageMult, float radiusMult, float cdMult, float healingMult) {
+            bonusDamage += damageIncrease * damageMult;
+            bonusRadius += radiusIncrease * radiusMult;
+            bonusCDReduction += cooldownReduction * cdMult;
+            bonusHealing += healIncrease * healingMult;
+        }
+
         private void ApplyMissPunishment() {
-            bonusDamage = Mathf.Clamp(bonusDamage - bloodDamageIncrease, 0f, Mathf.Infinity);
-            bonusRadius = Mathf.Clamp(bonusRadius - massRadiusIncrease, 0f, Mathf.Infinity);
-            bonusHealing = Mathf.Clamp(bonusHealing - soulHealIncrease, 0f, Mathf.Infinity);
-            bonusCDReduction = Mathf.Clamp(bonusCDReduction - designCooldownReduction, 0f, Mathf.Infinity);
+            bonusDamage *= missMult;
+            bonusRadius *= missMult;
+            bonusCDReduction *= missMult;
+            bonusHealing *= missMult;
         }
 
         private void ApplySoulHeal() {

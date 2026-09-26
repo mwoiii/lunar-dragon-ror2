@@ -23,7 +23,7 @@ namespace LunarDragonMod {
         public static ConfigEntry<bool> displaySpecialControls { get; set; }
 
         public static void Init() {
-            displaySpecialControls = LunarDragonPlugin.config.Bind("Special", "Show Controls UI", true, "Whether or not the keys for 'Confirm' and 'Cancel' are prominently displayed when aiming with Draco Ascent.");
+            displaySpecialControls = LunarDragonPlugin.config.Bind("Special", "Show Controls UI", true, "Whether or not the keys for 'Confirm' and 'Cancel' are prominently displayed when aiming with Draco Ambush.");
 
             if (rooEnabled) {
                 RoOInit();

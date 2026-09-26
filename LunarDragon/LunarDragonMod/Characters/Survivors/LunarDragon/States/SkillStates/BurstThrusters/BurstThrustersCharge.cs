@@ -75,7 +75,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         private void SetupDashState() {
             BurstThrustersDash nextState = currentCharge > 1 ? new BurstThrustersDashTrail() : new BurstThrustersDash();
-            nextState.duration = Mathf.Max(0.5f, currentCharge * 2f); // 0.5, 2, 4
+            nextState.duration = Mathf.Max(LunarDragonStaticValues.utilityBurstThrustersMinDuration, gearCharge * LunarDragonStaticValues.utilityBurstThrustersMaxDuration);
             nextState.damageCoefficient = currentCharge > 1 ? LunarDragonStaticValues.utilityBurstThrustersUpperDamageCoefficient : LunarDragonStaticValues.utilityBurstThrustersLowerDamageCoefficient;
             nextState.shouldActivateHitbox = currentCharge > 0;
             nextState.turnSpeed = currentCharge >= 1 ? turnSpeedDash : previousTurnSpeed;
@@ -102,7 +102,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
 
             if (skillLocator.utility.skillDef is BurstThrustersSkillDef skillDef) {
-                skillDef.cooldownQueue.Enqueue(skillLocator.utility.skillDef.baseRechargeInterval + Mathf.Clamp(currentCharge, 0f, 2f) * LunarDragonStaticValues.utilityBurstThrustersExtraCooldownBase);
+                skillDef.cooldownQueue.Enqueue(Mathf.Max(LunarDragonStaticValues.utilityBurstThrustersMinCooldown, gearCharge * LunarDragonStaticValues.utilityBurstThrustersMaxCooldown));
             }
             skillLocator.utility.DeductStock(1);
             EntityStateMachine bodyStateMachine = FindSiblingStateMachine("Body");

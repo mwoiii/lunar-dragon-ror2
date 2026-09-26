@@ -33,9 +33,9 @@ The Lunar Dragon is a bulky survivor with an arsenal particularly suited for air
 
 | Special: Draco Ambush | Special: Draco Railgun |
 | --- | --- |
-| Take aim, and confirm a target to soar into the sky. Unleash a devastating strike on the target position for 10000% damage. | WIP |
+| Take aim, and confirm a target to soar into the sky. Attune elements to unleash a devastating strike for upwards of 7000% damage. | WIP |
 | <img src="https://i.postimg.cc/SKfDMShV/lunardragonspecial.gif" width="300"> |
-| Draco Ambush is an immensely powerful attack, providing both devastating damage and a large immunity window - however, it has a particularly long cooldown, so use it wisely!<br/><br/>Upon pressing the special button, a sphere will be cast over the position targeted by the crosshair. Confirm the position with the primary button, or cancel the skill with the special button. Perform well in the minigame for a mixture of bonus damage, range, cooldown reduction, and healing! |
+| Draco Ambush is an immensely powerful attack, providing both huge damage and a large immunity window - however, it has a particularly long cooldown, so use it wisely!<br/><br/>Upon pressing the special button, a sphere will be cast over the position targeted by the crosshair. Confirm the position with the primary button, or cancel the skill with the special button. Perform well in the minigame for a mixture of bonus damage, range, cooldown reduction, and healing! |
 
 # Credits
 

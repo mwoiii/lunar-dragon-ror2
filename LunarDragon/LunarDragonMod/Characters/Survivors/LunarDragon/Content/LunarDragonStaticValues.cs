@@ -12,13 +12,19 @@
 
         public const float secondaryPlasmaBlastDamageCoefficient = 12f;
 
+        public const float utilityBurstThrustersMinDuration = 0.5f;
+
+        public const float utilityBurstThrustersMaxDuration = 6f;
+
+        public const float utilityBurstThrustersMinCooldown = 2f;
+
+        public const float utilityBurstThrustersMaxCooldown = 14f;
+
         public const float utilityBurstThrustersChargeBonusDamageCoefficient = 10f;
 
         public const float utilityBurstThrustersLowerDamageCoefficient = 3f;
 
         public const float utilityBurstThrustersUpperDamageCoefficient = 5f;
-
-        public const float utilityBurstThrustersExtraCooldownBase = 7f;
 
         public const float specialAmbushLandDamageCoefficient = 70f;
 
