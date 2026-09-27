@@ -1,3 +1,11 @@
+## 1.2.1
+
+- The cooldown and duration of Burst Thrusters is now directly proportional to how long the skill was charged (previously used inconsistent thresholds)
+
+- The punishment for missing a hit in the Elemental Attunement minigame has been changed from -1 stack of each bonus to -25% of all currently acquired bonuses
+
+- Hitting a blood, design, or mass ring in the Elemental Attunement minigame now also rewards 20% of their non-primary effects
+
 ## 1.2.0
 
 - Draco Ambush has been reworked

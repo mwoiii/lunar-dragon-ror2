@@ -207,13 +207,13 @@ namespace LunarDragonMod.Characters.LunarDragon {
         private void ApplyRingEffect(Element element) {
             switch (element) {
                 case Element.Blood:
-                    ApplyHitReward(1f, 0.25f, 0.25f, 1f);
+                    ApplyHitReward(1f, 0.2f, 0.2f, 1f);
                     break;
                 case Element.Mass:
-                    ApplyHitReward(0.25f, 1f, 0.25f, 1f);
+                    ApplyHitReward(0.2f, 1f, 0.2f, 1f);
                     break;
                 case Element.Design:
-                    ApplyHitReward(0.25f, 0.25f, 1f, 1f);
+                    ApplyHitReward(0.2f, 0.2f, 1f, 1f);
                     break;
                 case Element.Soul:
                     ApplyHitReward(1f, 1f, 1f, 1f);

@@ -18,7 +18,7 @@
 
         public const float utilityBurstThrustersMinCooldown = 2f;
 
-        public const float utilityBurstThrustersMaxCooldown = 14f;
+        public const float utilityBurstThrustersMaxCooldown = 16f;
 
         public const float utilityBurstThrustersChargeBonusDamageCoefficient = 10f;
 
