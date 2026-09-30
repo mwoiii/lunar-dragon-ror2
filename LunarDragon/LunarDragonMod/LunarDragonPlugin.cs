@@ -21,7 +21,7 @@ namespace LunarDragonMod {
     public class LunarDragonPlugin : BaseUnityPlugin {
         public const string MODUID = "com.miyowi.LunarDragonMod";
         public const string MODNAME = "LunarDragon";
-        public const string MODVERSION = "1.2.1";
+        public const string MODVERSION = "1.2.2";
 
         public const string DEVELOPER_PREFIX = "MIYOWI";
 

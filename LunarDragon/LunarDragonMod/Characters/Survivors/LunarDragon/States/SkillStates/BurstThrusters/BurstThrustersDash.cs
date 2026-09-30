@@ -157,7 +157,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             }
         }
 
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private Vector3 GetIdealVelocity() {
             return characterDirection.forward * characterBody.moveSpeed * characterBody.sprintingSpeedMultiplier * speedMultiplier;
         }

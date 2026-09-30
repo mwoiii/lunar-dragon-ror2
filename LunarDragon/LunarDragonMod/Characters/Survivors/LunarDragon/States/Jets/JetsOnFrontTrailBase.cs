@@ -53,8 +53,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
         public override void OnExit() {
             base.OnExit();
 
-            if (characterBody) {
+            if (characterBody && characterBody.gameObject.activeSelf) {
                 characterBody.StartCoroutine(FadeOutTrails());
+            } else {
+                DisableTrailEmission();
             }
         }
 
@@ -84,6 +86,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 }
             }
 
+            DisableTrailEmission();
+        }
+
+        private void DisableTrailEmission() {
             if (jetLeftTrail) {
                 jetLeftTrail.emitting = false;
             }

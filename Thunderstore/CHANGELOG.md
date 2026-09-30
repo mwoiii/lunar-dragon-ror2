@@ -1,3 +1,9 @@
+## 1.2.2
+
+- Fixed Draco Ambush being reset to max stock when the override was unset if you had any Lysate Cells
+
+- Fixed a potential minor issue with Goobo visuals
+
 ## 1.2.1
 
 - The cooldown and duration of Burst Thrusters is now directly proportional to how long the skill was charged (previously used inconsistent thresholds)

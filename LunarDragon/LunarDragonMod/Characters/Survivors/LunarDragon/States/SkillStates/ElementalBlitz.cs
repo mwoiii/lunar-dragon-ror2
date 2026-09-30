@@ -165,7 +165,9 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
                 ShakeEmitter.CreateSimpleShakeEmitter(transform.position, shakeWave, 0.15f, 120f, true);
 
-                characterBody?.StartCoroutine(PlayLaserSFX());
+                if (characterBody && characterBody.gameObject.activeSelf) {
+                    characterBody.StartCoroutine(PlayLaserSFX());
+                }
 
                 if (!isAuthority) {
                     return;
