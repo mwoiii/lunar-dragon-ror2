@@ -163,7 +163,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             TryBuildAsset("Jet Effect Components", () => {
                 #region MageBody
                 GameObject jetEffect = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>(RoR2_Base_Mage.MageBody_prefab).WaitForCompletion()
-                .GetComponent<ModelLocator>().modelChildLocator.FindChild("JetOn").gameObject, jetEffectPrefab.transform, false);
+                .GetComponent<ModelLocator>().modelTransform.GetComponent<ChildLocator>().FindChild("JetOn").gameObject, jetEffectPrefab.transform, false);
                 jetEffect.transform.localPosition = Vector3.zero;
                 jetEffect.gameObject.name = "JetSFX";
                 jetEffect.SetActive(true);

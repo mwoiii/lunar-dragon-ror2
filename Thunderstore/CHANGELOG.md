@@ -1,3 +1,7 @@
+## 1.2.3
+
+- Fixed for DLC4
+
 ## 1.2.2
 
 - Fixed Draco Ambush being reset to max stock when the override was unset if you had any Lysate Cells

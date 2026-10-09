@@ -27,6 +27,8 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
 
         protected Inventory inventory;
 
+        protected ICharacterGravityParameterProvider gravityParameterProvider;
+
         public HurtBoxGroup hurtBoxGroup;
 
         protected bool authorityFinished = false;
@@ -38,6 +40,7 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
             controller = GetComponent<LunarDragonController>();
             kinematicMotor = GetComponent<KinematicCharacterMotor>();
             collider = GetComponent<Collider>();
+            gravityParameterProvider = GetComponent<ICharacterGravityParameterProvider>();
             if (characterBody) {
                 inventory = characterBody.inventory;
             }
@@ -53,8 +56,12 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 }
                 if (characterMotor) {
                     characterMotor.velocity = Vector3.zero;
-                    characterMotor.useGravity = false;
                     characterMotor.Motor.ForceUnground();
+                }
+                if (gravityParameterProvider != null) {
+                    CharacterGravityParameters gravityParameters = gravityParameterProvider.gravityParameters;
+                    gravityParameters.channeledAntiGravityGranterCount++;
+                    gravityParameterProvider.gravityParameters = gravityParameters;
                 }
                 if (interactionDriver) {
                     interactionDriver.enabled = false;
@@ -111,8 +118,10 @@ namespace LunarDragonMod.Survivors.LunarDragon.States {
                 animator.SetBool(LunarDragonAnimationParameters.forceIdle, false);
             }
             if (isAuthority) {
-                if (characterMotor) {
-                    characterMotor.useGravity = characterMotor.gravityParameters.CheckShouldUseGravity();
+                if (gravityParameterProvider != null && gravityParameterProvider.gravityParameters.channeledAntiGravityGranterCount > 0) {
+                    CharacterGravityParameters gravityParameters = gravityParameterProvider.gravityParameters;
+                    gravityParameters.channeledAntiGravityGranterCount--;
+                    gravityParameterProvider.gravityParameters = gravityParameters;
                 }
                 if (kinematicMotor) {
                     kinematicMotor.RebuildCollidableLayers();

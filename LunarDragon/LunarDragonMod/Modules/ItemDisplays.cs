@@ -1,10 +1,11 @@
 ﻿using RoR2;
+using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace LunarDragonMod.Modules {
     internal static class ItemDisplays {
-        private static Dictionary<string, GameObject> itemDisplayPrefabs = new Dictionary<string, GameObject>();
         public static Dictionary<Object, ItemDisplayRule[]> KeyAssetDisplayPrefabs = new Dictionary<Object, ItemDisplayRule[]>();
         public static Dictionary<string, Object> KeyAssets = new Dictionary<string, Object>();
 
@@ -27,67 +28,25 @@ namespace LunarDragonMod.Modules {
             if (!initialized)
                 return;
             initialized = false;
-
-            itemDisplayPrefabs = null;
             KeyAssetDisplayPrefabs = null;
             KeyAssets = null;
         }
 
         internal static void PopulateDisplays() {
-            PopulateFromBody("LoaderBody");
+            PopulateFromBody(RoR2_Base_Loader.LoaderBody_prefab);
 
             //PopulateCustomLightningArm();
         }
 
-        private static void PopulateFromBody(string bodyName) {
-            ItemDisplayRuleSet itemDisplayRuleSet = RoR2.LegacyResourcesAPI.Load<GameObject>("Prefabs/CharacterBodies/" + bodyName).GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
-
+        private static void PopulateFromBody(string bodyGUID) {
+            ItemDisplayRuleSet itemDisplayRuleSet = Addressables.LoadAssetAsync<GameObject>(new AssetReferenceGameObject(bodyGUID)).WaitForCompletion().GetComponent<ModelLocator>().modelTransform.GetComponent<CharacterModel>().itemDisplayRuleSet;
             ItemDisplayRuleSet.KeyAssetRuleGroup[] itemRuleGroups = itemDisplayRuleSet.keyAssetRuleGroups;
 
             for (int i = 0; i < itemRuleGroups.Length; i++) {
                 ItemDisplayRule[] rules = itemRuleGroups[i].displayRuleGroup.rules;
-
                 KeyAssetDisplayPrefabs[itemRuleGroups[i].keyAsset] = rules;
                 KeyAssets[itemRuleGroups[i].keyAsset.name] = itemRuleGroups[i].keyAsset;
-
-                for (int j = 0; j < rules.Length; j++) {
-                    GameObject followerPrefab = rules[j].followerPrefab;
-                    if (followerPrefab) {
-                        string key = followerPrefab.name?.ToLowerInvariant();
-                        if (!itemDisplayPrefabs.ContainsKey(key)) {
-                            itemDisplayPrefabs[key] = followerPrefab;
-                        }
-                    }
-                }
             }
-        }
-
-        private static void PopulateCustomLightningArm() {
-
-            GameObject display = R2API.PrefabAPI.InstantiateClone(itemDisplayPrefabs["displaylightningarmright"], "DisplayLightningCustom", false);
-
-            LimbMatcher limbMatcher = display.GetComponent<LimbMatcher>();
-
-            limbMatcher.limbPairs[0].targetChildLimb = "LightningArm1";
-            limbMatcher.limbPairs[1].targetChildLimb = "LightningArm2";
-            limbMatcher.limbPairs[2].targetChildLimb = "LightningArmEnd";
-
-            itemDisplayPrefabs["displaylightningarmcustom"] = display;
-        }
-
-        public static GameObject LoadDisplay(string name) {
-
-            if (itemDisplayPrefabs.ContainsKey(name.ToLowerInvariant())) {
-
-                if (itemDisplayPrefabs[name.ToLowerInvariant()]) {
-
-                    GameObject display = itemDisplayPrefabs[name.ToLowerInvariant()];
-
-                    return display;
-                }
-            }
-            Log.Error("item display " + name + " returned null");
-            return null;
         }
 
         #region add rule helpers
@@ -105,12 +64,12 @@ namespace LunarDragonMod.Modules {
             };
         }
 
-        public static ItemDisplayRule CreateDisplayRule(string prefabName, string childName, Vector3 position, Vector3 rotation, Vector3 scale) => CreateDisplayRule(LoadDisplay(prefabName), childName, position, rotation, scale);
-        public static ItemDisplayRule CreateDisplayRule(GameObject itemPrefab, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
+        public static ItemDisplayRule CreateDisplayRule(string assetGUID, string childName, Vector3 position, Vector3 rotation, Vector3 scale) => CreateDisplayRule(new AssetReferenceGameObject(assetGUID), childName, position, rotation, scale);
+        public static ItemDisplayRule CreateDisplayRule(AssetReferenceGameObject itemDisplayAddress, string childName, Vector3 position, Vector3 rotation, Vector3 scale) {
             return new ItemDisplayRule {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = childName,
-                followerPrefab = itemPrefab,
+                followerPrefabAddress = itemDisplayAddress,
                 limbMask = LimbFlags.None,
                 localPos = position,
                 localAngles = rotation,
