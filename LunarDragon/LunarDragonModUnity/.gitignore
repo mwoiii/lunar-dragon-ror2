@@ -8,7 +8,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
-/[Pp]ackages/
+#/[Pp]ackages/
 
 #local asset bundle builds
 AssetBundles
