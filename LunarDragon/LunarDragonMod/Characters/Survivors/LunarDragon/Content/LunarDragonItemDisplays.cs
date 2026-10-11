@@ -1,7 +1,7 @@
 ﻿using LunarDragonMod.Modules;
 using LunarDragonMod.Modules.Characters;
 using RoR2;
-using RoR2BepInExPack.GameAssetPaths.Version_1_39_0;
+using RoR2BepInExPack.GameAssetPathsBetter;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -737,9 +737,9 @@ namespace LunarDragonMod.Survivors.LunarDragon {
             itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["NearbyDamageBonus"],
                 ItemDisplays.CreateDisplayRule(RoR2_Base_NearbyDamageBonus.DisplayDiamond_prefab,
                     "CannonM",
-                    new Vector3(-0.97988F, 2.09600F, -0.00786F),
-                    new Vector3(333.34770F, 87.73821F, 317.38460F),
-                    new Vector3(0.13100F, 0.13100F, 0.13100F)
+                    new Vector3(-0.3729F, 1.56582F, -0.01256F),
+                    new Vector3(22.81533F, 89.38611F, 317.1119F),
+                    new Vector3(0.22049F, 0.21568F, 0.32458F)
                     )
                 ));
             itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["NovaOnHeal"],
@@ -1353,7 +1353,7 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     )
                 ));
             itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["IrradiatingLaser"],
-                ItemDisplays.CreateDisplayRule(RoR2_DLC1_IrradiatingLaser.DisplayIrradiatingLaser_prefab,
+                ItemDisplays.CreateDisplayRule(RoR2_Junk_DLC1_IrradiatingLaser.DisplayIrradiatingLaser_prefab,
                     "CannonL2",
                     new Vector3(-0.20436F, 0.89604F, 0.29868F),
                     new Vector3(278.59230F, 238.19610F, 280.16380F),
@@ -1827,6 +1827,300 @@ namespace LunarDragonMod.Survivors.LunarDragon {
                     new Vector3(-0.11266F, 0.48994F, 0.04454F),
                     new Vector3(277.60630F, 270.00000F, 72.52927F),
                     new Vector3(0.59998F, 0.59998F, 0.59998F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["BlightZone"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_BlightZone.DisplayBlightZone_prefab,
+                    "LowerLegFL",
+                    new Vector3(-0.17899F, -0.4621F, -0.00974F),
+                    new Vector3(0F, 0F, 129.9263F),
+                    new Vector3(0.20409F, 0.20409F, 0.20409F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["LowHealthOrbSpawner"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_LowHealthOrbSpawner.DisplayLowHealthOrbSpawner_prefab,
+                    "LowerLegFL",
+                    new Vector3(-0.25983F, 0.12457F, -0.48932F),
+                    new Vector3(272.9168F, 60.33867F, 324.5471F),
+                    new Vector3(0.23167F, 0.23167F, 0.23167F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["RechargeableJump"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_RechargeableJump.DisplayRechargeableJump_prefab,
+                    "ShoulderBR",
+                    new Vector3(-0.07336F, 0.46682F, 0.12543F),
+                    new Vector3(22.68804F, 136.5023F, 184.5132F),
+                    new Vector3(1F, 1F, 1F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["CausticPheromones"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_CasuticPheromones.DisplayCausticPheromones_prefab,
+                    "BodyMesh",
+                    new Vector3(2.37679F, -0.04661F, 1.0161F),
+                    new Vector3(88.58432F, 0F, 0F),
+                    new Vector3(2.1248F, 2.1248F, 2.1248F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["DreamDemon"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_DreamDemon.DisplayDreamDemon_prefab,
+                    "Tail4",
+                    new Vector3(0.59948F, -0.17213F, 0.09171F),
+                    new Vector3(2.35438F, 89.30431F, 269.0392F),
+                    new Vector3(1.49043F, 1.49043F, 1.49043F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["SprintDamage"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_SprintDamage.DisplaySprintDamage_prefab,
+                    "Head",
+                    new Vector3(-0.11882F, -0.13855F, -0.0038F),
+                    new Vector3(270.4467F, 269.9996F, 180.0004F),
+                    new Vector3(1.0828F, 1.0828F, 1.0828F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["GhostBlades"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_GhostBlades.DisplayGhostBlades_prefab,
+                    "FootLFront",
+                    new Vector3(-0.02242F, 0.30302F, -0.03865F),
+                    new Vector3(40.94723F, 212.1532F, 356.4085F),
+                    new Vector3(0.96934F, 0.96934F, 0.96934F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["GoldenGoose"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_GoldenGoose.DisplayGoldenGoose_prefab,
+                    "CannonL2",
+                    new Vector3(0.04995F, 0.70592F, -0.01242F),
+                    new Vector3(356.8355F, 359.9066F, 4.53368F),
+                    new Vector3(0.81307F, 0.81307F, 0.81307F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["VengefulSpirit"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_VengefulSpirit.DisplayVengefulSpirit_prefab,
+                    "Neck",
+                    new Vector3(-0.04015F, 0.709F, 0.00788F),
+                    new Vector3(306.5484F, 94.9483F, 351.8976F),
+                    new Vector3(2.53255F, 2.26067F, 2.26067F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["VileCenser"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_VileCenser.DisplayVileCenser_prefab,
+                    "CannonR2",
+                    new Vector3(-0.59462F, 1.1497F, -0.19015F),
+                    new Vector3(0.52392F, 183.0658F, 257.1208F),
+                    new Vector3(0.2953F, 0.2953F, 0.2953F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["SlipperyGround"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_SlipperyGround.DisplaySlipperyGround_prefab,
+                    "FootLFront",
+                    new Vector3(-0.10576F, 0.2791F, -0.20068F),
+                    new Vector3(353.6161F, 28.78907F, 101.906F),
+                    new Vector3(0.58059F, 0.58059F, 0.58059F)
+                    ),
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_SlipperyGround.DisplaySlipperyGround_prefab,
+                    "FootRFront",
+                    new Vector3(-0.13121F, 0.1825F, 0.06118F),
+                    new Vector3(335.2336F, 148.4014F, 96.30814F),
+                    new Vector3(0.58059F, 0.58059F, 0.58059F)
+                    ),
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_SlipperyGround.DisplaySlipperyGround_prefab,
+                    "FootRBack",
+                    new Vector3(-0.13121F, 0.1825F, 0.06118F),
+                    new Vector3(335.2336F, 148.4014F, 96.30814F),
+                    new Vector3(0.58059F, 0.58059F, 0.58059F)
+                    ),
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_SlipperyGround.DisplaySlipperyGround_prefab,
+                    "FootLBack",
+                    new Vector3(-0.05248F, 0.21315F, -0.10321F),
+                    new Vector3(349.4249F, 39.172F, 98.32903F),
+                    new Vector3(0.49977F, 0.49977F, 0.49977F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["Blindness"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_Blindness.DisplayBlindness_prefab,
+                    "Head",
+                    new Vector3(-0.45941F, 0.5988F, -0.11129F),
+                    new Vector3(87.65314F, 141.1538F, 230.9157F),
+                    new Vector3(0.30323F, 0.30323F, 0.30323F)
+                    ),
+                 ItemDisplays.CreateDisplayRule(RoR2_DLC4_Blindness.DisplayBlindness_prefab,
+                    "Head",
+                    new Vector3(-0.47103F, 0.58244F, 0.11689F),
+                    new Vector3(87.65314F, 141.1538F, 230.9157F),
+                    new Vector3(-0.30323F, 0.30323F, 0.30323F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["LowerHealing"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_LowerHealing.DisplayLowerHealing_prefab,
+                    "Chest",
+                    new Vector3(-1.16116F, -0.62087F, -0.18053F),
+                    new Vector3(335.3628F, 62.99176F, 208.5704F),
+                    new Vector3(0.593F, 0.593F, 0.593F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["ShareItemsWithEnemies"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_ShareItemsWithEnemies.DisplayShareItemsWithEnemies_prefab,
+                    "Chest",
+                    new Vector3(0.80207F, 0.65728F, -0.1353F),
+                    new Vector3(15.25983F, 104.7652F, 339.674F),
+                    new Vector3(1F, 1F, 1F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["HexHaunting"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_HexHaunting.DisplayHexHaunting_prefab,
+                    "LowerLegFR",
+                    new Vector3(-0.36748F, 0.01649F, -0.21926F),
+                    new Vector3(350.3012F, 239.9403F, 286.6996F),
+                    new Vector3(0.68703F, 0.68703F, 0.6864F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["WeakAssHamstring"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_WeakAssHamstring.DisplayWeakAssHamstring_prefab,
+                    "ShoulderFL",
+                    new Vector3(0.52037F, 0.38201F, -0.07592F),
+                    new Vector3(317.095F, 77.88561F, 292.8507F),
+                    new Vector3(0.72986F, 0.72986F, 0.72986F)
+                    ),
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_WeakAssHamstring.DisplayWeakAssHamstring_prefab,
+                    "ShoulderFR",
+                    new Vector3(0.48813F, 0.43757F, 0.03762F),
+                    new Vector3(332.5133F, 77.62352F, 65.94136F),
+                    new Vector3(0.72986F, 0.72986F, 0.72986F)
+                    ),
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_WeakAssHamstring.DisplayWeakAssHamstring_prefab,
+                    "ShoulderBL",
+                    new Vector3(0.29037F, 0.13573F, -0.00113F),
+                    new Vector3(333.1493F, 93.20892F, 274.1735F),
+                    new Vector3(0.72986F, 0.72986F, 0.72986F)
+                    ),
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_WeakAssHamstring.DisplayWeakAssHamstring_prefab,
+                    "ShoulderBR",
+                    new Vector3(0.28694F, 0.14333F, -0.05874F),
+                    new Vector3(335.1167F, 89.89928F, 98.27462F),
+                    new Vector3(0.72986F, 0.72986F, 0.72986F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["RoamingItemDisable"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_RoamingItemDisable.DisplayRoamingItemDisable_prefab,
+                    "Tail2",
+                    new Vector3(0F, 0.06415F, -0.25047F),
+                    new Vector3(23.5517F, 0F, 330.795F),
+                    new Vector3(0.63944F, 0.63944F, 0.63944F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["Mimicry"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_Mimicry.DisplayMimicry_prefab,
+                    "LowerLegFL",
+                    new Vector3(0.02343F, 0.05649F, 0.40892F),
+                    new Vector3(13.18296F, 2.87542F, 322.0376F),
+                    new Vector3(0.67272F, 0.67272F, 0.67272F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["RandomDebuffOnInteract"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_RandomDebuffOnInteract.DisplayRandomDebuffOnInteract_prefab,
+                    "Chest",
+                    new Vector3(0.48552F, 0.38674F, -0.73618F),
+                    new Vector3(3.223F, 330.7752F, 61.72795F),
+                    new Vector3(0.71643F, 0.71643F, 0.71643F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["BarrierEnemiesOnKill"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_BarrierEnemiesOnKill.DisplayBarrierEnemiesOnKill_prefab,
+                    "Tail5",
+                    new Vector3(0.28724F, -0.1813F, 0.17697F),
+                    new Vector3(341.1138F, 93.47011F, 346.2978F),
+                    new Vector3(0.57811F, 0.57811F, 0.57811F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["HexCurse"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_HexCurse.DisplayHexCurse_prefab,
+                    "Tail5",
+                    new Vector3(-0.24285F, -0.04453F, 0.16305F),
+                    new Vector3(355.7948F, 86.16827F, 20.42357F),
+                    new Vector3(0.43194F, 0.43194F, 0.43194F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["OutOfTPRadius"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_OutOfTPRadius.DisplayOutOfTPRadius_prefab,
+                    "CannonM",
+                    new Vector3(-0.53504F, 1.05471F, 0.26822F),
+                    new Vector3(4.72062F, 147.618F, 172.3453F),
+                    new Vector3(0.74835F, 0.74835F, 0.74835F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["IncreasedDifficulty"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_IncreasedDifficulty.DisplayIncreasedDifficulty_prefab,
+                    "CannonR2",
+                    new Vector3(0.08359F, -0.68501F, 0.19899F),
+                    new Vector3(349.9352F, 160.9485F, 91.14056F),
+                    new Vector3(0.77527F, 0.77527F, 0.51285F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["HexMountain"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_HexMountain.DisplayHexMountain_prefab,
+                    "CannonR2",
+                    new Vector3(-0.05717F, 0.70741F, 0.46666F),
+                    new Vector3(343.1467F, 159.1663F, 281.4979F),
+                    new Vector3(1F, 1F, 1F)
+                    ),
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_HexMountain.DisplayHexMountain_prefab,
+                    "CannonL2",
+                    new Vector3(-0.14173F, 0.81883F, -0.31922F),
+                    new Vector3(1.70664F, 20.04589F, 89.20444F),
+                    new Vector3(1F, 1F, 1F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["MushShot"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_MushShot.DisplayMushShot_prefab,
+                    "LowerLegBL",
+                    new Vector3(-0.0692F, -0.24398F, 0.22396F),
+                    new Vector3(359.7211F, 180F, 180F),
+                    new Vector3(0.10289F, 0.10289F, 0.10289F)
+                    ),
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_MushShot.DisplayMushShot_prefab,
+                    "LowerLegBR",
+                    new Vector3(-0.09861F, -0.24376F, -0.10566F),
+                    new Vector3(343.6476F, 173.9749F, 197.9644F),
+                    new Vector3(0.10289F, 0.10289F, 0.10289F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["WispOnKill"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_WispOnKill.DisplayWispOnKill_prefab,
+                    "Stomach",
+                    new Vector3(-0.23058F, 0.49873F, -0.62279F),
+                    new Vector3(344.7069F, 359.7568F, 297.6019F),
+                    new Vector3(0.65766F, 0.65766F, 0.65766F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["HelpWake"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_HelpWake.DisplayHelpWake_prefab,
+                    "JawLower",
+                    new Vector3(-0.17307F, 0.31872F, -0.70444F),
+                    new Vector3(88.28548F, -0.00001F, 4.50853F),
+                    new Vector3(1F, 1F, 1F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["EliteDeathEquipment"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_EliteDeath.DisplayEliteDeath_prefab,
+                    "Head",
+                    new Vector3(-0.403F, 0.40616F, -0.00995F),
+                    new Vector3(90F, 270F, 0F),
+                    new Vector3(0.67839F, 0.67839F, 0.67839F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["SpawnAltar"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_SpawnAltar.DisplaySpawnAltar_prefab,
+                    "Stomach",
+                    new Vector3(0.06997F, 0.36594F, 0.57005F),
+                    new Vector3(358.6772F, 7.67999F, 92.4343F),
+                    new Vector3(0.19367F, 0.19367F, 0.19367F)
+                    )
+                ));
+            itemDisplayRules.Add(ItemDisplays.CreateDisplayRuleGroupWithRules(ItemDisplays.KeyAssets["CursedBook"],
+                ItemDisplays.CreateDisplayRule(RoR2_DLC4_CursedBook.DisplayCursedBook_prefab,
+                    "BodyMesh",
+                    new Vector3(-3.5F, 0F, 3F),
+                    new Vector3(90F, 350F, 0F),
+                    new Vector3(1F, 1F, 1F)
                     )
                 ));
         }

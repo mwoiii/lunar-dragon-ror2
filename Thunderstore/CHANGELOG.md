@@ -1,3 +1,7 @@
+## 1.2.4
+
+- Added DLC4 IDRS
+
 ## 1.2.3
 
 - Fixed for DLC4

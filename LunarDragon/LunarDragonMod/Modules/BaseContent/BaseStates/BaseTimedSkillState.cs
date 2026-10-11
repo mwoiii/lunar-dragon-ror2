@@ -1,11 +1,8 @@
 ﻿using EntityStates;
-using System;
 
-namespace LunarDragonMod.Modules.BaseStates
-{
+namespace LunarDragonMod.Modules.BaseStates {
     //see example skills below
-    public abstract class BaseTimedSkillState : BaseSkillState
-    {
+    public abstract class BaseTimedSkillState : BaseSkillState {
         //total duration of the move
         public abstract float TimedBaseDuration { get; }
 
@@ -21,14 +18,12 @@ namespace LunarDragonMod.Modules.BaseStates
         protected bool isFiring;
         protected bool hasExited;
 
-        public override void OnEnter()
-        {
+        public override void OnEnter() {
             InitDurationValues();
             base.OnEnter();
         }
 
-        protected virtual void InitDurationValues()
-        {
+        protected virtual void InitDurationValues() {
             duration = TimedBaseDuration / attackSpeedStat;
             this.castStartTime = TimedBaseCastStartPercentTime * duration;
             this.castEndTime = TimedBaseCastEndPercentTime * duration;
@@ -39,8 +34,7 @@ namespace LunarDragonMod.Modules.BaseStates
         protected virtual void OnCastUpdate() { }
         protected virtual void OnCastExit() { }
 
-        public override void FixedUpdate()
-        {
+        public override void FixedUpdate() {
             base.FixedUpdate();
 
             bool fireStarted = fixedAge >= castStartTime;
@@ -48,70 +42,58 @@ namespace LunarDragonMod.Modules.BaseStates
             isFiring = false;
 
             //to guarantee attack comes out if at high attack speed the fixedage skips past the endtime
-            if ((fireStarted && !fireEnded) || (fireStarted && fireEnded && !this.hasFired))
-            {
+            if ((fireStarted && !fireEnded) || (fireStarted && fireEnded && !this.hasFired)) {
                 isFiring = true;
                 OnCastFixedUpdate();
-                if (!hasFired)
-                {
+                if (!hasFired) {
                     OnCastEnter();
                     hasFired = true;
                 }
             }
 
-            if (fireEnded && !hasExited)
-            {
+            if (fireEnded && !hasExited) {
                 hasExited = true;
                 OnCastExit();
             }
 
-            if (fixedAge > duration)
-            {
+            if (fixedAge > duration) {
                 outer.SetNextStateToMain();
                 return;
             }
         }
 
-        public override void Update()
-        {
+        public override void Update() {
             base.Update();
-            if (isFiring)
-            {
+            if (isFiring) {
                 OnCastUpdate();
             }
         }
     }
 
-    public class ExampleTimedSkillState : BaseTimedSkillState
-    {
+    public class ExampleTimedSkillState : BaseTimedSkillState {
         public override float TimedBaseDuration => 1.5f;
 
         public override float TimedBaseCastStartPercentTime => 0.2f;
         public override float TimedBaseCastEndPercentTime => 0.9f;
 
-        protected override void OnCastEnter()
-        {
+        protected override void OnCastEnter() {
             //perform my skill after 0.3 seconds of windup
         }
 
-        protected override void OnCastFixedUpdate()
-        {
+        protected override void OnCastFixedUpdate() {
             //perform some continuous action after the windup, which will end .15 seconds before the full duration
         }
 
-        protected override void OnCastExit()
-        {
+        protected override void OnCastExit() {
             //probably play an animation at the end of the action
         }
     }
 
-    public class ExampleDelayedSkillState : BaseTimedSkillState
-    {
+    public class ExampleDelayedSkillState : BaseTimedSkillState {
         public override float TimedBaseDuration => 1.5f;
         public override float TimedBaseCastStartPercentTime => 0.2f;
 
-        protected override void OnCastEnter()
-        {
+        protected override void OnCastEnter() {
             //perform my skill after 0.3 seconds of windup
         }
     }

@@ -4,8 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace LunarDragonMod.Modules {
-    internal static class Language
-    {
+    internal static class Language {
         public static string TokensOutput = "";
 
         public static bool usingLanguageFolder = false;

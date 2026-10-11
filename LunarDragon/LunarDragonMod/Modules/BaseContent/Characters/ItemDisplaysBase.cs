@@ -1,12 +1,9 @@
 ﻿using RoR2;
 using System.Collections.Generic;
 
-namespace LunarDragonMod.Modules.Characters
-{
-    public abstract class ItemDisplaysBase
-    {
-        public void SetItemDisplays(ItemDisplayRuleSet itemDisplayRuleSet)
-        {
+namespace LunarDragonMod.Modules.Characters {
+    public abstract class ItemDisplaysBase {
+        public void SetItemDisplays(ItemDisplayRuleSet itemDisplayRuleSet) {
             List<ItemDisplayRuleSet.KeyAssetRuleGroup> itemDisplayRules = new List<ItemDisplayRuleSet.KeyAssetRuleGroup>();
 
             ItemDisplays.LazyInit();
