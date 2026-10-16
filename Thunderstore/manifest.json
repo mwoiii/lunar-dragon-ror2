@@ -1,6 +1,6 @@
 ﻿{
 	"name": "LunarDragon",
-	"version_number": "1.2.4",
+	"version_number": "1.2.5",
 	"website_url": "https://github.com/mwoiii/lunar-dragon-ror2",
 	"description": "Adds the Lunar Dragon, a tremendous survivor who rules the skies.",
 	"dependencies": [
@@ -9,6 +9,7 @@
 		"RiskofThunder-R2API_Language-1.0.0",
         "RiskofThunder-R2API_Prefab-1.1.1",
 		"RiskofThunder-R2API_DamageType-1.1.7",
+		"RiskofThunder-R2API_Networking-1.0.4",
 		"Smooth_Salad-ShaderSwapper-1.0.1"
 	]
 }
